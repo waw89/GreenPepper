@@ -5,24 +5,40 @@
 package com.mycompany.gp.domain;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Raul
  */
 @Entity
+@Table(name= "shift")
 public class Shift {
     
     // Atributes
     @Id
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name="initialDate", nullable = false)
     private LocalDateTime initialDate;
+    @Column(name="finalDate", nullable = false)
     private LocalDateTime finalDate;
+    @Column(name="initialCash", nullable = false)
     private float initialCash;
+    @Column(name="finalCash", nullable = false)
     private float finalCash;
+    @Column(name="isActive", nullable = false)
     private boolean isActive;
+    @OneToOne
+    @JoinColumn(name="admin_id", nullable=false)
     private Admin admin;
     
     // Constructor

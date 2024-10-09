@@ -4,7 +4,11 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 
 
@@ -13,11 +17,11 @@ import javax.persistence.Entity;
  * @author Raul
  */
 @Entity
+@DiscriminatorValue("ADMIN")
 public class Admin extends User{
     
-    
-    
-    
+    @OneToOne(mappedBy = "admin")
+    private Shift shift;
     // Constructors
 
     public Admin() {

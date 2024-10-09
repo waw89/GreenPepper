@@ -4,7 +4,15 @@
  */
 package com.mycompany.gp.domain;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 /**
  *
@@ -12,13 +20,21 @@ import javax.persistence.Entity;
  */
 
 @Entity
-public class User {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Type")
+@Table(name= "user")
+public abstract class User {
     
     // Atributes
-    
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+    @Column(name="username", nullable = false)
     protected String username;
+    @Column(name="password", nullable = false)
     protected String password;
+    @Column(name="name", nullable = false)
     protected String name;
     
     // Constructors
