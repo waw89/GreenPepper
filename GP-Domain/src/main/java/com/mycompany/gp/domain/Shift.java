@@ -20,20 +20,21 @@ public class Shift {
     private float initialCash;
     private float finalCash;
     private boolean isActive;
-    
+    private Admin admin;
     
     // Constructor
 
     public Shift() {
     }
 
-    public Shift(Long id, LocalDateTime initialDate, LocalDateTime finalDate, float initialCash, float finalCash, boolean isActive) {
+    public Shift(Long id, LocalDateTime initialDate, LocalDateTime finalDate, float initialCash, float finalCash, boolean isActive, Admin admin) {
         this.id = id;
         this.initialDate = initialDate;
         this.finalDate = finalDate;
         this.initialCash = initialCash;
         this.finalCash = finalCash;
         this.isActive = isActive;
+        this.admin = admin;
     }
     
     
