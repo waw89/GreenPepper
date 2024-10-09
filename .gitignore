@@ -2,3 +2,7 @@
 /persistence-gp/target/
 /business-gp/target/
 /gui-gp/target/
+/GP-Business/target/
+/GP-Domain/target/
+/GP-GUI/target/
+/GP-Persistence/target/
