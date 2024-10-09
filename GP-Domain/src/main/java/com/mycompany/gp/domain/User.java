@@ -12,10 +12,10 @@ public class User {
     
     // Atributes
     
-    private Long id;
-    private String username;
-    private String password;
-    private String name;
+    protected Long id;
+    protected String username;
+    protected String password;
+    protected String name;
     
     // Constructors
 

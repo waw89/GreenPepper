@@ -18,10 +18,46 @@ public class Admin extends User{
     public Admin() {
     }
 
-    public Admin(Long id, Long idAdmin, String username, String password, String name) {
+    public Admin(Long id, String username, String password, String name) {
         super(id, username, password, name);
-      
     }
+
+    
+    // Getters & Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
   
     
    
