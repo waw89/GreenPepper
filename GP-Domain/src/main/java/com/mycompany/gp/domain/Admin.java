@@ -4,10 +4,15 @@
  */
 package com.mycompany.gp.domain;
 
+import javax.persistence.Entity;
+
+
+
 /**
  *
  * @author Raul
  */
+@Entity
 public class Admin extends User{
     
     

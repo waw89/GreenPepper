@@ -4,22 +4,24 @@
  */
 package com.mycompany.gp.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  *
  * @author Raul
  */
+@Entity
 public class Customer {
-    
+
     // Atributes
-    
+    @Id
     private Long id;
     private String name;
     private String address;
     private String phoneNumber;
-    
-    
-    // Constructors
 
+    // Constructors
     public Customer() {
     }
 
@@ -29,9 +31,8 @@ public class Customer {
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
-    
-    // Getters & Setters
 
+    // Getters & Setters
     public Long getId() {
         return id;
     }
@@ -63,6 +64,5 @@ public class Customer {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    
-    
+
 }

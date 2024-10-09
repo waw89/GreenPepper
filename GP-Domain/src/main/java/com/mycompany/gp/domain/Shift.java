@@ -5,15 +5,18 @@
 package com.mycompany.gp.domain;
 
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
  * @author Raul
  */
+@Entity
 public class Shift {
     
     // Atributes
-    
+    @Id
     private Long id;
     private LocalDateTime initialDate;
     private LocalDateTime finalDate;
@@ -87,11 +90,5 @@ public class Shift {
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
-    
-    
-    
-    
-    
-    
-    
+  
 }

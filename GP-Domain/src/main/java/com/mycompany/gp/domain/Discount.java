@@ -5,19 +5,25 @@
 package com.mycompany.gp.domain;
 
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 
 /**
  *
  * @author PC
  */
+@Entity
 public class Discount {
+    @Id
     private long id;
     private String name;
     private float percentage;
     private LocalDateTime initialDate;
     private LocalDateTime finalDate;
 
+    
+    // Constructors
     public Discount() {
     }
 
@@ -29,6 +35,8 @@ public class Discount {
         this.finalDate = finalDate;
     }
 
+    
+    // Getters & Setters
     public long getId() {
         return id;
     }

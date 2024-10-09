@@ -4,10 +4,14 @@
  */
 package com.mycompany.gp.domain;
 
+import javax.persistence.Entity;
+
 /**
  *
  * @author PC
  */
+
+@Entity
 public class IndividualProduct extends Product {
     private PRODUCT_TYPE type;
 

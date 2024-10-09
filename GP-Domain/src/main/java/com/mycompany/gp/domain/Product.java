@@ -4,10 +4,14 @@
  */
 package com.mycompany.gp.domain;
 
+import javax.persistence.Entity;
+
 /**
  *
  * @author PC
  */
+
+@Entity
 public class Product {
     protected long id;
     protected String name;

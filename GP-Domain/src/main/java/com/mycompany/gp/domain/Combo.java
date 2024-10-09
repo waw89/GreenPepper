@@ -5,11 +5,15 @@
 package com.mycompany.gp.domain;
 
 import java.util.List;
+import javax.persistence.Entity;
+
 
 /**
  *
  * @author PC
  */
+
+@Entity
 public class Combo extends Product {
     private List<Product> productList;
 
