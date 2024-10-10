@@ -4,6 +4,7 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
@@ -22,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="order")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Order {
+public class Order implements Serializable{
     
     // Atributes
     @Id

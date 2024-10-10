@@ -4,6 +4,7 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ import javax.persistence.Table;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "Type")
 @Table(name= "user")
-public abstract class User {
+public abstract class User implements Serializable{
     
     // Atributes
     @Id

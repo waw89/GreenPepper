@@ -4,6 +4,7 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
@@ -14,7 +15,7 @@ import javax.persistence.Entity;
  * @author waw
  */
 @Entity
-public class DeliveryOrder extends Order {
+public class DeliveryOrder extends Order implements Serializable{
 
     // Atributes
     @Column(name = "customerName")

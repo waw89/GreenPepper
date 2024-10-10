@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @DiscriminatorValue("ADMIN")
-public class Admin extends User{
+public class Admin extends User implements Serializable{
     
     @OneToOne(mappedBy = "admin")
     private Shift shift;

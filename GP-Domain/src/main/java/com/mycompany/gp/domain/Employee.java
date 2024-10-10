@@ -4,6 +4,7 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -14,7 +15,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("EMPLOYEE")
-public class Employee extends User{
+public class Employee extends User implements Serializable{
     
     
     // Constructors

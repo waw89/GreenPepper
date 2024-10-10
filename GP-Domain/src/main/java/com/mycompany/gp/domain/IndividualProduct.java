@@ -4,6 +4,7 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn (name = "IdIndProduct")
 @DiscriminatorValue (value = "IndividualProduct")
 @Table (name = "IndividualProduct")
-public class IndividualProduct extends Product {
+public class IndividualProduct extends Product implements Serializable {
     
     @Enumerated
     @Column(name = "Type")
