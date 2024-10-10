@@ -6,25 +6,44 @@ package com.mycompany.gp.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 /**
  *
  * @author waw
  */
 @Entity
+@Table(name="order")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Order {
     
     // Atributes
-    
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     protected Long orderNumber; 
+    
+    @Column (name = "creationDate")
     protected LocalDateTime creationDate;
-    protected ORDER_STATE order ;
-    protected Product product;
+    
+    @Column (name = "ORDER_STATE")
+    protected ORDER_STATE ORDER_STATE ;
+    
+  
+    // Relation with products
     protected List<Object> products;
+    
+    @Column (name = "price")
     protected Float price;
-    protected Employee employee;
-    protected Object cashier;
+    
+    // Relation with Employee
+    protected Employee cashier;
 
     
     // Constructors
@@ -33,18 +52,23 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long orderNumber, LocalDateTime creationDate, ORDER_STATE order, Product product, List<Object> products, Float price, Employee employee, Object cashier) {
+    public Order(Long orderNumber, LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<Object> products, Float price, Employee cashier) {
         this.orderNumber = orderNumber;
         this.creationDate = creationDate;
-        this.order = order;
-        this.product = product;
+        this.ORDER_STATE = ORDER_STATE;
         this.products = products;
         this.price = price;
-        this.employee = employee;
         this.cashier = cashier;
     }
 
     
+    public Order(LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<Object> products, Float price, Employee cashier) {
+        this.creationDate = creationDate;
+        this.ORDER_STATE = ORDER_STATE;
+        this.products = products;
+        this.price = price;
+        this.cashier = cashier;
+    }
     
     
     // Getters & Setters
@@ -65,12 +89,12 @@ public class Order {
         this.creationDate = creationDate;
     }
 
-    public ORDER_STATE getOrder() {
-        return order;
+    public ORDER_STATE getOrderState() {
+        return ORDER_STATE;
     }
 
-    public void setOrder(ORDER_STATE order) {
-        this.order = order;
+    public void setOrderState(ORDER_STATE ORDER_STATE) {
+        this.ORDER_STATE = ORDER_STATE;
     }
 
     public List<Object> getProducts() {
@@ -93,28 +117,8 @@ public class Order {
         return cashier;
     }
 
-    public void setCashier(Object cashier) {
+    public void setCashier(Employee cashier) {
         this.cashier = cashier;
     }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-    
-    
-    
-    
-    
+        
 }
