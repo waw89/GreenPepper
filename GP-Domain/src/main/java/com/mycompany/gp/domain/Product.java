@@ -26,17 +26,17 @@ import javax.persistence.Table;
 @Table (name = "Product")
 public class Product {
     
+    
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     protected long id;
     
-    @Basic
     @Column (name = "Name")
     protected String name;
     
-    @Basic
     @Column (name = "State")
     protected boolean state;
+    
     
     //Relacion con la tabla Discount
     protected Discount activeOffer;
