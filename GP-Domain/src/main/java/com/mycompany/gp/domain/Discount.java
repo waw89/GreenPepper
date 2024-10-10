@@ -4,9 +4,15 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 /**
@@ -14,12 +20,27 @@ import javax.persistence.Id;
  * @author PC
  */
 @Entity
-public class Discount {
+@Table (name = "Discount")
+public class Discount implements Serializable {
+    
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
+    
+    @Basic
+    @Column (name = "Name")
     private String name;
+    
+    @Basic
+    @Column (name = "Percentage")
     private float percentage;
+    
+    @Basic
+    @Column (name = "InitialDate")
     private LocalDateTime initialDate;
+    
+    @Basic
+    @Column (name = "FinalDate")
     private LocalDateTime finalDate;
 
     

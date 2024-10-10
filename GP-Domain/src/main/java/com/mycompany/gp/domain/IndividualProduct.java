@@ -4,7 +4,13 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 /**
  *
@@ -12,14 +18,19 @@ import javax.persistence.Entity;
  */
 
 @Entity
-public class IndividualProduct extends Product {
+@PrimaryKeyJoinColumn (name = "IdIndivudualProd")
+@DiscriminatorValue (value = "IndiviudalProduct")
+public class IndividualProduct extends Product implements Serializable{
+    
+    @Enumerated (EnumType.STRING)
+    @Column (name = "Type")
     private PRODUCT_TYPE type;
 
     public IndividualProduct() {
     }
 
-    public IndividualProduct(PRODUCT_TYPE type, long id, String name, boolean state, Discount activeOffer) {
-        super(id, name, state, activeOffer);
+    public IndividualProduct(PRODUCT_TYPE type,String name, boolean state, Discount activeOffer) {
+        super(name, state, activeOffer);
         this.type = type;
     }
 
