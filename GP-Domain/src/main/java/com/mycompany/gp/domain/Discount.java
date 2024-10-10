@@ -5,8 +5,12 @@
 package com.mycompany.gp.domain;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 /**
@@ -14,12 +18,19 @@ import javax.persistence.Id;
  * @author PC
  */
 @Entity
+@Table(name="discount")
 public class Discount {
     @Id
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name="name")
     private String name;
+    @Column(name="percentage")
     private float percentage;
+    @Column(name="initial_date")
     private LocalDateTime initialDate;
+    @Column(name="final_date")
     private LocalDateTime finalDate;
 
     
