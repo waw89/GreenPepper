@@ -4,8 +4,12 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
 import java.util.List;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 
 /**
@@ -14,14 +18,17 @@ import javax.persistence.Entity;
  */
 
 @Entity
-public class Combo extends Product {
+@PrimaryKeyJoinColumn (name = "IdCombo")
+@DiscriminatorValue (value = "Combo")
+@Table (name = "Combo")
+public class Combo extends Product implements Serializable {
     private List<Product> productList;
 
     public Combo() {
     }
 
-    public Combo(List<Product> productList, long id, String name, boolean state, Discount activeOffer) {
-        super(id, name, state, activeOffer);
+    public Combo(List<Product> productList, String name, boolean state, Discount activeOffer) {
+        super(name, state, activeOffer);
         this.productList = productList;
     }
     

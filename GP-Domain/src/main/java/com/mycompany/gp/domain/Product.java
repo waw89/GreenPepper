@@ -4,7 +4,16 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 /**
  *
@@ -12,17 +21,29 @@ import javax.persistence.Entity;
  */
 
 @Entity
-public class Product {
+@Inheritance (strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "Type")
+@Table (name = "Product")
+public class Product implements Serializable {
+    
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     protected long id;
+    
+    @Column (name = "Name")
     protected String name;
+    
+    @Column (name = "State")
     protected boolean state;
+    
+    
+    //Relacion con la tabla Discount
     protected Discount activeOffer;
 
     public Product() {
     }
 
-    public Product(long id, String name, boolean state, Discount activeOffer) {
-        this.id = id;
+    public Product(String name, boolean state, Discount activeOffer) {
         this.name = name;
         this.state = state;
         this.activeOffer = activeOffer;
