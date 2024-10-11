@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -22,23 +23,23 @@ import javax.persistence.Table;
 @DiscriminatorValue (value = "Combo")
 @Table (name = "Combo")
 public class Combo extends Product implements Serializable {
-    private List<Product> productList;
+    
+    @OneToMany(mappedBy = "combo")
+    private List<ComboProduct> productList;
 
     public Combo() {
     }
 
-    public Combo(List<Product> productList, String name, boolean state, Discount activeOffer) {
+    public Combo(List<ComboProduct> productList) {
+        this.productList = productList;
+    }
+
+    public Combo(List<ComboProduct> productList, String name, boolean state, Discount activeOffer) {
         super(name, state, activeOffer);
         this.productList = productList;
     }
-    
-    public List<Product> getProductList() {
-        return productList;
-    }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
+   
 
     public long getId() {
         return id;
@@ -70,6 +71,14 @@ public class Combo extends Product implements Serializable {
 
     public void setActiveOffer(Discount activeOffer) {
         this.activeOffer = activeOffer;
+    }
+
+    public List<ComboProduct> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<ComboProduct> productList) {
+        this.productList = productList;
     }
     
     

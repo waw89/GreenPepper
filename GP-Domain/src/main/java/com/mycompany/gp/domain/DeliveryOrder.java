@@ -24,14 +24,14 @@ public class DeliveryOrder extends Order implements Serializable{
     private String address;
     @Column(name = "phoneNumber")
     private String phoneNumber;
-
+   
     // Constructors
     public DeliveryOrder() {
 
     }
 
-    public DeliveryOrder(String customerName, String address, String phoneNumber, LocalDateTime creationDate, ORDER_STATE order, List<Object> products, Float price, Employee employee) {
-        super(creationDate, order, products, price, employee);
+    public DeliveryOrder(String customerName, String address, String phoneNumber, LocalDateTime creationDate, ORDER_STATE state, List<ProductOrder> products, Float price, Employee employee) {
+        super(creationDate, state, products, price, employee);
         this.customerName = customerName;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -61,5 +61,15 @@ public class DeliveryOrder extends Order implements Serializable{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public ORDER_STATE getState() {
+        return ORDER_STATE;
+    }
+
+    public void setState(ORDER_STATE state) {
+        this.ORDER_STATE = state;
+    }
+    
+    
 
 }

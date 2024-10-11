@@ -28,7 +28,7 @@ public class DinerOrder extends Order implements Serializable{
     public DinerOrder() {
     }
 
-    public DinerOrder(String orderName, LocalDateTime creationDate, ORDER_STATE order, List<Object> products, Float price,  Employee cashier) {
+    public DinerOrder(String orderName, LocalDateTime creationDate, ORDER_STATE order, List<ProductOrder> products, Float price,  Employee cashier) {
         super(creationDate, order, products, price, cashier);
         this.orderName = orderName;
     }

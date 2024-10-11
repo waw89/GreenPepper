@@ -10,29 +10,50 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  *
  * @author Raul
  */
+
 @Entity
 @Table(name="ProductOrder")
 public class ProductOrder  implements Serializable{
     
     // Atributes
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name="productId")
-    private Product productId;
+    @ManyToOne
+    @JoinColumn(name = "productId", referencedColumnName = "productId")
+    private Product product;
     
-    @Column(name="folioOrder")
-    private Order folioOrder;
+    @ManyToOne
+    @JoinColumn(name = "orderNumber", referencedColumnName = "orderNumber")
+    private Order order;
     
     @Column(name="price")
     private float price;
+    
+    @Column(name="amount")
+    private int amount;
+    
+    @Column(name="details")
+    private String details;
+    
+
+    public ProductOrder(Long id, Product product, Order order, float price, int amount, String details) {
+        this.id = id;
+        this.product = product;
+        this.order = order;
+        this.price = price;
+        this.amount = amount;
+        this.details = details;
+    }
     
     
     // Getters & Setters
@@ -46,19 +67,19 @@ public class ProductOrder  implements Serializable{
     }
 
     public Product getProductId() {
-        return productId;
+        return product;
     }
 
-    public void setProductId(Product productId) {
-        this.productId = productId;
+    public void setProductId(Product product) {
+        this.product = product;
     }
 
-    public Order getFolioOrder() {
-        return folioOrder;
+    public Order getOrderNumber() {
+        return order;
     }
 
-    public void setFolioOrder(Order folioOrder) {
-        this.folioOrder = folioOrder;
+    public void setOrderNumber(Order order) {
+        this.order = order;
     }
 
     public float getPrice() {
@@ -67,6 +88,22 @@ public class ProductOrder  implements Serializable{
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
     
     

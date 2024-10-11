@@ -14,6 +14,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -28,6 +33,7 @@ public class Order implements Serializable{
     // Atributes
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column(name="orderNumber")
     protected Long orderNumber; 
     
     @Column (name = "creationDate")
@@ -36,14 +42,15 @@ public class Order implements Serializable{
     @Column (name = "ORDER_STATE")
     protected ORDER_STATE ORDER_STATE ;
     
-  
-    // Relation with products
-    protected List<Object> products;
+    
+    @OneToMany(mappedBy = "order")
+    protected List<ProductOrder> products;
     
     @Column (name = "price")
     protected Float price;
     
-    // Relation with Employee
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
     protected Employee cashier;
 
     
@@ -53,7 +60,7 @@ public class Order implements Serializable{
     public Order() {
     }
 
-    public Order(Long orderNumber, LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<Object> products, Float price, Employee cashier) {
+    public Order(Long orderNumber, LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<ProductOrder> products, Float price, Employee cashier) {
         this.orderNumber = orderNumber;
         this.creationDate = creationDate;
         this.ORDER_STATE = ORDER_STATE;
@@ -63,7 +70,7 @@ public class Order implements Serializable{
     }
 
     
-    public Order(LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<Object> products, Float price, Employee cashier) {
+    public Order(LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<ProductOrder> products, Float price, Employee cashier) {
         this.creationDate = creationDate;
         this.ORDER_STATE = ORDER_STATE;
         this.products = products;
@@ -98,11 +105,11 @@ public class Order implements Serializable{
         this.ORDER_STATE = ORDER_STATE;
     }
 
-    public List<Object> getProducts() {
+    public List<ProductOrder> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Object> products) {
+    public void setProducts(List<ProductOrder> products) {
         this.products = products;
     }
 
