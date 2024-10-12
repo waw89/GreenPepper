@@ -68,7 +68,41 @@ public class Main {
     }
 
     public static void addOrder() {
-        System.out.println("Add Order functionality goes here.");
+         Scanner tec = new Scanner(System.in);
+        int option = 0;
+
+        do {
+            System.out.println("---------------------------");
+            System.out.println("Add Order");
+            System.out.println("Choose an option:");
+            System.out.println("1. Delivery Order");
+            System.out.println("2. Diner Order");
+            System.out.println("3. Pick Up Order");
+            System.out.println("4. Back To Main Menu");
+            System.out.println("---------------------------");
+            
+            System.out.print("I want to: ");
+            option = tec.nextInt(); 
+
+            switch (option) {
+                case 1:
+                    addDeliveryOrder();
+                    break;
+                case 2:
+                    addDinerOrder();
+                    break;
+                case 3:
+                    addPickUpOrder();
+                    break;
+                case 4:
+                    deployMenu();
+                    break;
+                default:
+                    System.out.println("Invalid option. Please choose again.");
+            }
+        } while (option != 4);
+        
+        tec.close(); 
     }
 
     public static void editOrder() {
@@ -92,5 +126,14 @@ public class Main {
         
         bu.chargeUsers();
         System.out.println("Connection successed!");
+    }
+
+    private static void addDeliveryOrder() {
+    }
+
+    private static void addDinerOrder() {
+    }
+
+    private static void addPickUpOrder() {
     }
 }
