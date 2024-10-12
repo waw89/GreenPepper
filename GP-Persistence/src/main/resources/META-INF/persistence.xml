@@ -12,11 +12,11 @@
     <class>com.mycompany.gp.domain.Order</class>
     <class>com.mycompany.gp.domain.PickUpOrder</class>
     <class>com.mycompany.gp.domain.Product</class>
-    <class>com.mycompany.gp.domain.User</class>
     <class>com.mycompany.gp.domain.ComboProduct</class>
     <class>com.mycompany.gp.domain.Discount</class>
     <class>com.mycompany.gp.domain.ProductOrder</class>
     <class>com.mycompany.gp.domain.Shift</class>
+    <class>com.mycompany.gp.domain.User</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/greenpepper?serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
