@@ -19,15 +19,13 @@ import java.util.List;
  *
  * @author waw
  */
-public class IndividualProductJpaController implements Serializable {
-
-    public IndividualProductJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+public class IndividualProductDAO implements Serializable {
+    
+    public IndividualProductDAO() {
     }
-    private EntityManagerFactory emf = null;
-
+    
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return EntityManagerFactorySingleton.getInstance().createEntityManager();
     }
 
     public void create(IndividualProduct individualProduct) {
