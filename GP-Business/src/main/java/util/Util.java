@@ -1,5 +1,6 @@
 package util;
 
+import com.mycompany.gp.domain.Admin;
 import com.mycompany.gp.domain.Employee;
 import com.mycompany.gp.domain.User;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 public class Util {
 
     public List<User> createUsers() {
-        User user1 = new Employee("rully", "1234", "Raúl Luna");
+        User user1 = new Admin("rully", "1234", "Raúl Luna");
         User user2 = new Employee("waw", "1234", "Luis Contreras");
         User user3 = new Employee("picosB", "1234", "Brayan Picos");
 
