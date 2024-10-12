@@ -24,6 +24,9 @@ public class PickUpOrder extends Order implements Serializable{
     
     // Constructor
 
+    public PickUpOrder() {
+    }
+
     public PickUpOrder(LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<ProductOrder> products, Float price, Employee cashier) {
         super(creationDate, ORDER_STATE, products, price, cashier);
         this.customerName = customerName;

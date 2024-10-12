@@ -23,12 +23,12 @@ import javax.persistence.Table;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "Type")
-@Table(name= "user")
+@Table(name= "app_user")
 public abstract class User implements Serializable{
     
     // Atributes
     @Id
-    @Column(name="id")
+    @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     @Column(name="username", nullable = false)

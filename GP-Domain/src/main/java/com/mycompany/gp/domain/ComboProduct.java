@@ -36,6 +36,9 @@ public class ComboProduct {
     @Column(name = "amount")
     private int amount;
 
+    public ComboProduct() {
+    }
+
     public ComboProduct(Long id, Combo combo, IndividualProduct product, int amount) {
         this.id = id;
         this.combo = combo;

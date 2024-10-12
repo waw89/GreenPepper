@@ -39,7 +39,7 @@ public class Shift implements Serializable{
     @Column(name="isActive", nullable = false)
     private boolean isActive;
     @OneToOne
-    @JoinColumn(name="admin_id", nullable=false)
+    @JoinColumn(name="user_id", nullable=false)
     private Admin admin;
     
     // Constructor

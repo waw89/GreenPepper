@@ -44,8 +44,11 @@ public class ProductOrder  implements Serializable{
     
     @Column(name="details")
     private String details;
-    
 
+    
+    public ProductOrder() {
+    }
+   
     public ProductOrder(Long id, Product product, Order order, float price, int amount, String details) {
         this.id = id;
         this.product = product;
