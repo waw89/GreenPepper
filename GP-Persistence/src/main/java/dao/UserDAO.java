@@ -4,7 +4,7 @@
  */
 package dao;
 
-import com.mycompany.gp.domain.Employee;
+import com.mycompany.gp.domain.User;
 import dao.exceptions.NonexistentEntityException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -19,9 +19,9 @@ import java.util.List;
  *
  * @author waw
  */
-public class EmployeeJpaController implements Serializable {
+public class UserDAO implements Serializable {
 
-    public EmployeeJpaController(EntityManagerFactory emf) {
+    public UserDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -30,12 +30,12 @@ public class EmployeeJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Employee employee) {
+    public void create(User user) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(employee);
+            em.persist(user);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -44,19 +44,19 @@ public class EmployeeJpaController implements Serializable {
         }
     }
 
-    public void edit(Employee employee) throws NonexistentEntityException, Exception {
+    public void edit(User user) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            employee = em.merge(employee);
+            user = em.merge(user);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = employee.getId();
-                if (findEmployee(id) == null) {
-                    throw new NonexistentEntityException("The employee with id " + id + " no longer exists.");
+                Long id = user.getId();
+                if (findUser(id) == null) {
+                    throw new NonexistentEntityException("The user with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -72,14 +72,14 @@ public class EmployeeJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Employee employee;
+            User user;
             try {
-                employee = em.getReference(Employee.class, id);
-                employee.getId();
+                user = em.getReference(User.class, id);
+                user.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The employee with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The user with id " + id + " no longer exists.", enfe);
             }
-            em.remove(employee);
+            em.remove(user);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -88,19 +88,19 @@ public class EmployeeJpaController implements Serializable {
         }
     }
 
-    public List<Employee> findEmployeeEntities() {
-        return findEmployeeEntities(true, -1, -1);
+    public List<User> findUserEntities() {
+        return findUserEntities(true, -1, -1);
     }
 
-    public List<Employee> findEmployeeEntities(int maxResults, int firstResult) {
-        return findEmployeeEntities(false, maxResults, firstResult);
+    public List<User> findUserEntities(int maxResults, int firstResult) {
+        return findUserEntities(false, maxResults, firstResult);
     }
 
-    private List<Employee> findEmployeeEntities(boolean all, int maxResults, int firstResult) {
+    private List<User> findUserEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Employee.class));
+            cq.select(cq.from(User.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -112,20 +112,20 @@ public class EmployeeJpaController implements Serializable {
         }
     }
 
-    public Employee findEmployee(Long id) {
+    public User findUser(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Employee.class, id);
+            return em.find(User.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getEmployeeCount() {
+    public int getUserCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Employee> rt = cq.from(Employee.class);
+            Root<User> rt = cq.from(User.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

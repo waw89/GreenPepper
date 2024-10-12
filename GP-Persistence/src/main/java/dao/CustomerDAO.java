@@ -4,7 +4,7 @@
  */
 package dao;
 
-import com.mycompany.gp.domain.DinerOrder;
+import com.mycompany.gp.domain.Customer;
 import dao.exceptions.NonexistentEntityException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -19,9 +19,9 @@ import java.util.List;
  *
  * @author waw
  */
-public class DinerOrderJpaController implements Serializable {
+public class CustomerDAO implements Serializable {
 
-    public DinerOrderJpaController(EntityManagerFactory emf) {
+    public CustomerDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -30,12 +30,12 @@ public class DinerOrderJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(DinerOrder dinerOrder) {
+    public void create(Customer customer) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(dinerOrder);
+            em.persist(customer);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -44,19 +44,19 @@ public class DinerOrderJpaController implements Serializable {
         }
     }
 
-    public void edit(DinerOrder dinerOrder) throws NonexistentEntityException, Exception {
+    public void edit(Customer customer) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            dinerOrder = em.merge(dinerOrder);
+            customer = em.merge(customer);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = dinerOrder.getOrderNumber();
-                if (findDinerOrder(id) == null) {
-                    throw new NonexistentEntityException("The dinerOrder with id " + id + " no longer exists.");
+                Long id = customer.getId();
+                if (findCustomer(id) == null) {
+                    throw new NonexistentEntityException("The customer with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -72,14 +72,14 @@ public class DinerOrderJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            DinerOrder dinerOrder;
+            Customer customer;
             try {
-                dinerOrder = em.getReference(DinerOrder.class, id);
-                dinerOrder.getOrderNumber();
+                customer = em.getReference(Customer.class, id);
+                customer.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The dinerOrder with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The customer with id " + id + " no longer exists.", enfe);
             }
-            em.remove(dinerOrder);
+            em.remove(customer);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -88,19 +88,19 @@ public class DinerOrderJpaController implements Serializable {
         }
     }
 
-    public List<DinerOrder> findDinerOrderEntities() {
-        return findDinerOrderEntities(true, -1, -1);
+    public List<Customer> findCustomerEntities() {
+        return findCustomerEntities(true, -1, -1);
     }
 
-    public List<DinerOrder> findDinerOrderEntities(int maxResults, int firstResult) {
-        return findDinerOrderEntities(false, maxResults, firstResult);
+    public List<Customer> findCustomerEntities(int maxResults, int firstResult) {
+        return findCustomerEntities(false, maxResults, firstResult);
     }
 
-    private List<DinerOrder> findDinerOrderEntities(boolean all, int maxResults, int firstResult) {
+    private List<Customer> findCustomerEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(DinerOrder.class));
+            cq.select(cq.from(Customer.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -112,20 +112,20 @@ public class DinerOrderJpaController implements Serializable {
         }
     }
 
-    public DinerOrder findDinerOrder(Long id) {
+    public Customer findCustomer(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(DinerOrder.class, id);
+            return em.find(Customer.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getDinerOrderCount() {
+    public int getCustomerCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<DinerOrder> rt = cq.from(DinerOrder.class);
+            Root<Customer> rt = cq.from(Customer.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

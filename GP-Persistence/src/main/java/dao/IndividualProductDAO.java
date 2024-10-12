@@ -20,8 +20,16 @@ import java.util.List;
  * @author waw
  */
 public class IndividualProductDAO implements Serializable {
+
     
     public IndividualProductDAO() {
+        
+    }
+
+
+    public IndividualProductDAO(EntityManagerFactory emf) {
+        this.emf = emf;
+
     }
     
     public EntityManager getEntityManager() {
