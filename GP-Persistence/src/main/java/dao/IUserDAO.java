@@ -4,10 +4,14 @@
  */
 package dao;
 
+import com.mycompany.gp.domain.User;
+import java.util.List;
+
 /**
  *
  * @author Raul
  */
 public interface IUserDAO {
-    
+    public User create(User user);
+    public List<User> fillUsersList(List<User> users);
 }

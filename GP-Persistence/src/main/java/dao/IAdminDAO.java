@@ -4,10 +4,16 @@
  */
 package dao;
 
+import com.mycompany.gp.domain.Admin;
+
 /**
  *
  * @author Raul
  */
 public interface IAdminDAO {
+    
+    public Admin create(Admin admin);
+    public Admin edit(Admin admin);
+    public void delete(Admin admin);
     
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.EntityManagerFactory;
 import java.io.Serializable;
 import jakarta.persistence.Query;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import java.util.List;
@@ -19,18 +20,16 @@ import java.util.List;
  *
  * @author waw
  */
-public class UserDAO implements Serializable {
+public class UserDAO implements IUserDAO {
 
-    public UserDAO(EntityManagerFactory emf) {
-        this.emf = emf;
+    public UserDAO() {
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return EntityManagerFactorySingleton.getInstance().createEntityManager();
     }
 
-    public void create(User user) {
+    public User create(User user) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -42,6 +41,7 @@ public class UserDAO implements Serializable {
                 em.close();
             }
         }
+        return user;
     }
 
     public void edit(User user) throws NonexistentEntityException, Exception {
@@ -133,5 +133,39 @@ public class UserDAO implements Serializable {
             em.close();
         }
     }
+
+    public boolean verifyUsers() {
+        return findUserEntities().isEmpty();
+    }
+
+    @Override
+    public List<User> fillUsersList(List<User> users) {
+        EntityManager em = getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+            if (verifyUsers() == true) {
+                for (User user : users) {
+                    em.merge(user);
+                }
+                transaction.commit();
+            } else {
+                return findUserEntities();
+            }
+
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return users;
+    }
     
+
 }

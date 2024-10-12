@@ -4,6 +4,7 @@
  */
 package com.mycompany.gp.gui;
 
+import business.UserBusiness;
 import java.util.Scanner;
 
 /**
@@ -17,7 +18,8 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        deployMenu();
+        //deployMenu();
+        chargeUsers();
     }
  public static void deployMenu() {
         Scanner tec = new Scanner(System.in);
@@ -85,4 +87,10 @@ public class Main {
         System.out.println("Viewing orders history...");
     }
 
+    public static void chargeUsers(){
+        UserBusiness bu = new UserBusiness();
+        
+        bu.chargeUsers();
+        System.out.println("Connection successed!");
+    }
 }

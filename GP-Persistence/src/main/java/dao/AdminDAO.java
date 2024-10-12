@@ -30,7 +30,7 @@ public class AdminDAO implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Admin admin) {
+    public Admin create(Admin admin) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -42,6 +42,7 @@ public class AdminDAO implements Serializable {
                 em.close();
             }
         }
+        return admin;
     }
 
     public void edit(Admin admin) throws NonexistentEntityException, Exception {
