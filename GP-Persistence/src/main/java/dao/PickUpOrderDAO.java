@@ -4,7 +4,7 @@
  */
 package dao;
 
-import com.mycompany.gp.domain.DeliveryOrder;
+import com.mycompany.gp.domain.PickUpOrder;
 import dao.exceptions.NonexistentEntityException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -19,9 +19,9 @@ import java.util.List;
  *
  * @author waw
  */
-public class DeliveryOrderJpaController implements Serializable {
+public class PickUpOrderDAO implements Serializable {
 
-    public DeliveryOrderJpaController(EntityManagerFactory emf) {
+    public PickUpOrderDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -30,12 +30,12 @@ public class DeliveryOrderJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(DeliveryOrder deliveryOrder) {
+    public void create(PickUpOrder pickUpOrder) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(deliveryOrder);
+            em.persist(pickUpOrder);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -44,19 +44,19 @@ public class DeliveryOrderJpaController implements Serializable {
         }
     }
 
-    public void edit(DeliveryOrder deliveryOrder) throws NonexistentEntityException, Exception {
+    public void edit(PickUpOrder pickUpOrder) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            deliveryOrder = em.merge(deliveryOrder);
+            pickUpOrder = em.merge(pickUpOrder);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = deliveryOrder.getOrderNumber();
-                if (findDeliveryOrder(id) == null) {
-                    throw new NonexistentEntityException("The deliveryOrder with id " + id + " no longer exists.");
+                Long id = pickUpOrder.getOrderNumber();
+                if (findPickUpOrder(id) == null) {
+                    throw new NonexistentEntityException("The pickUpOrder with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -72,14 +72,14 @@ public class DeliveryOrderJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            DeliveryOrder deliveryOrder;
+            PickUpOrder pickUpOrder;
             try {
-                deliveryOrder = em.getReference(DeliveryOrder.class, id);
-                deliveryOrder.getOrderNumber();
+                pickUpOrder = em.getReference(PickUpOrder.class, id);
+                pickUpOrder.getOrderNumber();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The deliveryOrder with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The pickUpOrder with id " + id + " no longer exists.", enfe);
             }
-            em.remove(deliveryOrder);
+            em.remove(pickUpOrder);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -88,19 +88,19 @@ public class DeliveryOrderJpaController implements Serializable {
         }
     }
 
-    public List<DeliveryOrder> findDeliveryOrderEntities() {
-        return findDeliveryOrderEntities(true, -1, -1);
+    public List<PickUpOrder> findPickUpOrderEntities() {
+        return findPickUpOrderEntities(true, -1, -1);
     }
 
-    public List<DeliveryOrder> findDeliveryOrderEntities(int maxResults, int firstResult) {
-        return findDeliveryOrderEntities(false, maxResults, firstResult);
+    public List<PickUpOrder> findPickUpOrderEntities(int maxResults, int firstResult) {
+        return findPickUpOrderEntities(false, maxResults, firstResult);
     }
 
-    private List<DeliveryOrder> findDeliveryOrderEntities(boolean all, int maxResults, int firstResult) {
+    private List<PickUpOrder> findPickUpOrderEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(DeliveryOrder.class));
+            cq.select(cq.from(PickUpOrder.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -112,20 +112,20 @@ public class DeliveryOrderJpaController implements Serializable {
         }
     }
 
-    public DeliveryOrder findDeliveryOrder(Long id) {
+    public PickUpOrder findPickUpOrder(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(DeliveryOrder.class, id);
+            return em.find(PickUpOrder.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getDeliveryOrderCount() {
+    public int getPickUpOrderCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<DeliveryOrder> rt = cq.from(DeliveryOrder.class);
+            Root<PickUpOrder> rt = cq.from(PickUpOrder.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

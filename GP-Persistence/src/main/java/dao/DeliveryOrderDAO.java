@@ -4,7 +4,7 @@
  */
 package dao;
 
-import com.mycompany.gp.domain.Product;
+import com.mycompany.gp.domain.DeliveryOrder;
 import dao.exceptions.NonexistentEntityException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -19,9 +19,9 @@ import java.util.List;
  *
  * @author waw
  */
-public class ProductJpaController implements Serializable {
+public class DeliveryOrderDAO implements Serializable {
 
-    public ProductJpaController(EntityManagerFactory emf) {
+    public DeliveryOrderDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -30,12 +30,12 @@ public class ProductJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Product product) {
+    public void create(DeliveryOrder deliveryOrder) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(product);
+            em.persist(deliveryOrder);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -44,19 +44,19 @@ public class ProductJpaController implements Serializable {
         }
     }
 
-    public void edit(Product product) throws NonexistentEntityException, Exception {
+    public void edit(DeliveryOrder deliveryOrder) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            product = em.merge(product);
+            deliveryOrder = em.merge(deliveryOrder);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                long id = product.getId();
-                if (findProduct(id) == null) {
-                    throw new NonexistentEntityException("The product with id " + id + " no longer exists.");
+                Long id = deliveryOrder.getOrderNumber();
+                if (findDeliveryOrder(id) == null) {
+                    throw new NonexistentEntityException("The deliveryOrder with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -67,19 +67,19 @@ public class ProductJpaController implements Serializable {
         }
     }
 
-    public void destroy(long id) throws NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Product product;
+            DeliveryOrder deliveryOrder;
             try {
-                product = em.getReference(Product.class, id);
-                product.getId();
+                deliveryOrder = em.getReference(DeliveryOrder.class, id);
+                deliveryOrder.getOrderNumber();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The product with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The deliveryOrder with id " + id + " no longer exists.", enfe);
             }
-            em.remove(product);
+            em.remove(deliveryOrder);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -88,19 +88,19 @@ public class ProductJpaController implements Serializable {
         }
     }
 
-    public List<Product> findProductEntities() {
-        return findProductEntities(true, -1, -1);
+    public List<DeliveryOrder> findDeliveryOrderEntities() {
+        return findDeliveryOrderEntities(true, -1, -1);
     }
 
-    public List<Product> findProductEntities(int maxResults, int firstResult) {
-        return findProductEntities(false, maxResults, firstResult);
+    public List<DeliveryOrder> findDeliveryOrderEntities(int maxResults, int firstResult) {
+        return findDeliveryOrderEntities(false, maxResults, firstResult);
     }
 
-    private List<Product> findProductEntities(boolean all, int maxResults, int firstResult) {
+    private List<DeliveryOrder> findDeliveryOrderEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Product.class));
+            cq.select(cq.from(DeliveryOrder.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -112,20 +112,20 @@ public class ProductJpaController implements Serializable {
         }
     }
 
-    public Product findProduct(long id) {
+    public DeliveryOrder findDeliveryOrder(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Product.class, id);
+            return em.find(DeliveryOrder.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getProductCount() {
+    public int getDeliveryOrderCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Product> rt = cq.from(Product.class);
+            Root<DeliveryOrder> rt = cq.from(DeliveryOrder.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

@@ -4,7 +4,7 @@
  */
 package dao;
 
-import com.mycompany.gp.domain.User;
+import com.mycompany.gp.domain.Product;
 import dao.exceptions.NonexistentEntityException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -19,9 +19,9 @@ import java.util.List;
  *
  * @author waw
  */
-public class UserJpaController implements Serializable {
+public class ProductDAO implements Serializable {
 
-    public UserJpaController(EntityManagerFactory emf) {
+    public ProductDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -30,12 +30,12 @@ public class UserJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(User user) {
+    public void create(Product product) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(user);
+            em.persist(product);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -44,19 +44,19 @@ public class UserJpaController implements Serializable {
         }
     }
 
-    public void edit(User user) throws NonexistentEntityException, Exception {
+    public void edit(Product product) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            user = em.merge(user);
+            product = em.merge(product);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = user.getId();
-                if (findUser(id) == null) {
-                    throw new NonexistentEntityException("The user with id " + id + " no longer exists.");
+                long id = product.getId();
+                if (findProduct(id) == null) {
+                    throw new NonexistentEntityException("The product with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -67,19 +67,19 @@ public class UserJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destroy(long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            User user;
+            Product product;
             try {
-                user = em.getReference(User.class, id);
-                user.getId();
+                product = em.getReference(Product.class, id);
+                product.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The user with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The product with id " + id + " no longer exists.", enfe);
             }
-            em.remove(user);
+            em.remove(product);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -88,19 +88,19 @@ public class UserJpaController implements Serializable {
         }
     }
 
-    public List<User> findUserEntities() {
-        return findUserEntities(true, -1, -1);
+    public List<Product> findProductEntities() {
+        return findProductEntities(true, -1, -1);
     }
 
-    public List<User> findUserEntities(int maxResults, int firstResult) {
-        return findUserEntities(false, maxResults, firstResult);
+    public List<Product> findProductEntities(int maxResults, int firstResult) {
+        return findProductEntities(false, maxResults, firstResult);
     }
 
-    private List<User> findUserEntities(boolean all, int maxResults, int firstResult) {
+    private List<Product> findProductEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(User.class));
+            cq.select(cq.from(Product.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -112,20 +112,20 @@ public class UserJpaController implements Serializable {
         }
     }
 
-    public User findUser(Long id) {
+    public Product findProduct(long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(User.class, id);
+            return em.find(Product.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getUserCount() {
+    public int getProductCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<User> rt = cq.from(User.class);
+            Root<Product> rt = cq.from(Product.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

@@ -4,7 +4,7 @@
  */
 package dao;
 
-import com.mycompany.gp.domain.Admin;
+import com.mycompany.gp.domain.Order;
 import dao.exceptions.NonexistentEntityException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -19,9 +19,9 @@ import java.util.List;
  *
  * @author waw
  */
-public class AdminJpaController implements Serializable {
+public class OrderDAO implements Serializable {
 
-    public AdminJpaController(EntityManagerFactory emf) {
+    public OrderDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -30,12 +30,12 @@ public class AdminJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Admin admin) {
+    public void create(Order order) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(admin);
+            em.persist(order);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -44,19 +44,19 @@ public class AdminJpaController implements Serializable {
         }
     }
 
-    public void edit(Admin admin) throws NonexistentEntityException, Exception {
+    public void edit(Order order) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            admin = em.merge(admin);
+            order = em.merge(order);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = admin.getId();
-                if (findAdmin(id) == null) {
-                    throw new NonexistentEntityException("The admin with id " + id + " no longer exists.");
+                Long id = order.getOrderNumber();
+                if (findOrder(id) == null) {
+                    throw new NonexistentEntityException("The order with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -72,14 +72,14 @@ public class AdminJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Admin admin;
+            Order order;
             try {
-                admin = em.getReference(Admin.class, id);
-                admin.getId();
+                order = em.getReference(Order.class, id);
+                order.getOrderNumber();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The admin with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The order with id " + id + " no longer exists.", enfe);
             }
-            em.remove(admin);
+            em.remove(order);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -88,19 +88,19 @@ public class AdminJpaController implements Serializable {
         }
     }
 
-    public List<Admin> findAdminEntities() {
-        return findAdminEntities(true, -1, -1);
+    public List<Order> findOrderEntities() {
+        return findOrderEntities(true, -1, -1);
     }
 
-    public List<Admin> findAdminEntities(int maxResults, int firstResult) {
-        return findAdminEntities(false, maxResults, firstResult);
+    public List<Order> findOrderEntities(int maxResults, int firstResult) {
+        return findOrderEntities(false, maxResults, firstResult);
     }
 
-    private List<Admin> findAdminEntities(boolean all, int maxResults, int firstResult) {
+    private List<Order> findOrderEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Admin.class));
+            cq.select(cq.from(Order.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -112,20 +112,20 @@ public class AdminJpaController implements Serializable {
         }
     }
 
-    public Admin findAdmin(Long id) {
+    public Order findOrder(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Admin.class, id);
+            return em.find(Order.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getAdminCount() {
+    public int getOrderCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Admin> rt = cq.from(Admin.class);
+            Root<Order> rt = cq.from(Order.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
