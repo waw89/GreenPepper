@@ -4,7 +4,9 @@
  */
 package com.mycompany.gp.gui;
 
+import business.BusinessProduct;
 import business.UserBusiness;
+import com.mycompany.gp.domain.PRODUCT_TYPE;
 import java.util.Scanner;
 
 /**
@@ -18,8 +20,10 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        //deployMenu();
+        
         chargeUsers();
+        chargeProducts();
+        deployMenu();
     }
  public static void deployMenu() {
         Scanner tec = new Scanner(System.in);
@@ -34,7 +38,8 @@ public class Main {
             System.out.println("3. Cancel Order");
             System.out.println("4. View Active Orders");
             System.out.println("5. View Orders History");
-            System.out.println("6. Exit");
+            System.out.println("6. Add new Product");
+            System.out.println("7. Exit");
             System.out.println("---------------------------");
             
             System.out.print("I want to: ");
@@ -57,6 +62,9 @@ public class Main {
                     viewOrderHistory();
                     break;
                 case 6:
+                    addProduct();
+                    break;
+                case 7:
                     System.out.println("Exiting... Goodbye!");
                     break;
                 default:
@@ -127,6 +135,13 @@ public class Main {
         bu.chargeUsers();
         System.out.println("Connection successed!");
     }
+    
+    public static void chargeProducts(){
+        BusinessProduct bp = new BusinessProduct();
+        
+        bp.chargerProducts();
+        System.out.println("Products charge successllfully");
+    }
 
     private static void addDeliveryOrder() {
     }
@@ -135,5 +150,48 @@ public class Main {
     }
 
     private static void addPickUpOrder() {
+    }
+    
+    private static void addProduct(){
+        Scanner tec = new Scanner(System.in);
+        BusinessProduct bp = new BusinessProduct();
+        String name;
+        PRODUCT_TYPE type = null;
+        int price, selectType;
+        boolean state = false;
+        
+        System.out.println("Add new Product");
+        System.out.println("-----------------");
+        System.out.println("Product Type");
+        System.out.println("-----------------");
+        System.out.println("1.- FOOD");
+        System.out.println("2.- DRINK");
+        System.out.println("3.- EXTRA");
+        System.out.println("Enter the number");
+        selectType = tec.nextInt();
+        
+        switch (selectType) {
+            case 1:
+                type = type.FOOD;
+                break;
+            case 2:
+                type = type.DRINK;
+                break;
+            case 3:
+                type = type.EXTRA;
+                break;
+            default:
+                break;
+        }    
+        
+        tec.nextLine();
+        System.out.println("-----------------");
+        System.out.println("Name: ");
+        name = tec.nextLine(); 
+        
+        System.out.println("Price:");
+        price = tec.nextInt();
+                
+        bp.createProduct(type, name, price, state);
     }
 }

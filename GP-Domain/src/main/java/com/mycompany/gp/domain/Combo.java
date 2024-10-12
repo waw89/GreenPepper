@@ -34,12 +34,10 @@ public class Combo extends Product implements Serializable {
         this.productList = productList;
     }
 
-    public Combo(List<ComboProduct> productList, String name, boolean state, Discount activeOffer) {
-        super(name, state, activeOffer);
+    public Combo(List<ComboProduct> productList, String name, int price, boolean stateProduct, Discount activeOffer) {
+        super(name, price, stateProduct, activeOffer);
         this.productList = productList;
     }
-
-   
 
     public long getId() {
         return id;
@@ -57,12 +55,12 @@ public class Combo extends Product implements Serializable {
         this.name = name;
     }
 
-    public boolean isState() {
-        return state;
+    public boolean isStateProduct() {
+        return stateProduct;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    public void setStateProduct(boolean stateProduct) {
+        this.stateProduct = stateProduct;
     }
 
     public Discount getActiveOffer() {
@@ -79,6 +77,14 @@ public class Combo extends Product implements Serializable {
 
     public void setProductList(List<ComboProduct> productList) {
         this.productList = productList;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
     
     

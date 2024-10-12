@@ -30,8 +30,8 @@ public class IndividualProduct extends Product implements Serializable {
     public IndividualProduct() {
     }
 
-    public IndividualProduct(PRODUCT_TYPE type,String name, boolean state, Discount activeOffer) {
-        super(name, state, activeOffer);
+    public IndividualProduct(PRODUCT_TYPE type, String name, int price, boolean stateProduct, Discount activeOffer) {
+        super(name, price, stateProduct, activeOffer);
         this.type = type;
     }
 
@@ -59,12 +59,12 @@ public class IndividualProduct extends Product implements Serializable {
         this.name = name;
     }
 
-    public boolean isState() {
-        return state;
+    public boolean isStateProduct() {
+        return stateProduct;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    public void setStateProduct(boolean stateProduct) {
+        this.stateProduct = stateProduct;
     }
 
     public Discount getActiveOffer() {
@@ -73,5 +73,13 @@ public class IndividualProduct extends Product implements Serializable {
 
     public void setActiveOffer(Discount activeOffer) {
         this.activeOffer = activeOffer;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

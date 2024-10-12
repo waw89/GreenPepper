@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -131,6 +132,38 @@ public class IndividualProductDAO implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public boolean verifyProducts() {
+        return findIndividualProductEntities().isEmpty();
+    }
+    
+    public List<IndividualProduct> fillIndividualProductList(List<IndividualProduct> products) {
+        EntityManager em = getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+
+        try {
+            transaction.begin();
+            if (verifyProducts() == true) {
+                for (IndividualProduct indProd : products) {
+                    em.merge(indProd);
+                }
+                transaction.commit();
+            } else {
+                return findIndividualProductEntities();
+            }
+
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return products;
     }
     
 }
