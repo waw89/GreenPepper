@@ -1,4 +1,4 @@
-package Repository.exceptions;
+package daos.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;
