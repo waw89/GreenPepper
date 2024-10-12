@@ -26,12 +26,6 @@ public class IndividualProductDAO implements Serializable {
         
     }
 
-
-    public IndividualProductDAO(EntityManagerFactory emf) {
-        this.emf = emf;
-
-    }
-    
     public EntityManager getEntityManager() {
         return EntityManagerFactorySingleton.getInstance().createEntityManager();
     }
