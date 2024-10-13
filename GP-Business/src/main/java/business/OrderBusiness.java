@@ -18,4 +18,14 @@ public class OrderBusiness {
     public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder){
         return pudao.create(pickUpOrder);
     }
+    
+    
+    
+    // Delivery Order
+    
+    /*
+        The delivery order is an order that is created to be sent to an address, is important to 
+        check the type of the content of the arguments that are given with the object, also is 
+        important to check 
+    */
 }
