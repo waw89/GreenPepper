@@ -60,11 +60,11 @@ public class IndividualProduct extends Product implements Serializable {
     }
 
     public boolean isStateProduct() {
-        return stateProduct;
+        return productState;
     }
 
     public void setStateProduct(boolean stateProduct) {
-        this.stateProduct = stateProduct;
+        this.productState = stateProduct;
     }
 
     public Discount getActiveOffer() {

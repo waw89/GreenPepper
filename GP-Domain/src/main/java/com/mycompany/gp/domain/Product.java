@@ -42,9 +42,11 @@ public class Product implements Serializable {
     @Column (name = "price")
     protected int price;
     
-    @Column (name = "stateProduct")
-    protected boolean stateProduct;
+    @Column (name = "productState")
+    protected boolean productState;
   
+    
+    
     @ManyToOne
     @JoinColumn(name = "activeOffer")
     protected Discount activeOffer;
@@ -56,7 +58,7 @@ public class Product implements Serializable {
     public Product(String name, int price, boolean state, Discount activeOffer) {
         this.name = name;
         this.price = price;
-        this.stateProduct = state;
+        this.productState = state;
         this.activeOffer = activeOffer;
     }
 
@@ -76,12 +78,12 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public boolean isState() {
-        return stateProduct;
+    public boolean getProductState() {
+        return productState;
     }
 
     public void setState(boolean state) {
-        this.stateProduct = state;
+        this.productState = state;
     }
 
     public Discount getActiveOffer() {
@@ -102,7 +104,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", name=" + name + ", price=" + price + ", stateProduct=" + stateProduct + ", activeOffer=" + activeOffer + '}';
+        return "Product{" + "id=" + id + ", name=" + name + ", price=" + price + ", stateProduct=" + productState + ", activeOffer=" + activeOffer + '}';
     }
     
     
