@@ -4,10 +4,15 @@
  */
 package dao;
 
+import com.mycompany.gp.domain.Product;
+import java.util.List;
+
 /**
  *
  * @author Raul
  */
 public interface IProductDAO {
-    
+
+    public List<Product> findProductEntities();
+
 }

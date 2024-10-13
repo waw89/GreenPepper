@@ -5,8 +5,13 @@
 package business;
 
 import com.mycompany.gp.domain.PickUpOrder;
+import com.mycompany.gp.domain.Product;
+import dao.IOrderDAO;
 import dao.IPickUpOrderDAO;
+import dao.IProductDAO;
 import dao.PickUpOrderDAO;
+import dao.ProductDAO;
+import java.util.List;
 
 /**
  *
@@ -14,18 +19,15 @@ import dao.PickUpOrderDAO;
  */
 public class OrderBusiness {
     IPickUpOrderDAO pudao = new PickUpOrderDAO(); 
-    
+    IProductDAO prodDao = new ProductDAO(); 
     public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder){
         return pudao.create(pickUpOrder);
     }
     
     
     
-    // Delivery Order
     
-    /*
-        The delivery order is an order that is created to be sent to an address, is important to 
-        check the type of the content of the arguments that are given with the object, also is 
-        important to check 
-    */
+    public List<Product> getAllProducts(){
+        return prodDao.findProductEntities(); 
+    }
 }

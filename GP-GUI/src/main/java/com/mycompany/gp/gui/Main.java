@@ -25,7 +25,7 @@ public class Main {
 
         chargeUsers();
         chargeProducts();
-        deployMenu();
+         deployMenu();
     }
 
     public static void deployMenu() {

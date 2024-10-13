@@ -19,15 +19,13 @@ import javax.persistence.criteria.Root;
  *
  * @author waw
  */
-public class ProductDAO implements Serializable {
+public class ProductDAO implements IProductDAO {
 
-    public ProductDAO(EntityManagerFactory emf) {
-        this.emf = emf;
+    public ProductDAO() {
+
     }
-    private EntityManagerFactory emf = null;
-
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return EntityManagerFactorySingleton.getInstance().createEntityManager();
     }
 
     public void create(Product product) {

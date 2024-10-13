@@ -34,7 +34,7 @@ public class Util {
         return newUsers;
     }
     
-    public List<IndividualProduct> createProducts(){
+       public List<IndividualProduct> createProducts(){    
         IndividualProduct prod1 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Ensalada Boneless", 149, true, null);
         IndividualProduct prod2 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Ensalada Pollo", 149, true, null);
         IndividualProduct prod3 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Ensalada Atún", 149, true, null);

@@ -85,7 +85,7 @@ public class IndividualProduct extends Product implements Serializable {
 
     @Override
     public String toString() {
-        return "IndividualProduct{" + "type=" + type + '}';
+        return super.toString()+ "IndividualProduct{" + "type=" + type + '}';
     }
     
     
