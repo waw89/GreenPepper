@@ -99,5 +99,12 @@ public class Product implements Serializable {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" + "id=" + id + ", name=" + name + ", price=" + price + ", stateProduct=" + stateProduct + ", activeOffer=" + activeOffer + '}';
+    }
+    
+    
     
 }

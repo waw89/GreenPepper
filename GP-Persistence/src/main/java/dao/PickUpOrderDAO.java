@@ -19,18 +19,17 @@ import javax.persistence.criteria.Root;
  *
  * @author waw
  */
-public class PickUpOrderDAO implements Serializable {
+public class PickUpOrderDAO implements IPickUpOrderDAO {
 
-    public PickUpOrderDAO(EntityManagerFactory emf) {
-        this.emf = emf;
+   public PickUpOrderDAO() {
+        
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return EntityManagerFactorySingleton.getInstance().createEntityManager();
     }
 
-    public void create(PickUpOrder pickUpOrder) {
+    public PickUpOrder create(PickUpOrder pickUpOrder) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -42,9 +41,11 @@ public class PickUpOrderDAO implements Serializable {
                 em.close();
             }
         }
+        return pickUpOrder;
     }
 
-    public void edit(PickUpOrder pickUpOrder) throws NonexistentEntityException, Exception {
+   @Override
+    public PickUpOrder edit(PickUpOrder pickUpOrder) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -65,27 +66,7 @@ public class PickUpOrderDAO implements Serializable {
                 em.close();
             }
         }
-    }
-
-    public void destroy(Long id) throws NonexistentEntityException {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            PickUpOrder pickUpOrder;
-            try {
-                pickUpOrder = em.getReference(PickUpOrder.class, id);
-                pickUpOrder.getOrderNumber();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The pickUpOrder with id " + id + " no longer exists.", enfe);
-            }
-            em.remove(pickUpOrder);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        return pickUpOrder;
     }
 
     public List<PickUpOrder> findPickUpOrderEntities() {
@@ -133,5 +114,7 @@ public class PickUpOrderDAO implements Serializable {
             em.close();
         }
     }
+
+    
     
 }

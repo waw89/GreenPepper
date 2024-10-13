@@ -21,16 +21,15 @@ import javax.persistence.criteria.Root;
  */
 public class OrderDAO implements Serializable {
 
-    public OrderDAO(EntityManagerFactory emf) {
-        this.emf = emf;
+      public OrderDAO() {
+        
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return EntityManagerFactorySingleton.getInstance().createEntityManager();
     }
 
-    public void create(Order order) {
+    public Order create(Order order) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -42,9 +41,10 @@ public class OrderDAO implements Serializable {
                 em.close();
             }
         }
+        return order;
     }
 
-    public void edit(Order order) throws NonexistentEntityException, Exception {
+    public Order edit(Order order) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -65,28 +65,10 @@ public class OrderDAO implements Serializable {
                 em.close();
             }
         }
+        return order;
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            Order order;
-            try {
-                order = em.getReference(Order.class, id);
-                order.getOrderNumber();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The order with id " + id + " no longer exists.", enfe);
-            }
-            em.remove(order);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
+
 
     public List<Order> findOrderEntities() {
         return findOrderEntities(true, -1, -1);

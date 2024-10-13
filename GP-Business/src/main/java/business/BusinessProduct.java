@@ -39,6 +39,12 @@ public class BusinessProduct {
         this.products = (ArrayList<IndividualProduct>) util.createProducts();
         return inProdDao.fillIndividualProductList(products);
     }
+    
+     
+    public List<IndividualProduct> findProducts(){
+        this.products = (ArrayList<IndividualProduct>) util.createProducts();
+        return products;
+    }
 
     
 }
