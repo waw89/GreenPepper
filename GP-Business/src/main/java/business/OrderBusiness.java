@@ -24,6 +24,7 @@ import java.util.List;
 public class OrderBusiness {
 
     IPickUpOrderDAO pudao = new PickUpOrderDAO();
+   
     IProductDAO prodDao = new ProductDAO();
     OrderDAO odao = new OrderDAO();
 
@@ -35,6 +36,11 @@ public class OrderBusiness {
         return pudao.create(pickUpOrder);
     }
 
+    public Order editOrder(Order order) throws Exception{
+        float total = calculateCost(order);
+        order.setPrice(total);
+        return odao.edit(order);
+    }
     public List<Product> getAllProducts() {
         return prodDao.findProductEntities();
     }
