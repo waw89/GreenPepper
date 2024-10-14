@@ -31,7 +31,6 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-  
     /*
         Metodo main
      */
@@ -51,7 +50,6 @@ public class Main {
         //despliega el menú
         deployMenu();
     }
-
 
     public static void deployMenu() throws Exception {
         Scanner tec = new Scanner(System.in);
@@ -89,7 +87,6 @@ public class Main {
 
         tec.close();
     }
-
 
     public static void addOrder() throws Exception {
         Scanner tec = new Scanner(System.in);
@@ -159,6 +156,8 @@ public class Main {
                     case 1:
                         showProducts();
                         editProductList(order);
+                        generatePickUpOrderNote((PickUpOrder) order);
+                        viewActiveOrders();
                         break;
 
                     case 2:
@@ -167,7 +166,10 @@ public class Main {
                         ((PickUpOrder) order).setCustomerName(name);
                         ob.editOrder(order);
                         System.out.println("Se ha actualizado el pedido!");
+                        generatePickUpOrderNote((PickUpOrder) order);
+                        viewActiveOrders();
                         break;
+
                     case 3:
 
                         System.out.println("Ingrese el nuevo telefono: ");
@@ -175,10 +177,14 @@ public class Main {
                         ((PickUpOrder) order).setCustomerPhone(phone);
                         ob.editOrder(order);
                         System.out.println("Se ha actualizado el pedido!");
+                        generatePickUpOrderNote((PickUpOrder) order);
+                        viewActiveOrders();
+                        break;
                     case 4:
                         viewActiveOrders();
                         break;
                 }
+
             } while (actionOption != 4);
 
         } else if (order instanceof DeliveryOrder) {
@@ -201,6 +207,8 @@ public class Main {
                     case 1:
                         showProducts();
                         editProductList(order);
+                        generateDeliveryOrderNote((DeliveryOrder) order);
+                        viewActiveOrders();
                         break;
 
                     case 2:
@@ -210,6 +218,8 @@ public class Main {
                         ((DeliveryOrder) order).setCustomerName(name);
                         ob.editOrder(order);
                         System.out.println("Se ha actualizado el pedido!");
+                        generateDeliveryOrderNote((DeliveryOrder) order);
+                        viewActiveOrders();
                         break;
                     case 3:
                         System.out.println("Ingrese el nuevo telefono: ");
@@ -217,6 +227,8 @@ public class Main {
                         ((DeliveryOrder) order).setPhoneNumber(phone);
                         ob.editOrder(order);
                         System.out.println("Se ha actualizado el pedido!");
+                        generateDeliveryOrderNote((DeliveryOrder) order);
+                        viewActiveOrders();
                         break;
                     case 4:
                         System.out.println("Ingrese la nueva dirección: ");
@@ -224,6 +236,8 @@ public class Main {
                         ((DeliveryOrder) order).setAddress(address);
                         ob.editOrder(order);
                         System.out.println("Se ha actualizado el pedido!");
+                        generateDeliveryOrderNote((DeliveryOrder) order);
+                        viewActiveOrders();
                         break;
                     case 5:
                         viewActiveOrders();
@@ -248,6 +262,8 @@ public class Main {
                     case 1:
                         showProducts();
                         editProductList(order);
+                        generateDinerOrderNote((DinerOrder) order);
+                        viewActiveOrders();
                         break;
 
                     case 2:
@@ -255,6 +271,8 @@ public class Main {
                         String name = tec.nextLine();
                         ((DinerOrder) order).setOrderName(name);
                         ob.editOrder(order);
+                        generateDinerOrderNote((DinerOrder) order);
+                        viewActiveOrders();
                         break;
 
                     case 3:
@@ -320,7 +338,7 @@ public class Main {
         System.out.println("Se ha actualizado tu producto!");
         System.out.println("Presiona ENTER para volver al menu principal");
         tec.nextLine();
-        deployMenu();
+
     }
 
     public static void cancelOrder(Order order) throws Exception {
@@ -329,15 +347,15 @@ public class Main {
         char decision;
         System.out.println("Estas seguro que deseas cancelar?(y/n)");
         decision = tec.next().toLowerCase().charAt(0);
-        
-        if(decision == 'y'){
+
+        if (decision == 'y') {
             ob.cancelOrder(order);
             System.out.println("La orden ha sido cancelada");
-        }else if(decision == 'n'){
+        } else if (decision == 'n') {
             viewActiveOrders();
-        }else{
+        } else {
             System.out.println("Opción invalida, digite de nuevo (y/n)");
-            decision = tec.next().toLowerCase().charAt(0); 
+            decision = tec.next().toLowerCase().charAt(0);
         }
     }
 
@@ -367,7 +385,7 @@ public class Main {
         int orderOption = tec.nextInt();
         if (orderOption > 0 && orderOption <= activeOrders.size()) {
             orderSelected = activeOrders.get(orderOption - 1);
-            System.out.println("Orden seleccionada: No. " + activeOrders.get(orderOption - 1));
+            System.out.println("Orden seleccionada: No. " + activeOrders.get(orderOption - 1).getOrderNumber());
         } else {
             System.out.println("Opcion inválida. Por favor, seleccione un número de pedido valido");
         }
@@ -400,6 +418,7 @@ public class Main {
                     break;
 
                 case 3:
+                    generateOrdersNote(orderSelected);
                     break;
 
                 case 4:
@@ -410,24 +429,57 @@ public class Main {
         } while (option != 4);
     }
 
-    public static void viewOrderHistory() {
+    public static void viewOrderHistory() throws Exception {
         int i = 0;
+        int option = 0;
         OrderBusiness ob = new OrderBusiness();
+        Order orderSelected = new Order();
         List<Order> canceledPaidOrders = ob.getCanceledPaidOrders();
         System.out.println("---------------------------");
         System.out.println("Historial de pedidos:");
         for (Order order : canceledPaidOrders) {
             i++;
-            if(order instanceof PickUpOrder){
-                System.out.println(i + "." + ((PickUpOrder) order).getCustomerName() + " " + ((PickUpOrder) order).getCustomerPhone() + " - Para Recoger ");
-            }else if(order instanceof DeliveryOrder){
-                System.out.println(i + "." + ((DeliveryOrder) order).getCustomerName() + ((DeliveryOrder) order).getCustomerName() + " - A Domicilio");
-            }else if(order instanceof DinerOrder){
+            if (order instanceof PickUpOrder) {
+                System.out.println(i + "." + ((PickUpOrder) order).getCustomerName() + " - Para Recoger ");
+            } else if (order instanceof DeliveryOrder) {
+                System.out.println(i + "." + ((DeliveryOrder) order).getCustomerName() + " - A Domicilio");
+            } else if (order instanceof DinerOrder) {
                 System.out.println(i + "." + ((DinerOrder) order).getOrderName() + " - En Comedor");
             }
-            
+
         }
+        System.out.println("Seleccione la orden que desea gestionar: ");
+        int orderOption = scanner.nextInt();
+        if (orderOption > 0 && orderOption <= canceledPaidOrders.size()) {
+            orderSelected = canceledPaidOrders.get(orderOption - 1);
+            System.out.println("Orden seleccionada: No. " + canceledPaidOrders.get(orderOption - 1).getOrderNumber());
+        } else {
+            System.out.println("Opcion inválida. Por favor, seleccione un número de pedido valido");
+        }
+
         System.out.println("---------------------------");
+        System.out.println("1. Ver desglose de Orden");
+        System.out.println("2. Salir al menu principal");
+        System.out.println("---------------------------");
+        System.out.println("Seleccione una accion: ");
+        option = scanner.nextInt();
+
+        do {
+            switch (option) {
+                case 1:
+                    generateOrdersNote(orderSelected);
+                    deployMenu();
+                    break;
+                case 2:
+                    deployMenu();
+                    break;
+                default:
+                    System.out.println("Opcion invalida, vuelve a intentar");
+                    break;
+            }
+
+        } while (option != 2);
+
     }
 
     public static void chargeUsers() {
@@ -439,86 +491,81 @@ public class Main {
         BusinessProduct bp = new BusinessProduct();
         bp.chargerProducts();
     }
-    
+
     private static void addDeliveryOrder() {
-    System.out.println("- - - - - - - - - - -");
-    System.out.println("Delivery Order Menu");
-    System.out.println("- - - - - - - - - - -");
-    
-    // Query the products from the database
-    List<Product> productsFromDatabase = productBusinessLogicAccessPoint.getAllProducts();
-    DeliveryOrder order = new DeliveryOrder();
-    List<ProductOrder> productOrderList = new ArrayList<>();
-    boolean wantToContinue = true;
+        System.out.println("- - - - - - - - - - -");
+        System.out.println("Delivery Order Menu");
+        System.out.println("- - - - - - - - - - -");
 
-    // Display the products for the user
-    showProducts();
+        // Query the products from the database
+        List<Product> productsFromDatabase = productBusinessLogicAccessPoint.getAllProducts();
+        DeliveryOrder order = new DeliveryOrder();
+        List<ProductOrder> productOrderList = new ArrayList<>();
+        boolean wantToContinue = true;
 
-    do {
-        // Output the user to check the product they want
-        System.out.print("Select a product by number: ");
-        int itemSelected = 0;
+        // Display the products for the user
+        showProducts();
 
-        // Validate user input for item selection
-        try {
-            itemSelected = scanner.nextInt();
-            if (itemSelected < 1 || itemSelected > productsFromDatabase.size()) {
-                System.out.println("Invalid product selection. Please select a valid number.");
-                continue; // Skip to the next iteration if input is invalid
-            }
+        do {
+            // Output the user to check the product they want
+            System.out.print("Select a product by number: ");
+            int itemSelected = 0;
 
-            System.out.printf("You selected the %d product.%n", itemSelected); // inform the selected product
-            Product selectedProduct = productsFromDatabase.get(itemSelected - 1); // get the selected product
-
-            ProductOrder productOrderForSelectedProduct = addProductDetails(selectedProduct, order); // create a product order object with the information of the product and the order
-            
-            
-            // Handle product order based on amount
-            if (productOrderForSelectedProduct.getAmount() >= 1) { // check if the amount is valid
-                productOrderList.add(productOrderForSelectedProduct); // add to the product order list the new item
-                System.out.println("Se agregó correctamente el producto: " + selectedProduct.getName());
-            }
-
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input! Please enter a valid integer.");
-            scanner.nextLine(); // Clear the invalid input
-            continue; // Skip to the next iteration
-        }
-
-        // Ask the user if they want to continue
-        System.out.print("Do you want to continue? (y/n): ");
-        scanner.nextLine(); // Clear the newline character left from nextInt
-        String continueChoice = scanner.nextLine(); // Read the choice
-
-        if (continueChoice.equalsIgnoreCase("n")) {
-            wantToContinue = false;
-            order.setProducts(productOrderList);
-            order = setupOrderForDelivery(order);
-
+            // Validate user input for item selection
             try {
-                orderBusinessLogicAccessPoint.createDeliveryOrder(order);
-                System.out.println("La orden ha sido creada correctamente!!");
-                generateDeliveryOrderNote(order);
-            } catch (javax.persistence.RollbackException b) {
-                System.out.println("Error while creating order: " + b.getMessage());
+                itemSelected = scanner.nextInt();
+                if (itemSelected < 1 || itemSelected > productsFromDatabase.size()) {
+                    System.out.println("Invalid product selection. Please select a valid number.");
+                    continue; // Skip to the next iteration if input is invalid
+                }
+
+                System.out.printf("You selected the %d product.%n", itemSelected); // inform the selected product
+                Product selectedProduct = productsFromDatabase.get(itemSelected - 1); // get the selected product
+
+                ProductOrder productOrderForSelectedProduct = addProductDetails(selectedProduct, order); // create a product order object with the information of the product and the order
+
+                // Handle product order based on amount
+                if (productOrderForSelectedProduct.getAmount() >= 1) { // check if the amount is valid
+                    productOrderList.add(productOrderForSelectedProduct); // add to the product order list the new item
+                    System.out.println("Se agregó correctamente el producto: " + selectedProduct.getName());
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid integer.");
+                scanner.nextLine(); // Clear the invalid input
+                continue; // Skip to the next iteration
             }
 
-        } else if (!continueChoice.equalsIgnoreCase("y")) {
-            System.out.println("Invalid choice! Please enter 'y' or 'n'.");
-        }
+            // Ask the user if they want to continue
+            System.out.print("Do you want to continue? (y/n): ");
+            scanner.nextLine(); // Clear the newline character left from nextInt
+            String continueChoice = scanner.nextLine(); // Read the choice
 
-    } while (wantToContinue);
-}
-    
+            if (continueChoice.equalsIgnoreCase("n")) {
+                wantToContinue = false;
+                order.setProducts(productOrderList);
+                order = setupOrderForDelivery(order);
+
+                try {
+                    orderBusinessLogicAccessPoint.createDeliveryOrder(order);
+                    System.out.println("La orden ha sido creada correctamente!!");
+                    generateDeliveryOrderNote(order);
+                } catch (javax.persistence.RollbackException b) {
+                    System.out.println("Error while creating order: " + b.getMessage());
+                }
+
+            } else if (!continueChoice.equalsIgnoreCase("y")) {
+                System.out.println("Invalid choice! Please enter 'y' or 'n'.");
+            }
+
+        } while (wantToContinue);
+    }
+
     private static DeliveryOrder setupOrderForDelivery(DeliveryOrder order) {
-
-
 
         System.out.println("Agregue comentarios a la orden");
         String detailsIn = scanner.nextLine();
         order.setDetails(detailsIn);
-
-        
 
         System.out.println("Dirección del cliente");
         String addressIn = scanner.nextLine();
@@ -532,18 +579,13 @@ public class Main {
         String customerNameIn = scanner.nextLine();
         order.setCustomerName(customerNameIn);
 
-        
         order.setCashier((Employee) userBusinessLogicAccessPoint.findUser(3L));
-
 
         order.setCreationDate(LocalDateTime.now());
 
-
         order.setORDER_STATE(ORDER_STATE.ACTIVE);
 
-
         float price = orderBusinessLogicAccessPoint.calculateCost(order);
-    
 
         order.setPrice(price);
 
@@ -561,64 +603,63 @@ public class Main {
         Product selProd;
         DinerOrder dOr = new DinerOrder();
         UserBusiness us = new UserBusiness();
-        
+
         System.out.println("Ingresa el número de mesa:");
         orderName = tec.nextLine();
-        
-        
-        do{
+
+        do {
             showProducts();
-            
+
             System.out.println("Seleccione el número del producto que desea agregar:");
             option = tec.nextInt();
-            
-            if(option > 0 && option <= prods.size()){
-                
-                for(int i =0; i < prods.size(); i++){
-                    if(i == (option - 1)){
-                        selProd = prods.get(option-1);
-                        
+
+            if (option > 0 && option <= prods.size()) {
+
+                for (int i = 0; i < prods.size(); i++) {
+                    if (i == (option - 1)) {
+                        selProd = prods.get(option - 1);
+
                         ProductOrder pOrder = addProductDetails(selProd, dOr);
-                        
+
                         SelectedProducts.add(pOrder);
-                        
-                        if(pOrder.getAmount() == 1){
+
+                        if (pOrder.getAmount() == 1) {
                             System.out.println("Se agregó correctamente el producto: " + selProd.getName());
-                        } else if (pOrder.getAmount() > 1){
-                            System.out.println("Se agregó "+pOrder.getAmount()+ " veces el producto: "+selProd.getName());
+                        } else if (pOrder.getAmount() > 1) {
+                            System.out.println("Se agregó " + pOrder.getAmount() + " veces el producto: " + selProd.getName());
                         }
                     }
-                }       
-            }else if(option < 0 && option >= prods.size()){
-                        System.out.println("Opción inválida. Por favor, seleccione un número de producto válido.");
-                    }
-            
+                }
+            } else if (option < 0 && option >= prods.size()) {
+                System.out.println("Opción inválida. Por favor, seleccione un número de producto válido.");
+            }
+
             System.out.println("¿Desea agregar otro producto? (y/n)");
             addOption = tec.next().toLowerCase().charAt(0);
-                     
+
         } while (addOption == 'y');
-        
+
         dOr.setProducts(SelectedProducts);
         tec.nextLine();
-        
+
         System.out.println("Ingrese detalles generales de la orden (opcional): ");
         String details = tec.nextLine();
         dOr.setDetails(details);
-        
+
         dOr.setCreationDate(LocalDateTime.now());
-        
+
         dOr.setORDER_STATE(ORDER_STATE.ACTIVE);
-        
+
         dOr.setCashier((Employee) us.findUser(2L));
-        
+
         dOr.setOrderName(orderName);
-        
+
         DinerOrder orderCreated = ob.createDinerOrder(dOr);
-        
+
         System.out.println("Orden Creada!");
-        
+
         generateDinerOrderNote(orderCreated);
-        
+
     }
 
     private static void addPickUpOrder() {
@@ -749,7 +790,7 @@ public class Main {
 
     }
 
-    private static void generateDeliveryOrderNote(DeliveryOrder deliveryOrder){
+    private static void generateDeliveryOrderNote(DeliveryOrder deliveryOrder) {
         int i = 0;
         Scanner tec = new Scanner(System.in);
         List<ProductOrder> products = deliveryOrder.getProducts();
@@ -775,11 +816,11 @@ public class Main {
         System.out.println("Nombre: " + deliveryOrder.getCustomerName());
         System.out.println("Telefono: " + deliveryOrder.getPhoneNumber());
         System.out.println("Presiona ENTER para volver al menú principal");
-        tec.nextLine();     
+        tec.nextLine();
     }
-      
-    private static void generateDinerOrderNote(DinerOrder order){
-        int i = 0; 
+
+    private static void generateDinerOrderNote(DinerOrder order) {
+        int i = 0;
         Scanner tec = new Scanner(System.in);
         List<ProductOrder> products = order.getProducts();
         System.out.println("----------------------");
@@ -791,10 +832,10 @@ public class Main {
         System.out.println(String.format("%-10s %-20s %-10s", "Cantidad", "Nombre", "Precio"));
 
         for (ProductOrder product : products) {
-            double productTotalPrice = product.getAmount() * product.getPrice();         
+            double productTotalPrice = product.getAmount() * product.getPrice();
             i++;
 
-            System.out.println(String.format("%-10d %-20s $%-10.2f",  product.getAmount(), product.getProduct().getName(), productTotalPrice));
+            System.out.println(String.format("%-10d %-20s $%-10.2f", product.getAmount(), product.getProduct().getName(), productTotalPrice));
         }
 
         System.out.println("----------------------");
@@ -803,6 +844,17 @@ public class Main {
         System.out.println("----------------------");
         System.out.println("Presiona ENTER para volver al menú principal");
         tec.nextLine();
+    }
+
+    private static void generateOrdersNote(Order orderSelected) {
+        if (orderSelected instanceof PickUpOrder) {
+            generatePickUpOrderNote((PickUpOrder) orderSelected);
+        } else if (orderSelected instanceof DeliveryOrder) {
+            generateDeliveryOrderNote((DeliveryOrder) orderSelected);
+        } else if (orderSelected instanceof DinerOrder) {
+            generateDinerOrderNote((DinerOrder) orderSelected);
+        }
+
     }
 
 }
