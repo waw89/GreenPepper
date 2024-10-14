@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**
@@ -15,6 +16,7 @@ import javax.persistence.Entity;
  * @author waw
  */
 @Entity
+@DiscriminatorValue (value = "Delivery")
 public class DeliveryOrder extends Order implements Serializable{
 
     // Atributes
@@ -30,12 +32,14 @@ public class DeliveryOrder extends Order implements Serializable{
 
     }
 
-    public DeliveryOrder(String customerName, String address, String phoneNumber, LocalDateTime creationDate, ORDER_STATE state, List<ProductOrder> products, Float price, Employee employee) {
-        super(creationDate, state, products, price, employee);
+    public DeliveryOrder(String customerName, String address, String phoneNumber, LocalDateTime creationDate, com.mycompany.gp.domain.ORDER_STATE ORDER_STATE, List<ProductOrder> products, Float price, String details, Employee cashier) {
+        super(creationDate, ORDER_STATE, products, price, details, cashier);
         this.customerName = customerName;
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
+
+    
 
     // Getters y setters
     public String getCustomerName() {
@@ -68,6 +72,62 @@ public class DeliveryOrder extends Order implements Serializable{
 
     public void setState(ORDER_STATE state) {
         this.ORDER_STATE = state;
+    }
+
+    public Long getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(Long orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public com.mycompany.gp.domain.ORDER_STATE getORDER_STATE() {
+        return ORDER_STATE;
+    }
+
+    public void setORDER_STATE(com.mycompany.gp.domain.ORDER_STATE ORDER_STATE) {
+        this.ORDER_STATE = ORDER_STATE;
+    }
+
+    public List<ProductOrder> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductOrder> products) {
+        this.products = products;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public Employee getCashier() {
+        return cashier;
+    }
+
+    public void setCashier(Employee cashier) {
+        this.cashier = cashier;
     }
     
     

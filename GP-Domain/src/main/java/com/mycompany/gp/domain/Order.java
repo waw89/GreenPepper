@@ -7,7 +7,9 @@ package com.mycompany.gp.domain;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,9 +27,11 @@ import javax.persistence.Table;
  *
  * @author waw
  */
+
 @Entity
-@Table(name="order")
+@Table(name="orders")
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "Type")
 public class Order implements Serializable{
     
     // Atributes
@@ -43,11 +47,14 @@ public class Order implements Serializable{
     protected ORDER_STATE ORDER_STATE ;
     
     
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true)
     protected List<ProductOrder> products;
     
     @Column (name = "price")
     protected Float price;
+    
+    @Column (name = "details")
+    protected String details;
     
     @ManyToOne
     @JoinColumn(name = "employee_id")
@@ -69,16 +76,16 @@ public class Order implements Serializable{
         this.cashier = cashier;
     }
 
-    
-    public Order(LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<ProductOrder> products, Float price, Employee cashier) {
+    public Order(LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<ProductOrder> products, Float price, String details, Employee cashier) {
         this.creationDate = creationDate;
         this.ORDER_STATE = ORDER_STATE;
         this.products = products;
         this.price = price;
+        this.details = details;
         this.cashier = cashier;
     }
-    
-    
+
+  
     // Getters & Setters
 
     public Long getOrderNumber() {

@@ -14,4 +14,5 @@ import java.util.List;
 public interface IUserDAO {
     public User create(User user);
     public List<User> fillUsersList(List<User> users);
+    public User findUser(Long id);
 }

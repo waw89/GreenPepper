@@ -28,4 +28,8 @@ public class UserBusiness {
         return udao.fillUsersList(users);
     }
     
+    public User findUser(Long id){
+      return udao.findUser(id);      
+    }
+    
 }

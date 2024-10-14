@@ -4,8 +4,10 @@
  */
 package business;
 
+import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.PickUpOrder;
 import com.mycompany.gp.domain.Product;
+import com.mycompany.gp.domain.ProductOrder;
 import dao.IOrderDAO;
 import dao.IPickUpOrderDAO;
 import dao.IProductDAO;
@@ -18,16 +20,36 @@ import java.util.List;
  * @author Raul
  */
 public class OrderBusiness {
-    IPickUpOrderDAO pudao = new PickUpOrderDAO(); 
-    IProductDAO prodDao = new ProductDAO(); 
-    public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder){
+
+    IPickUpOrderDAO pudao = new PickUpOrderDAO();
+    IProductDAO prodDao = new ProductDAO();
+
+    public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder) {
+        float total = calculateCost(pickUpOrder);
+
+        pickUpOrder.setPrice(total);
+
         return pudao.create(pickUpOrder);
     }
-    
-    
-    
-    
-    public List<Product> getAllProducts(){
-        return prodDao.findProductEntities(); 
+
+    public List<Product> getAllProducts() {
+        return prodDao.findProductEntities();
+    }
+
+    public float calculateCost(Order order) {
+        float total = 0;
+        List<ProductOrder> products = order.getProducts();;
+
+        for (ProductOrder product : products) {
+            if (product.getAmount() >= 2) {
+                float totalPerProduct = product.getAmount() * product.getPrice();
+                total = total + totalPerProduct;
+            } else {
+                total = total + product.getPrice();
+            }
+
+        }
+
+        return total;
     }
 }

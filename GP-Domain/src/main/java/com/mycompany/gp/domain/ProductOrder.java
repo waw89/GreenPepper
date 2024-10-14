@@ -20,61 +20,46 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="ProductOrder")
-public class ProductOrder  implements Serializable{
-    
+@Table(name = "ProductOrder")
+public class ProductOrder implements Serializable {
+
     // Atributes
-   @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne
     @JoinColumn(name = "productId", referencedColumnName = "productId")
     private Product product;
-    
+
     @ManyToOne
     @JoinColumn(name = "orderNumber", referencedColumnName = "orderNumber")
     private Order order;
-    
-    @Column(name="price")
-    private float price;
-    
-    @Column(name="amount")
-    private int amount;
-    
-    @Column(name="details")
-    private String details;
 
-    
+    @Column(name = "price")
+    private float price;
+
+    @Column(name = "amount")
+    private int amount;
+
     public ProductOrder() {
     }
-   
-    public ProductOrder(Long id, Product product, Order order, float price, int amount, String details) {
+
+    public ProductOrder(Long id, Product product, Order order, float price, int amount) {
         this.id = id;
         this.product = product;
         this.order = order;
         this.price = price;
         this.amount = amount;
-        this.details = details;
     }
-    
-    
-    // Getters & Setters
 
+    // Getters & Setters
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Product getProductId() {
-        return product;
-    }
-
-    public void setProductId(Product product) {
-        this.product = product;
     }
 
     public Order getOrderNumber() {
@@ -101,14 +86,20 @@ public class ProductOrder  implements Serializable{
         this.amount = amount;
     }
 
-    public String getDetails() {
-        return details;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setProduct(Product product) {
+        this.product = product;
     }
-    
-    
-    
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
 }
