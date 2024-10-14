@@ -41,11 +41,9 @@ public class Main {
 
     private static OrderBusiness orderBusinessLogicAccessPoint = new OrderBusiness();    // This variable provides an access point to the methods that are in the order business
 
-    public static void main(String[] args) throws Exception {
-
     private static UserBusiness userBusinessLogicAccessPoint = new UserBusiness();  // This variable provides an access point to the methods that are in the user business
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // carga los usuarios dentro de la base de datos
         chargeUsers();
         // carga los productos dentro de la base de datos
@@ -779,41 +777,7 @@ public class Main {
         System.out.println("Presiona ENTER para volver al menú principal");
         tec.nextLine();     
     }
-    
-        System.out.println("Presiona ENTER para volver al menu principal");
-        tec.nextLine();
-
-    }
-
-    int i = 0; 
-    Scanner tec = new Scanner(System.in);
-    List<ProductOrder> products = order.getProducts();
-    System.out.println("----------------------");
-    System.out.println("ORDEN PARA RECOGER");
-    System.out.println("Creada por: " + order.getCashier().getName());
-    System.out.println("Orden No. " + order.getOrderNumber());
-    
-    System.out.println(String.format("%-10s %-20s %-10s", "Cantidad", "Nombre", "Precio"));
-    
-    for (ProductOrder product : products) {
-        double productTotalPrice = product.getAmount() * product.getPrice();         
-        i++;
-        
-        System.out.println(String.format("%-10d %-20s $%-10.2f",  product.getAmount(), product.getProduct().getName(), productTotalPrice));
-    }
-    
-    System.out.println("----------------------");
-    System.out.println("Detalles: " + order.getDetails());
-    System.out.println(String.format("Total: $%.2f", order.getPrice()));
-    System.out.println("----------------------");
-    System.out.println("Datos del cliente");
-    System.out.println("Nombre: " + order.getCustomerName());
-    System.out.println("Telefono: " + order.getCustomerPhone());
-    System.out.println("Presiona ENTER para volver al menú principal");
-    tec.nextLine();
-    
-    }
-    
+      
     private static void generateDinerOrderNote(DinerOrder order){
         int i = 0; 
         Scanner tec = new Scanner(System.in);
