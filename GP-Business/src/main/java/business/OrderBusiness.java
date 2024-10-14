@@ -4,11 +4,17 @@
  */
 package business;
 
+
 import com.mycompany.gp.domain.ORDER_STATE;
+
+import com.mycompany.gp.domain.DinerOrder;
+
 import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.PickUpOrder;
 import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
+import dao.DinerOrderDAO;
+import dao.IDinerOrderDAO;
 import dao.IOrderDAO;
 import dao.IPickUpOrderDAO;
 import dao.IProductDAO;
@@ -27,6 +33,8 @@ public class OrderBusiness {
    
     IProductDAO prodDao = new ProductDAO();
     OrderDAO odao = new OrderDAO();
+    IDinerOrderDAO dinerdao = new DinerOrderDAO();
+
 
     public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder) {
         float total = calculateCost(pickUpOrder);
@@ -34,6 +42,13 @@ public class OrderBusiness {
         pickUpOrder.setPrice(total);
 
         return pudao.create(pickUpOrder);
+    }
+    
+    public DinerOrder createDinerOrder(DinerOrder dinerOrder){
+        float total = calculateCost(dinerOrder);
+        dinerOrder.setPrice(total);
+        
+        return dinerdao.create(dinerOrder);
     }
 
     public Order editOrder(Order order) throws Exception{

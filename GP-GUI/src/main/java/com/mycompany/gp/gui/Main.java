@@ -97,7 +97,6 @@ public class Main {
                     addDeliveryOrder();
                     break;
                 case 2:
-                    showProducts();
                     addDinerOrder();
                     break;
                 case 3:
@@ -429,6 +428,74 @@ public class Main {
     }
 
     private static void addDinerOrder() {
+        Scanner tec = new Scanner(System.in);
+        int option;
+        String orderName;
+        char addOption;
+        OrderBusiness ob = new OrderBusiness();
+        List<Product> prods = ob.getAllProducts();
+        List<ProductOrder> SelectedProducts = new ArrayList<>();
+        Product selProd;
+        DinerOrder dOr = new DinerOrder();
+        UserBusiness us = new UserBusiness();
+        
+        System.out.println("Ingresa el número de mesa:");
+        orderName = tec.nextLine();
+        
+        
+        do{
+            showProducts();
+            
+            System.out.println("Seleccione el número del producto que desea agregar:");
+            option = tec.nextInt();
+            
+            if(option > 0 && option <= prods.size()){
+                
+                for(int i =0; i < prods.size(); i++){
+                    if(i == (option - 1)){
+                        selProd = prods.get(option-1);
+                        
+                        ProductOrder pOrder = addProductDetails(selProd, dOr);
+                        
+                        SelectedProducts.add(pOrder);
+                        
+                        if(pOrder.getAmount() == 1){
+                            System.out.println("Se agregó correctamente el producto: " + selProd.getName());
+                        } else if (pOrder.getAmount() > 1){
+                            System.out.println("Se agregó "+pOrder.getAmount()+ " veces el producto: "+selProd.getName());
+                        }
+                    }
+                }       
+            }else if(option < 0 && option >= prods.size()){
+                        System.out.println("Opción inválida. Por favor, seleccione un número de producto válido.");
+                    }
+            
+            System.out.println("¿Desea agregar otro producto? (y/n)");
+            addOption = tec.next().toLowerCase().charAt(0);
+                     
+        } while (addOption == 'y');
+        
+        dOr.setProducts(SelectedProducts);
+        tec.nextLine();
+        
+        System.out.println("Ingrese detalles generales de la orden (opcional): ");
+        String details = tec.nextLine();
+        dOr.setDetails(details);
+        
+        dOr.setCreationDate(LocalDateTime.now());
+        
+        dOr.setORDER_STATE(ORDER_STATE.ACTIVE);
+        
+        dOr.setCashier((Employee) us.findUser(2L));
+        
+        dOr.setOrderName(orderName);
+        
+        DinerOrder orderCreated = ob.createDinerOrder(dOr);
+        
+        System.out.println("Orden Creada!");
+        
+        generateDinerOrderNote(orderCreated);
+        
     }
 
     private static void addPickUpOrder() {
@@ -559,46 +626,63 @@ public class Main {
 
     }
 
-//    private static void addProduct() {
-//        Scanner tec = new Scanner(System.in);
-//        BusinessProduct bp = new BusinessProduct();
-//        String name;
-//        PRODUCT_TYPE type = null;
-//        int price, selectType;
-//        boolean state = false;
-//
-//        System.out.println("Add new Product");
-//        System.out.println("-----------------");
-//        System.out.println("Product Type");
-//        System.out.println("-----------------");
-//        System.out.println("1.- FOOD");
-//        System.out.println("2.- DRINK");
-//        System.out.println("3.- EXTRA");
-//        System.out.println("Enter the number");
-//        selectType = tec.nextInt();
-//
-//        switch (selectType) {
-//            case 1:
-//                type = type.FOOD;
-//                break;
-//            case 2:
-//                type = type.DRINK;
-//                break;
-//            case 3:
-//                type = type.EXTRA;
-//                break;
-//            default:
-//                break;
-//        }
-//
-//        tec.nextLine();
-//        System.out.println("-----------------");
-//        System.out.println("Name: ");
-//        name = tec.nextLine();
-//
-//        System.out.println("Price:");
-//        price = tec.nextInt();
-//
-//        bp.createProduct(type, name, price, state);
-//    }
+    int i = 0; 
+    Scanner tec = new Scanner(System.in);
+    List<ProductOrder> products = order.getProducts();
+    System.out.println("----------------------");
+    System.out.println("ORDEN PARA RECOGER");
+    System.out.println("Creada por: " + order.getCashier().getName());
+    System.out.println("Orden No. " + order.getOrderNumber());
+    
+    System.out.println(String.format("%-10s %-20s %-10s", "Cantidad", "Nombre", "Precio"));
+    
+    for (ProductOrder product : products) {
+        double productTotalPrice = product.getAmount() * product.getPrice();         
+        i++;
+        
+        System.out.println(String.format("%-10d %-20s $%-10.2f",  product.getAmount(), product.getProduct().getName(), productTotalPrice));
+    }
+    
+    System.out.println("----------------------");
+    System.out.println("Detalles: " + order.getDetails());
+    System.out.println(String.format("Total: $%.2f", order.getPrice()));
+    System.out.println("----------------------");
+    System.out.println("Datos del cliente");
+    System.out.println("Nombre: " + order.getCustomerName());
+    System.out.println("Telefono: " + order.getCustomerPhone());
+    System.out.println("Presiona ENTER para volver al menú principal");
+    tec.nextLine();
+    
+    }
+    
+    private static void generateDinerOrderNote(DinerOrder order){
+        int i = 0; 
+        Scanner tec = new Scanner(System.in);
+        List<ProductOrder> products = order.getProducts();
+        System.out.println("----------------------");
+        System.out.println("ORDEN PARA COMEDOR");
+        System.out.println("Creada por: " + order.getCashier().getName());
+        System.out.println("Orden No. " + order.getOrderNumber());
+        System.out.println("Nombre: " + order.getOrderName());
+
+        System.out.println(String.format("%-10s %-20s %-10s", "Cantidad", "Nombre", "Precio"));
+
+        for (ProductOrder product : products) {
+            double productTotalPrice = product.getAmount() * product.getPrice();         
+            i++;
+
+            System.out.println(String.format("%-10d %-20s $%-10.2f",  product.getAmount(), product.getProduct().getName(), productTotalPrice));
+        }
+
+        System.out.println("----------------------");
+        System.out.println("Detalles: " + order.getDetails());
+        System.out.println(String.format("Total: $%.2f", order.getPrice()));
+        System.out.println("----------------------");
+        System.out.println("Presiona ENTER para volver al menú principal");
+        tec.nextLine();
+    }
+
+
+ 
+
 }
