@@ -41,6 +41,13 @@ public class OrderBusiness {
         order.setPrice(total);
         return odao.edit(order);
     }
+    
+     public Order cancelOrder(Order order) throws Exception{
+        order.setOrderState(ORDER_STATE.CANCELLED);
+        return odao.edit(order);
+    }
+     
+     
     public List<Product> getAllProducts() {
         return prodDao.findProductEntities();
     }
@@ -62,6 +69,7 @@ public class OrderBusiness {
         return total;
     }
     
+   
     public List<Order>getActiveOrders(){
         return odao.findActiveOrders();
     }

@@ -308,8 +308,22 @@ public class Main {
         deployMenu();
     }
 
-    public static void cancelOrder() {
-        System.out.println("Cancel Order functionality goes here.");
+    public static void cancelOrder(Order order) throws Exception {
+        Scanner tec = new Scanner(System.in);
+        OrderBusiness ob = new OrderBusiness();
+        char decision;
+        System.out.println("Estas seguro que deseas cancelar?(y/n)");
+        decision = tec.next().toLowerCase().charAt(0);
+        
+        if(decision == 'y'){
+            ob.cancelOrder(order);
+            System.out.println("La orden ha sido cancelada");
+        }else if(decision == 'n'){
+            viewActiveOrders();
+        }else{
+            System.out.println("Opción invalida, digite de nuevo (y/n)");
+            decision = tec.next().toLowerCase().charAt(0); 
+        }
     }
 
     public static void viewActiveOrders() throws Exception {
@@ -367,7 +381,7 @@ public class Main {
                     break;
 
                 case 2:
-                    cancelOrder();
+                    cancelOrder(orderSelected);
                     break;
 
                 case 3:
@@ -389,7 +403,14 @@ public class Main {
         System.out.println("Historial de pedidos:");
         for (Order order : canceledPaidOrders) {
             i++;
-            System.out.println(i + "." + order.getOrderNumber());
+            if(order instanceof PickUpOrder){
+                System.out.println(i + "." + ((PickUpOrder) order).getCustomerName() + " " + ((PickUpOrder) order).getCustomerPhone() + " - Para Recoger ");
+            }else if(order instanceof DeliveryOrder){
+                System.out.println(i + "." + ((DeliveryOrder) order).getCustomerName() + ((DeliveryOrder) order).getCustomerName() + " - A Domicilio");
+            }else if(order instanceof DinerOrder){
+                System.out.println(i + "." + ((DinerOrder) order).getOrderName() + " - En Comedor");
+            }
+            
         }
         System.out.println("---------------------------");
     }
