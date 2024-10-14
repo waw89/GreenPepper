@@ -4,6 +4,7 @@
  */
 package business;
 
+import com.mycompany.gp.domain.ORDER_STATE;
 import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.PickUpOrder;
 import com.mycompany.gp.domain.Product;
@@ -11,6 +12,7 @@ import com.mycompany.gp.domain.ProductOrder;
 import dao.IOrderDAO;
 import dao.IPickUpOrderDAO;
 import dao.IProductDAO;
+import dao.OrderDAO;
 import dao.PickUpOrderDAO;
 import dao.ProductDAO;
 import java.util.List;
@@ -23,6 +25,7 @@ public class OrderBusiness {
 
     IPickUpOrderDAO pudao = new PickUpOrderDAO();
     IProductDAO prodDao = new ProductDAO();
+    OrderDAO odao = new OrderDAO();
 
     public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder) {
         float total = calculateCost(pickUpOrder);
@@ -51,5 +54,13 @@ public class OrderBusiness {
         }
 
         return total;
+    }
+    
+    public List<Order>getActiveOrders(){
+        return odao.findActiveOrders();
+    }
+    
+    public List<Order>getCanceledPaidOrders(){
+        return odao.findCanceledPaidOrders();
     }
 }

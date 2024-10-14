@@ -121,11 +121,29 @@ public class Main {
     }
 
     public static void viewActiveOrders() {
-        System.out.println("Viewing active orders...");
+        int i = 0;
+        OrderBusiness ob = new OrderBusiness();
+        List<Order> activeOrders = ob.getActiveOrders();
+        System.out.println("---------------------------");
+        System.out.println("Lista de Pedidos activos:");
+        for (Order order : activeOrders) {
+            i++;
+            System.out.println(i + "." + order.getOrderNumber());
+        }
+        System.out.println("---------------------------");
     }
 
     public static void viewOrderHistory() {
-        System.out.println("Viewing orders history...");
+        int i = 0;
+        OrderBusiness ob = new OrderBusiness();
+        List<Order> canceledPaidOrders = ob.getCanceledPaidOrders();
+        System.out.println("---------------------------");
+        System.out.println("Historial de pedidos:");
+        for (Order order : canceledPaidOrders) {
+            i++;
+            System.out.println(i + "." + order.getOrderNumber());
+        }
+        System.out.println("---------------------------");
     }
 
     public static void chargeUsers() {
@@ -189,7 +207,7 @@ public class Main {
         
         order.setProducts(poList);
         tec.nextLine();
-        System.out.println("Ingrese detalles generales de la orden (opcional): ");
+        System.out.println("Ingrese detalles generales del pedido (opcional): ");
         String details = tec.nextLine();
         order.setDetails(details);
         
@@ -268,7 +286,7 @@ public class Main {
     System.out.println("Datos del cliente");
     System.out.println("Nombre: " + order.getCustomerName());
     System.out.println("Telefono: " + order.getCustomerPhone());
-    System.out.println("Presiona ENTER para volver al menú principal");
+    System.out.println("Presiona ENTER para volver al menu principal");
     tec.nextLine();
     
 }
