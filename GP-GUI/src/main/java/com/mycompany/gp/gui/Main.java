@@ -153,7 +153,8 @@ public class Main {
         BusinessProduct bp = new BusinessProduct();
         bp.chargerProducts();
     }
-private static void addDeliveryOrder() {
+    
+    private static void addDeliveryOrder() {
     System.out.println("- - - - - - - - - - -");
     System.out.println("Delivery Order Menu");
     System.out.println("- - - - - - - - - - -");
@@ -211,6 +212,7 @@ private static void addDeliveryOrder() {
             try {
                 orderBusinessLogicAccessPoint.createDeliveryOrder(order);
                 System.out.println("La orden ha sido creada correctamente!!");
+                generateDeliveryOrderNote(order);
             } catch (javax.persistence.RollbackException b) {
                 System.out.println("Error while creating order: " + b.getMessage());
             }
@@ -221,6 +223,7 @@ private static void addDeliveryOrder() {
 
     } while (wantToContinue);
 }
+    
     private static DeliveryOrder setupOrderForDelivery(DeliveryOrder order) {
 
 
@@ -392,6 +395,36 @@ private static void addDeliveryOrder() {
 
     }
 
+    private static void generateDeliveryOrderNote(DeliveryOrder deliveryOrder){
+        int i = 0;
+        Scanner tec = new Scanner(System.in);
+        List<ProductOrder> products = deliveryOrder.getProducts();
+        System.out.println("----------------------");
+        System.out.println("ORDEN A DOMICILIO");
+        System.out.println("Creada por: " + deliveryOrder.getCashier().getName());
+        System.out.println("Orden No. " + deliveryOrder.getOrderNumber());
+
+        System.out.println(String.format("%-10s %-20s %-10s", "Cantidad", "Nombre", "Precio"));
+
+        for (ProductOrder product : products) {
+            double productTotalPrice = product.getAmount() * product.getPrice();
+            i++;
+
+            System.out.println(String.format("%-10d %-20s $%-10.2f", product.getAmount(), product.getProduct().getName(), productTotalPrice));
+        }
+
+        System.out.println("----------------------");
+        System.out.println("Detalles: " + deliveryOrder.getDetails());
+        System.out.println(String.format("Total: $%.2f", deliveryOrder.getPrice()));
+        System.out.println("----------------------");
+        System.out.println("Datos del cliente");
+        System.out.println("Nombre: " + deliveryOrder.getCustomerName());
+        System.out.println("Telefono: " + deliveryOrder.getPhoneNumber());
+        System.out.println("Presiona ENTER para volver al menú principal");
+        tec.nextLine();     
+    }
+    
+    
 //    private static void addProduct() {
 //        Scanner tec = new Scanner(System.in);
 //        BusinessProduct bp = new BusinessProduct();
