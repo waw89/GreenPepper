@@ -19,18 +19,16 @@ import javax.persistence.criteria.Root;
  *
  * @author waw
  */
-public class DinerOrderDAO implements Serializable {
+public class DinerOrderDAO implements IDinerOrderDAO {
 
-    public DinerOrderDAO(EntityManagerFactory emf) {
-        this.emf = emf;
+    public DinerOrderDAO() {
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return EntityManagerFactorySingleton.getInstance().createEntityManager();
     }
 
-    public void create(DinerOrder dinerOrder) {
+    public DinerOrder create(DinerOrder dinerOrder) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -42,6 +40,7 @@ public class DinerOrderDAO implements Serializable {
                 em.close();
             }
         }
+        return dinerOrder;
     }
 
     public void edit(DinerOrder dinerOrder) throws NonexistentEntityException, Exception {

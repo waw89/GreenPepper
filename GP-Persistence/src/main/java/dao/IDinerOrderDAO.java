@@ -4,10 +4,12 @@
  */
 package dao;
 
+import com.mycompany.gp.domain.DinerOrder;
+
 /**
  *
  * @author Raul
  */
 public interface IDinerOrderDAO {
-    
+    public DinerOrder create(DinerOrder dinerOrder);
 }
