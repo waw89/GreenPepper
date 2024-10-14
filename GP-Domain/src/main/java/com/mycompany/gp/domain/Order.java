@@ -47,7 +47,7 @@ public class Order implements Serializable{
     protected ORDER_STATE ORDER_STATE ;
     
     
-    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     protected List<ProductOrder> products;
     
     @Column (name = "price")

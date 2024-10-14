@@ -4,7 +4,11 @@
  */
 package business;
 
+
+import com.mycompany.gp.domain.ORDER_STATE;
+
 import com.mycompany.gp.domain.DinerOrder;
+
 import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.PickUpOrder;
 import com.mycompany.gp.domain.Product;
@@ -14,6 +18,7 @@ import dao.IDinerOrderDAO;
 import dao.IOrderDAO;
 import dao.IPickUpOrderDAO;
 import dao.IProductDAO;
+import dao.OrderDAO;
 import dao.PickUpOrderDAO;
 import dao.ProductDAO;
 import java.util.List;
@@ -25,8 +30,11 @@ import java.util.List;
 public class OrderBusiness {
 
     IPickUpOrderDAO pudao = new PickUpOrderDAO();
+   
     IProductDAO prodDao = new ProductDAO();
+    OrderDAO odao = new OrderDAO();
     IDinerOrderDAO dinerdao = new DinerOrderDAO();
+
 
     public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder) {
         float total = calculateCost(pickUpOrder);
@@ -43,6 +51,18 @@ public class OrderBusiness {
         return dinerdao.create(dinerOrder);
     }
 
+    public Order editOrder(Order order) throws Exception{
+        float total = calculateCost(order);
+        order.setPrice(total);
+        return odao.edit(order);
+    }
+    
+     public Order cancelOrder(Order order) throws Exception{
+        order.setOrderState(ORDER_STATE.CANCELLED);
+        return odao.edit(order);
+    }
+     
+     
     public List<Product> getAllProducts() {
         return prodDao.findProductEntities();
     }
@@ -62,5 +82,14 @@ public class OrderBusiness {
         }
 
         return total;
+    }
+    
+   
+    public List<Order>getActiveOrders(){
+        return odao.findActiveOrders();
+    }
+    
+    public List<Order>getCanceledPaidOrders(){
+        return odao.findCanceledPaidOrders();
     }
 }
