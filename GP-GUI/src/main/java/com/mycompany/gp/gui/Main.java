@@ -12,13 +12,13 @@ import com.mycompany.gp.domain.DinerOrder;
 import com.mycompany.gp.domain.Employee;
 import com.mycompany.gp.domain.ORDER_STATE;
 import com.mycompany.gp.domain.Order;
-import com.mycompany.gp.domain.PRODUCT_TYPE;
 import com.mycompany.gp.domain.PickUpOrder;
 import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
 import java.time.LocalDateTime;
 import static java.time.temporal.TemporalQueries.zone;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,12 +31,29 @@ public class Main {
     /**
      * @param args the command line arguments
      */
+  
+    /*
+        Metodo main
+     */
+    private static Scanner scanner = new Scanner(System.in);
+
+    private static BusinessProduct productBusinessLogicAccessPoint = new BusinessProduct();    // This variable provides an access point to the methods that are in the product business
+
+    private static OrderBusiness orderBusinessLogicAccessPoint = new OrderBusiness();    // This variable provides an access point to the methods that are in the order business
+
     public static void main(String[] args) throws Exception {
 
+    private static UserBusiness userBusinessLogicAccessPoint = new UserBusiness();  // This variable provides an access point to the methods that are in the user business
+
+    public static void main(String[] args) {
+        // carga los usuarios dentro de la base de datos
         chargeUsers();
+        // carga los productos dentro de la base de datos
         chargeProducts();
+        //despliega el menú
         deployMenu();
     }
+
 
     public static void deployMenu() throws Exception {
         Scanner tec = new Scanner(System.in);
@@ -74,6 +91,7 @@ public class Main {
 
         tec.close();
     }
+
 
     public static void addOrder() throws Exception {
         Scanner tec = new Scanner(System.in);
@@ -423,8 +441,115 @@ public class Main {
         BusinessProduct bp = new BusinessProduct();
         bp.chargerProducts();
     }
-
+    
     private static void addDeliveryOrder() {
+    System.out.println("- - - - - - - - - - -");
+    System.out.println("Delivery Order Menu");
+    System.out.println("- - - - - - - - - - -");
+    
+    // Query the products from the database
+    List<Product> productsFromDatabase = productBusinessLogicAccessPoint.getAllProducts();
+    DeliveryOrder order = new DeliveryOrder();
+    List<ProductOrder> productOrderList = new ArrayList<>();
+    boolean wantToContinue = true;
+
+    // Display the products for the user
+    showProducts();
+
+    do {
+        // Output the user to check the product they want
+        System.out.print("Select a product by number: ");
+        int itemSelected = 0;
+
+        // Validate user input for item selection
+        try {
+            itemSelected = scanner.nextInt();
+            if (itemSelected < 1 || itemSelected > productsFromDatabase.size()) {
+                System.out.println("Invalid product selection. Please select a valid number.");
+                continue; // Skip to the next iteration if input is invalid
+            }
+
+            System.out.printf("You selected the %d product.%n", itemSelected); // inform the selected product
+            Product selectedProduct = productsFromDatabase.get(itemSelected - 1); // get the selected product
+
+            ProductOrder productOrderForSelectedProduct = addProductDetails(selectedProduct, order); // create a product order object with the information of the product and the order
+            
+            
+            // Handle product order based on amount
+            if (productOrderForSelectedProduct.getAmount() >= 1) { // check if the amount is valid
+                productOrderList.add(productOrderForSelectedProduct); // add to the product order list the new item
+                System.out.println("Se agregó correctamente el producto: " + selectedProduct.getName());
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please enter a valid integer.");
+            scanner.nextLine(); // Clear the invalid input
+            continue; // Skip to the next iteration
+        }
+
+        // Ask the user if they want to continue
+        System.out.print("Do you want to continue? (y/n): ");
+        scanner.nextLine(); // Clear the newline character left from nextInt
+        String continueChoice = scanner.nextLine(); // Read the choice
+
+        if (continueChoice.equalsIgnoreCase("n")) {
+            wantToContinue = false;
+            order.setProducts(productOrderList);
+            order = setupOrderForDelivery(order);
+
+            try {
+                orderBusinessLogicAccessPoint.createDeliveryOrder(order);
+                System.out.println("La orden ha sido creada correctamente!!");
+                generateDeliveryOrderNote(order);
+            } catch (javax.persistence.RollbackException b) {
+                System.out.println("Error while creating order: " + b.getMessage());
+            }
+
+        } else if (!continueChoice.equalsIgnoreCase("y")) {
+            System.out.println("Invalid choice! Please enter 'y' or 'n'.");
+        }
+
+    } while (wantToContinue);
+}
+    
+    private static DeliveryOrder setupOrderForDelivery(DeliveryOrder order) {
+
+
+
+        System.out.println("Agregue comentarios a la orden");
+        String detailsIn = scanner.nextLine();
+        order.setDetails(detailsIn);
+
+        
+
+        System.out.println("Dirección del cliente");
+        String addressIn = scanner.nextLine();
+        order.setAddress(addressIn);
+
+        System.out.println("Teléfono del cliente");
+        String phoneNumberIn = scanner.nextLine();
+        order.setPhoneNumber(phoneNumberIn);
+
+        System.out.println("Nombre del cliente: ");
+        String customerNameIn = scanner.nextLine();
+        order.setCustomerName(customerNameIn);
+
+        
+        order.setCashier((Employee) userBusinessLogicAccessPoint.findUser(3L));
+
+
+        order.setCreationDate(LocalDateTime.now());
+
+
+        order.setORDER_STATE(ORDER_STATE.ACTIVE);
+
+
+        float price = orderBusinessLogicAccessPoint.calculateCost(order);
+    
+
+        order.setPrice(price);
+
+        return order;
     }
 
     private static void addDinerOrder() {
@@ -571,8 +696,8 @@ public class Main {
 
     private static void showProducts() {
         int i = 0;
-        OrderBusiness ob = new OrderBusiness();
-        List<Product> products = ob.getAllProducts();
+
+        List<Product> products = productBusinessLogicAccessPoint.getAllProducts();
         System.out.println("---------------------------");
         System.out.println("Lista de productos:");
         for (Product product : products) {
@@ -621,6 +746,40 @@ public class Main {
         System.out.println("Datos del cliente");
         System.out.println("Nombre: " + order.getCustomerName());
         System.out.println("Telefono: " + order.getCustomerPhone());
+        System.out.println("Presiona ENTER para volver al menú principal");
+        tec.nextLine();
+
+    }
+
+    private static void generateDeliveryOrderNote(DeliveryOrder deliveryOrder){
+        int i = 0;
+        Scanner tec = new Scanner(System.in);
+        List<ProductOrder> products = deliveryOrder.getProducts();
+        System.out.println("----------------------");
+        System.out.println("ORDEN A DOMICILIO");
+        System.out.println("Creada por: " + deliveryOrder.getCashier().getName());
+        System.out.println("Orden No. " + deliveryOrder.getOrderNumber());
+
+        System.out.println(String.format("%-10s %-20s %-10s", "Cantidad", "Nombre", "Precio"));
+
+        for (ProductOrder product : products) {
+            double productTotalPrice = product.getAmount() * product.getPrice();
+            i++;
+
+            System.out.println(String.format("%-10d %-20s $%-10.2f", product.getAmount(), product.getProduct().getName(), productTotalPrice));
+        }
+
+        System.out.println("----------------------");
+        System.out.println("Detalles: " + deliveryOrder.getDetails());
+        System.out.println(String.format("Total: $%.2f", deliveryOrder.getPrice()));
+        System.out.println("----------------------");
+        System.out.println("Datos del cliente");
+        System.out.println("Nombre: " + deliveryOrder.getCustomerName());
+        System.out.println("Telefono: " + deliveryOrder.getPhoneNumber());
+        System.out.println("Presiona ENTER para volver al menú principal");
+        tec.nextLine();     
+    }
+    
         System.out.println("Presiona ENTER para volver al menu principal");
         tec.nextLine();
 
@@ -681,8 +840,5 @@ public class Main {
         System.out.println("Presiona ENTER para volver al menú principal");
         tec.nextLine();
     }
-
-
- 
 
 }

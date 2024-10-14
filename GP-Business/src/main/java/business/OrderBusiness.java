@@ -5,14 +5,15 @@
 package business;
 
 
+import com.mycompany.gp.domain.DeliveryOrder;
 import com.mycompany.gp.domain.ORDER_STATE;
-
 import com.mycompany.gp.domain.DinerOrder;
-
 import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.PickUpOrder;
 import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
+import dao.DeliveryOrderDAO;
+import dao.IDeliveryDAO;
 import dao.DinerOrderDAO;
 import dao.IDinerOrderDAO;
 import dao.IOrderDAO;
@@ -30,20 +31,22 @@ import java.util.List;
 public class OrderBusiness {
 
     IPickUpOrderDAO pudao = new PickUpOrderDAO();
-   
     IProductDAO prodDao = new ProductDAO();
+    IDeliveryDAO deliveryDAOInterface = new DeliveryOrderDAO(); 
     OrderDAO odao = new OrderDAO();
     IDinerOrderDAO dinerdao = new DinerOrderDAO();
-
-
-    public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder) {
+    
+  public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder) {
         float total = calculateCost(pickUpOrder);
 
         pickUpOrder.setPrice(total);
 
         return pudao.create(pickUpOrder);
     }
-    
+        
+    public DeliveryOrder createDeliveryOrder(DeliveryOrder deliveryOrder){
+        return deliveryDAOInterface.create(deliveryOrder); 
+      
     public DinerOrder createDinerOrder(DinerOrder dinerOrder){
         float total = calculateCost(dinerOrder);
         dinerOrder.setPrice(total);

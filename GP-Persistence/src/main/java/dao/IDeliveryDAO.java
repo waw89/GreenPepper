@@ -4,10 +4,12 @@
  */
 package dao;
 
+import com.mycompany.gp.domain.DeliveryOrder;
+
 /**
  *
  * @author Raul
  */
 public interface IDeliveryDAO {
-    
+    public DeliveryOrder create(DeliveryOrder orderToPersist);
 }
