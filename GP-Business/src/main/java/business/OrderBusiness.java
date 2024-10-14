@@ -4,11 +4,13 @@
  */
 package business;
 
+import com.mycompany.gp.domain.DeliveryOrder;
 import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.PickUpOrder;
 import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
-import dao.IOrderDAO;
+import dao.DeliveryOrderDAO;
+import dao.IDeliveryDAO;
 import dao.IPickUpOrderDAO;
 import dao.IProductDAO;
 import dao.PickUpOrderDAO;
@@ -23,13 +25,19 @@ public class OrderBusiness {
 
     IPickUpOrderDAO pudao = new PickUpOrderDAO();
     IProductDAO prodDao = new ProductDAO();
-
+    IDeliveryDAO deliveryDAOInterface = new DeliveryOrderDAO(); 
+    
     public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder) {
         float total = calculateCost(pickUpOrder);
 
         pickUpOrder.setPrice(total);
 
         return pudao.create(pickUpOrder);
+    }
+    
+    
+    public DeliveryOrder createDeliveryOrder(DeliveryOrder deliveryOrder){
+        return deliveryDAOInterface.create(deliveryOrder); 
     }
 
     public List<Product> getAllProducts() {
