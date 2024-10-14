@@ -184,7 +184,8 @@ private static void addDeliveryOrder() {
             Product selectedProduct = productsFromDatabase.get(itemSelected - 1); // get the selected product
 
             ProductOrder productOrderForSelectedProduct = addProductDetails(selectedProduct, order); // create a product order object with the information of the product and the order
-
+            
+            
             // Handle product order based on amount
             if (productOrderForSelectedProduct.getAmount() >= 1) { // check if the amount is valid
                 productOrderList.add(productOrderForSelectedProduct); // add to the product order list the new item
@@ -204,10 +205,11 @@ private static void addDeliveryOrder() {
 
         if (continueChoice.equalsIgnoreCase("n")) {
             wantToContinue = false;
-            DeliveryOrder orderToPersist = setupOrderForDelivery(productOrderList);
+            order.setProducts(productOrderList);
+            order = setupOrderForDelivery(order);
 
             try {
-                orderBusinessLogicAccessPoint.createDeliveryOrder(orderToPersist);
+                orderBusinessLogicAccessPoint.createDeliveryOrder(order);
                 System.out.println("La orden ha sido creada correctamente!!");
             } catch (javax.persistence.RollbackException b) {
                 System.out.println("Error while creating order: " + b.getMessage());
@@ -219,44 +221,44 @@ private static void addDeliveryOrder() {
 
     } while (wantToContinue);
 }
-    private static DeliveryOrder setupOrderForDelivery(List<ProductOrder> products) {
+    private static DeliveryOrder setupOrderForDelivery(DeliveryOrder order) {
 
-        DeliveryOrder orderCreated = new DeliveryOrder();
+
 
         System.out.println("Agregue comentarios a la orden");
         String detailsIn = scanner.nextLine();
-        orderCreated.setDetails(detailsIn);
+        order.setDetails(detailsIn);
 
-        orderCreated.setProducts(products);
+        
 
         System.out.println("Dirección del cliente");
         String addressIn = scanner.nextLine();
-        orderCreated.setAddress(addressIn);
+        order.setAddress(addressIn);
 
         System.out.println("Teléfono del cliente");
         String phoneNumberIn = scanner.nextLine();
-        orderCreated.setPhoneNumber(phoneNumberIn);
+        order.setPhoneNumber(phoneNumberIn);
 
         System.out.println("Nombre del cliente: ");
         String customerNameIn = scanner.nextLine();
-        orderCreated.setCustomerName(customerNameIn);
+        order.setCustomerName(customerNameIn);
 
         
-        orderCreated.setCashier((Employee) userBusinessLogicAccessPoint.findUser(3L));
+        order.setCashier((Employee) userBusinessLogicAccessPoint.findUser(3L));
 
 
-        orderCreated.setCreationDate(LocalDateTime.now());
+        order.setCreationDate(LocalDateTime.now());
 
 
-        orderCreated.setORDER_STATE(ORDER_STATE.ACTIVE);
+        order.setORDER_STATE(ORDER_STATE.ACTIVE);
 
 
-        float price = orderBusinessLogicAccessPoint.calculateCost(orderCreated);
+        float price = orderBusinessLogicAccessPoint.calculateCost(order);
     
 
-        orderCreated.setPrice(price);
+        order.setPrice(price);
 
-        return orderCreated;
+        return order;
     }
 
     private static void addDinerOrder() {
