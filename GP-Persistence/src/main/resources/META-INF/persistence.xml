@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence                                  http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-  <persistence-unit name="PUGreenPepper" transaction-type="RESOURCE_LOCAL">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.mycompany.gp.domain.Admin</class>
-    <class>com.mycompany.gp.domain.Combo</class>
-    <class>com.mycompany.gp.domain.ComboProduct</class>
-    <class>com.mycompany.gp.domain.Customer</class>
-    <class>com.mycompany.gp.domain.DeliveryOrder</class>
-    <class>com.mycompany.gp.domain.DinerOrder</class>
-    <class>com.mycompany.gp.domain.Discount</class>
-    <class>com.mycompany.gp.domain.Employee</class>
-    <class>com.mycompany.gp.domain.IndividualProduct</class>
-    <class>com.mycompany.gp.domain.Order</class>
-    <class>com.mycompany.gp.domain.PickUpOrder</class>
-    <class>com.mycompany.gp.domain.Product</class>
-    <class>com.mycompany.gp.domain.ProductOrder</class>
-    <class>com.mycompany.gp.domain.Shift</class>
-    <class>com.mycompany.gp.domain.User</class>
-    <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/greenpepper?serverTimezone=UTC"/>
-      <property name="javax.persistence.jdbc.user" value="root"/>
-      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value=""/>
-      <property name="eclipselink.logging.level" value="FINE"/>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
-    </properties>
-  </persistence-unit>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <persistence-unit name="PUGreenPepper" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
+        <class>com.mycompany.gp.domain.Admin</class>
+        <class>com.mycompany.gp.domain.Combo</class>
+        <class>com.mycompany.gp.domain.Customer</class>
+        <class>com.mycompany.gp.domain.DeliveryOrder</class>
+        <class>com.mycompany.gp.domain.DinerOrder</class>
+        <class>com.mycompany.gp.domain.Employee</class>
+        <class>com.mycompany.gp.domain.IndividualProduct</class>
+        <class>com.mycompany.gp.domain.Order</class>
+        <class>com.mycompany.gp.domain.PickUpOrder</class>
+        <class>com.mycompany.gp.domain.Product</class>
+        <class>com.mycompany.gp.domain.ComboProduct</class>
+        <class>com.mycompany.gp.domain.Discount</class>
+        <class>com.mycompany.gp.domain.ProductOrder</class>
+        <class>com.mycompany.gp.domain.Shift</class>
+        <class>com.mycompany.gp.domain.User</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/greenpepper?serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.password" value="Bralamales01"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        </properties>
+    </persistence-unit>
 </persistence>

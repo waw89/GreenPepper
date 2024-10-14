@@ -67,14 +67,6 @@ public class Order implements Serializable{
     public Order() {
     }
 
-    public Order(Long orderNumber, LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<ProductOrder> products, Float price, Employee cashier) {
-        this.orderNumber = orderNumber;
-        this.creationDate = creationDate;
-        this.ORDER_STATE = ORDER_STATE;
-        this.products = products;
-        this.price = price;
-        this.cashier = cashier;
-    }
 
     public Order(LocalDateTime creationDate, ORDER_STATE ORDER_STATE, List<ProductOrder> products, Float price, String details, Employee cashier) {
         this.creationDate = creationDate;

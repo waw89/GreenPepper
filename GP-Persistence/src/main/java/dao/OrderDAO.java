@@ -4,14 +4,15 @@
  */
 package dao;
 
+import com.mycompany.gp.domain.ORDER_STATE;
 import com.mycompany.gp.domain.Order;
 import dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -116,4 +117,19 @@ public class OrderDAO implements Serializable {
         }
     }
     
+    public List<Order>findActiveOrders(){
+      EntityManager em = getEntityManager();
+      String jpql = "Select o FROM Order o WHERE o.ORDER_STATE = :ORDER_STATE ORDER BY o.creationDate DESC";
+      TypedQuery<Order> query = em.createQuery(jpql, Order.class);
+      query.setParameter("ORDER_STATE", ORDER_STATE.ACTIVE);
+      return query.getResultList();
+    }
+    
+     public List<Order>findCanceledPaidOrders(){
+      EntityManager em = getEntityManager();
+      String jpql = "Select o FROM Order o WHERE o.ORDER_STATE IN :ORDER_STATE ORDER BY o.creationDate DESC";
+      TypedQuery<Order> query = em.createQuery(jpql, Order.class);
+      query.setParameter("ORDER_STATE", Arrays.asList(ORDER_STATE.PAID, ORDER_STATE.CANCELLED));
+      return query.getResultList();
+    }
 }
