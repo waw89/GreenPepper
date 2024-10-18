@@ -16,22 +16,22 @@ import javafx.stage.Stage;
  *
  * @author Raul
  */
-public class MainFX extends Application{
+public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        
-        Parent root = FXMLLoader.load(getClass().getResource("MainPage.fxml"));
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainPage.fxml"));
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
+
+        stage.setMaximized(true);
+        
         stage.show();
     }
-    
+
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
