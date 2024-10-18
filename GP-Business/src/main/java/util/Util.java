@@ -39,11 +39,11 @@ public class Util {
         IndividualProduct prod2 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Ensalada Pollo", 149, true, null);
         IndividualProduct prod3 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Ensalada Atún", 149, true, null);
         IndividualProduct prod4 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Panini", 60, true, null);
-        IndividualProduct prod5 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Boneless", 90, true, null);
-        IndividualProduct prod6 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Tenders", 80, true, null);
-        IndividualProduct prod7 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Limonada Grande", 35, true, null);
-        IndividualProduct prod8 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Limonada Chica", 25, true, null);
-        IndividualProduct prod9 = new IndividualProduct(PRODUCT_TYPE.FOOD, "Agua de Pepino Grande", 35, true, null);
+        IndividualProduct prod5 = new IndividualProduct(PRODUCT_TYPE.EXTRA, "Boneless", 90, true, null);
+        IndividualProduct prod6 = new IndividualProduct(PRODUCT_TYPE.EXTRA, "Tenders", 80, true, null);
+        IndividualProduct prod7 = new IndividualProduct(PRODUCT_TYPE.DRINK, "Limonada Grande", 35, true, null);
+        IndividualProduct prod8 = new IndividualProduct(PRODUCT_TYPE.DRINK, "Limonada Chica", 25, true, null);
+        IndividualProduct prod9 = new IndividualProduct(PRODUCT_TYPE.DRINK, "Agua de Pepino Grande", 35, true, null);
         
         ArrayList<IndividualProduct> newProdructs = new ArrayList<>();
         
