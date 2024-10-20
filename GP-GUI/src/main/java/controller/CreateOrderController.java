@@ -4,9 +4,14 @@
  */
 package controller;
 
+import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.ProductOrder;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
@@ -15,12 +20,18 @@ import javafx.fxml.Initializable;
  */
 public class CreateOrderController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+
+   private Order order;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
     
+    
+
 }

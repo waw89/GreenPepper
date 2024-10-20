@@ -117,7 +117,7 @@ public class ProductCardController implements Initializable {
         Order order = new Order();
         ProductOrder po = new ProductOrder();
         po = addProductDetails(product, order);
-        mainController.updateSummary(po, order);
+        mainController.updateSummary(po);
     }
     
     private ProductOrder addProductDetails(Product product, Order order){

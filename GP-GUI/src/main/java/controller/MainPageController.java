@@ -88,8 +88,12 @@ public class MainPageController implements Initializable {
     List<ProductOrder> poList = new ArrayList<>();
     BusinessProduct prodBusiness = new BusinessProduct();
     OrderBusiness oBusiness = new OrderBusiness();
-   
 
+    Order order = new Order();
+
+    public Order getOrder() {
+        return order;
+    }
 
     /**
      * Initializes the controller class.
@@ -111,7 +115,6 @@ public class MainPageController implements Initializable {
                 cardController.setTxtPrice("$" + product.getPrice());
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(10);
-                
 
             } catch (IOException ex) {
                 Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,9 +153,22 @@ public class MainPageController implements Initializable {
         bp.setCenter(root);
     }
 
+    private void loadPage(String namePage, Order order) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + namePage + ".fxml"));
+            Parent root = loader.load();
+            CreateOrderController controller = loader.getController();
+            controller.setOrder(order);
+            bp.setCenter(root);
+        } catch (IOException ex) {
+            Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     @FXML
-    private void save(MouseEvent event) {
-        loadPage("CreateOrder");
+    private void save(MouseEvent event) throws IOException {
+        Order currentOrder = new Order(); 
+        loadPage("CreateOrder", currentOrder);
     }
 
     @FXML
@@ -174,7 +190,7 @@ public class MainPageController implements Initializable {
     private void logOutImgClick(MouseEvent event) {
     }
 
-    public void updateSummary(ProductOrder productSelected, Order order) {
+    public void updateSummary(ProductOrder productSelected) {
 
         for (int i = 0; i < productSelected.getAmount(); i++) {
             try {
