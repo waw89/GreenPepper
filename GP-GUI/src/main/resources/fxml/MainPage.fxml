@@ -96,9 +96,24 @@
                         <Font name="Inter 18pt Bold" size="18.0" />
                      </font>
                   </Label>
+                  <Label fx:id="lblSubtotal" layoutX="85.0" layoutY="18.0" text="0.00">
+                     <font>
+                        <Font name="Inter 18pt Regular" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblDiscount" layoutX="100.0" layoutY="40.0" text="0.00">
+                     <font>
+                        <Font name="Inter 18pt Regular" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblTotal" layoutX="78.0" layoutY="66.0" text="0.00">
+                     <font>
+                        <Font name="Inter 18pt Regular" size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
-            <Button id="btnCancel" fx:id="btnCancel" layoutX="40.0" layoutY="572.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="150.0" style="-fx-background-color: #FF0000; -fx-background-radius: 15; -fx-border-radius: 15;" text="Limpiar orden" textFill="WHITE">
+            <Button id="btnCancel" fx:id="btnCancel" layoutX="40.0" layoutY="572.0" mnemonicParsing="false" onMouseClicked="#cleanFields" prefHeight="33.0" prefWidth="150.0" style="-fx-background-color: #FF0000; -fx-background-radius: 15; -fx-border-radius: 15;" text="Limpiar orden" textFill="WHITE">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>

@@ -5,6 +5,7 @@
 package controller;
 
 import business.BusinessProduct;
+import business.OrderBusiness;
 import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
@@ -21,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -72,15 +74,22 @@ public class MainPageController implements Initializable {
     private ImageView logOutImg;
     @FXML
     private VBox productContainer;
-
     @FXML
     private ScrollPane scrollPane;
-
-    BusinessProduct prodBusiness = new BusinessProduct();
     @FXML
     private VBox summaryContainer;
+    @FXML
+    private Label lblSubtotal;
+    @FXML
+    private Label lblDiscount;
+    @FXML
+    private Label lblTotal;
 
     List<ProductOrder> poList = new ArrayList<>();
+    BusinessProduct prodBusiness = new BusinessProduct();
+    OrderBusiness oBusiness = new OrderBusiness();
+   
+
 
     /**
      * Initializes the controller class.
@@ -88,6 +97,7 @@ public class MainPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         List<Product> products = prodBusiness.getAllProducts();
+
         for (Product product : products) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
@@ -101,6 +111,7 @@ public class MainPageController implements Initializable {
                 cardController.setTxtPrice("$" + product.getPrice());
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(10);
+                
 
             } catch (IOException ex) {
                 Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,12 +193,28 @@ public class MainPageController implements Initializable {
             }
         }
         order.setProducts(poList);
-        System.out.println("Productos en la orden: " + poList.size());
+        lblSubtotal.setText("$" + oBusiness.calculateCost(order));
+        lblTotal.setText(lblSubtotal.getText());
     }
 
     public void removeProductFromSummary(Node productNode, ProductOrder productOrder) {
         summaryContainer.getChildren().remove(productNode);
         poList.remove(productOrder);
+        lblSubtotal.setText("$" + oBusiness.calculateCost(productOrder.getOrder()));
+        lblTotal.setText(lblSubtotal.getText());
+    }
+
+    public void cleanSummary() {
+        summaryContainer.getChildren().clear();
+        poList.clear();
+        lblSubtotal.setText("0.00");
+        lblTotal.setText(lblSubtotal.getText());
+
+    }
+
+    @FXML
+    private void cleanFields(MouseEvent event) {
+        cleanSummary();
     }
 
 }
