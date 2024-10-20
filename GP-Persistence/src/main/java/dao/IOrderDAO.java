@@ -14,5 +14,6 @@ import dao.exceptions.NonexistentEntityException;
 public interface IOrderDAO {
     public Order create(Order order);
     public Order edit(Order order) throws NonexistentEntityException, Exception;
+    public Order findOrderByName();
     
 }

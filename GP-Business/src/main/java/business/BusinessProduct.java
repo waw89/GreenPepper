@@ -54,6 +54,9 @@ public class BusinessProduct {
         return products;
     }
 
+    public Product findProductByName(String name){
+        return prodDao.findProductByName(name);
+    }
     
 
 }

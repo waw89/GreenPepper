@@ -62,7 +62,14 @@
    <center>
       <AnchorPane fx:id="ap" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
          <children>
-            <Pane layoutX="24.0" layoutY="77.0" prefHeight="360.0" prefWidth="358.0" style="-fx-background-color: #ECECEC;" />
+            <Pane layoutX="24.0" layoutY="77.0" prefHeight="360.0" prefWidth="358.0" style="-fx-background-color: #ECECEC;">
+               <children>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="360.0" prefWidth="360.0">
+                     <content>
+                        <VBox fx:id="summaryContainer" prefHeight="360.0" prefWidth="360.0" />
+                     </content>
+                  </ScrollPane>
+               </children></Pane>
             <Pane layoutX="24.0" layoutY="19.0" prefHeight="48.0" prefWidth="360.0" style="-fx-background-color: #000000;">
                <children>
                   <Label layoutX="98.0" layoutY="13.0" text="Desglose de Orden" textFill="WHITE">

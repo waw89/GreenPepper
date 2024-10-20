@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -131,5 +132,15 @@ public class ProductDAO implements IProductDAO {
             em.close();
         }
     }
+
+    @Override
+    public Product findProductByName(String name) {
+      EntityManager em = getEntityManager();
+      String jpql = "Select p FROM Product p WHERE p.name = :name";
+      TypedQuery<Product> query = em.createQuery(jpql, Product.class);
+      query.setParameter("name", name);
+      return query.getSingleResult();
+    }
+    
     
 }

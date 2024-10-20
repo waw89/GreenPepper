@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="132.0" prefWidth="670.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="controller.ProductCardController">
+<AnchorPane id="AnchorPane" prefHeight="132.0" prefWidth="670.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductCardController">
     <stylesheets>
         <URL value="@/styles/productcard.css" />
     </stylesheets>
@@ -23,12 +23,12 @@
          </font>
       </Text>
       <ComboBox fx:id="cmbSize" disable="true" layoutX="281.0" layoutY="14.0" prefWidth="150.0" promptText="Seleccione tamaño" style="-fx-border-radius: 5; -fx-background-radius: 5;" />
-      <Button fx:id="btnIncreaseAmount" layoutX="376.0" layoutY="65.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="+">
+      <Button fx:id="btnIncreaseAmount" layoutX="376.0" layoutY="65.0" mnemonicParsing="false" onMouseClicked="#increaseAmount" style="-fx-background-color: transparent;" text="+">
          <font>
             <Font name="Inter 24pt Regular" size="25.0" />
          </font>
       </Button>
-      <Button disable="true" layoutX="277.0" layoutY="67.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="-">
+      <Button fx:id="btnDicreaseAmount" disable="true" layoutX="277.0" layoutY="67.0" mnemonicParsing="false" onMouseClicked="#dicreaseAmount" style="-fx-background-color: transparent;" text="-">
          <font>
             <Font name="Inter 24pt Regular" size="25.0" />
          </font>
@@ -38,7 +38,7 @@
             <Font name="Inter 24pt Regular" size="25.0" />
          </font>
       </Text>
-      <Button fx:id="btnAddProduct" alignment="CENTER_RIGHT" layoutX="554.0" layoutY="38.0" mnemonicParsing="false" style="-fx-background-color: #005ACF; -fx-border-radius: 50; -fx-background-radius: 10;" text="+" textFill="WHITE">
+      <Button fx:id="btnAddProduct" alignment="CENTER_RIGHT" layoutX="554.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#addProduct" style="-fx-background-color: #005ACF; -fx-border-radius: 50; -fx-background-radius: 10;" text="+" textFill="WHITE">
          <font>
             <Font name="Inter 24pt Regular" size="25.0" />
          </font>
