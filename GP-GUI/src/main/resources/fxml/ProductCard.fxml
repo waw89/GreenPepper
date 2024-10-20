@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="132.0" prefWidth="670.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="controller.ProductCardController">
+    <stylesheets>
+        <URL value="@/styles/productcard.css" />
+    </stylesheets>
+   <children>
+      <Text fx:id="txtProductName" layoutX="43.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Producto" wrappingWidth="234.298828125">
+         <font>
+            <Font name="Inter 24pt SemiBold" size="27.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtPrice" fill="#00000085" layoutX="43.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio del Producto">
+         <font>
+            <Font name="Inter 24pt SemiBold" size="13.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="cmbSize" disable="true" layoutX="281.0" layoutY="14.0" prefWidth="150.0" promptText="Seleccione tamaño" style="-fx-border-radius: 5; -fx-background-radius: 5;" />
+      <Button fx:id="btnIncreaseAmount" layoutX="376.0" layoutY="65.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="+">
+         <font>
+            <Font name="Inter 24pt Regular" size="25.0" />
+         </font>
+      </Button>
+      <Button disable="true" layoutX="277.0" layoutY="67.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="-">
+         <font>
+            <Font name="Inter 24pt Regular" size="25.0" />
+         </font>
+      </Button>
+      <Text fx:id="txtAmount" layoutX="343.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="26.5458984375">
+         <font>
+            <Font name="Inter 24pt Regular" size="25.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnAddProduct" alignment="CENTER_RIGHT" layoutX="554.0" layoutY="38.0" mnemonicParsing="false" style="-fx-background-color: #005ACF; -fx-border-radius: 50; -fx-background-radius: 10;" text="+" textFill="WHITE">
+         <font>
+            <Font name="Inter 24pt Regular" size="25.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
