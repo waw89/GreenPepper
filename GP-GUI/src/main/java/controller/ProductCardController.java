@@ -114,16 +114,13 @@ public class ProductCardController implements Initializable {
     @FXML
     private void addProduct(MouseEvent event) {
         Product product = bp.findProductByName(txtProductName.getText());
-        Order order = new Order();
-        ProductOrder po = new ProductOrder();
-        po = addProductDetails(product, order);
+        ProductOrder po = addProductDetails(product);
         mainController.updateSummary(po);
     }
     
-    private ProductOrder addProductDetails(Product product, Order order){
+    private ProductOrder addProductDetails(Product product){
          ProductOrder po = new ProductOrder();
          po.setProduct(product);
-         po.setOrder(order);
          po.setPrice(product.getPrice());
          po.setAmount(counter);
         return po;

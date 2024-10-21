@@ -583,7 +583,7 @@ public class Main {
 
         order.setCreationDate(LocalDateTime.now());
 
-        order.setORDER_STATE(ORDER_STATE.ACTIVE);
+       
 
         float price = orderBusinessLogicAccessPoint.calculateCost(order);
 

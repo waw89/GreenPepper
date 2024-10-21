@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="306.0" prefWidth="775.0" style="-fx-background-color: transparent;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="controller.DeliveryFieldsController">
+   <children>
+      <TextField fx:id="txtCustomerName" layoutX="41.0" layoutY="48.0" prefHeight="39.0" prefWidth="676.0" promptText="Nombre del Cliente">
+         <font>
+            <Font name="Inter 18pt Regular" size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="txtCustomerAddress" layoutX="41.0" layoutY="134.0" prefHeight="39.0" prefWidth="676.0" promptText="Dirección del Cliente">
+         <font>
+            <Font name="Inter 18pt Regular" size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="txtCustomerPhone" layoutX="41.0" layoutY="223.0" prefHeight="39.0" prefWidth="676.0" promptText="Teléfono del Cliente">
+         <font>
+            <Font name="Inter 18pt Regular" size="16.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>

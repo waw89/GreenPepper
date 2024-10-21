@@ -90,14 +90,6 @@ public class DeliveryOrder extends Order implements Serializable{
         this.creationDate = creationDate;
     }
 
-    public com.mycompany.gp.domain.ORDER_STATE getORDER_STATE() {
-        return ORDER_STATE;
-    }
-
-    public void setORDER_STATE(com.mycompany.gp.domain.ORDER_STATE ORDER_STATE) {
-        this.ORDER_STATE = ORDER_STATE;
-    }
-
     public List<ProductOrder> getProducts() {
         return products;
     }

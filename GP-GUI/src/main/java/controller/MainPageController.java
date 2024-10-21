@@ -167,7 +167,7 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void save(MouseEvent event) throws IOException {
-        Order currentOrder = new Order(); 
+        Order currentOrder = order; 
         loadPage("CreateOrder", currentOrder);
     }
 
@@ -202,6 +202,7 @@ public class MainPageController implements Initializable {
                 cellController.setTxtSummaryProductName(productSelected.getProduct().getName());
                 cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice());
                 summaryContainer.getChildren().add(productCell);
+                productSelected.setOrder(order);
                 poList.add(productSelected);
 
             } catch (IOException ex) {
@@ -211,12 +212,13 @@ public class MainPageController implements Initializable {
         order.setProducts(poList);
         lblSubtotal.setText("$" + oBusiness.calculateCost(order));
         lblTotal.setText(lblSubtotal.getText());
+        order.setPrice(oBusiness.calculateCost(order));
     }
 
     public void removeProductFromSummary(Node productNode, ProductOrder productOrder) {
         summaryContainer.getChildren().remove(productNode);
         poList.remove(productOrder);
-        lblSubtotal.setText("$" + oBusiness.calculateCost(productOrder.getOrder()));
+        lblSubtotal.setText("$" + oBusiness.calculateCost(order));
         lblTotal.setText(lblSubtotal.getText());
     }
 
