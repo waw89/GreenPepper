@@ -15,6 +15,7 @@ import dao.DeliveryOrderDAO;
 import dao.IDeliveryDAO;
 import dao.DinerOrderDAO;
 import dao.IDinerOrderDAO;
+
 import dao.IOrderDAO;
 import dao.IPickUpOrderDAO;
 import dao.IProductDAO;
@@ -97,4 +98,9 @@ public class OrderBusiness {
     public List<Order> getCanceledPaidOrders() {
         return odao.findCanceledPaidOrders();
     }
+    
+    public Order findOrderById(Long orderNumber){
+        return odao.findOrder(orderNumber);
+    }
+  
 }

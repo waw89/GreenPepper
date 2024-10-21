@@ -17,22 +17,22 @@
             <Font size="27.0" />
          </font>
       </Text>
-      <Button fx:id="btnVerOrden" layoutX="18.0" layoutY="69.0" mnemonicParsing="false" style="-fx-background-color: black; -fx-background-radius: 20;" text="Ver detalles" textFill="WHITE">
+      <Button fx:id="btnViewDetails" layoutX="18.0" layoutY="69.0" mnemonicParsing="false" style="-fx-background-color: black; -fx-background-radius: 20;" text="Ver detalles" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="btnCobrar" layoutX="193.0" layoutY="69.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="152.0" style="-fx-background-color: green; -fx-background-radius: 20;" text="Cobrar" textFill="WHITE">
+      <Button fx:id="btnPay" layoutX="193.0" layoutY="69.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="152.0" style="-fx-background-color: green; -fx-background-radius: 20;" text="Cobrar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="btnEditar" layoutX="374.0" layoutY="69.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: Orange; -fx-background-radius: 20;" text="Editar" textFill="WHITE">
+      <Button fx:id="btnEdit" layoutX="374.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#editOrder" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: Orange; -fx-background-radius: 20;" text="Editar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="btnEliminar" layoutX="527.0" layoutY="69.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Borrar" textFill="WHITE">
+      <Button fx:id="btnDelete" layoutX="527.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Cancelar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>

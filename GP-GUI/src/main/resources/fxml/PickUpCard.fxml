@@ -17,22 +17,22 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Text fx:id="txtNumeroTelefono" layoutX="280.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero Telefonico" wrappingWidth="265.13671875">
+      <Text fx:id="txtFolio" layoutX="33.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Folio" wrappingWidth="64.46630859375">
          <font>
             <Font size="27.0" />
          </font>
       </Text>
-      <Text fx:id="txtNombreCliente" layoutX="33.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Cliente">
+      <Text fx:id="txtNombreCliente" layoutX="219.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Cliente">
          <font>
             <Font size="27.0" />
          </font>
       </Text>
-      <Button fx:id="btnEditar" layoutX="386.0" layoutY="74.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: Orange; -fx-background-radius: 20;" text="Editar" textFill="WHITE">
+      <Button fx:id="btnEdit" layoutX="386.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#btnEdit" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: Orange; -fx-background-radius: 20;" text="Editar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="btnEliminar" layoutX="530.0" layoutY="74.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Borrar" textFill="WHITE">
+      <Button fx:id="btnCancel" layoutX="530.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Borrar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>

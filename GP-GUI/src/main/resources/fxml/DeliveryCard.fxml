@@ -7,35 +7,35 @@
 
 <AnchorPane id="AnchorPane" prefHeight="154.0" prefWidth="670.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DeliveryCardController">
    <children>
-      <Button fx:id="btnVerOrden" layoutX="21.0" layoutY="74.0" mnemonicParsing="false" style="-fx-background-color: black; -fx-background-radius: 20;" text="Ver detalles" textFill="WHITE">
+      <Button fx:id="btnViewDetails" layoutX="21.0" layoutY="74.0" mnemonicParsing="false" style="-fx-background-color: black; -fx-background-radius: 20;" text="Ver detalles" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="btnCobrar" layoutX="189.0" layoutY="74.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="152.0" style="-fx-background-color: green; -fx-background-radius: 20;" text="Cobrar" textFill="WHITE">
+      <Button fx:id="btnPay" layoutX="189.0" layoutY="74.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="152.0" style="-fx-background-color: green; -fx-background-radius: 20;" text="Cobrar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Text fx:id="txtNombreCliente" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de Cliente" wrappingWidth="288.13671875">
+      <Text fx:id="txtNombreCliente" layoutX="215.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de Cliente" wrappingWidth="230.13671875">
          <font>
             <Font size="27.0" />
          </font>
       </Text>
-      <Text fx:id="txtDireccion" layoutX="265.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Direccion" wrappingWidth="390.13671875">
+      <Button fx:id="btnEdit" layoutX="357.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#editOrder" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: Orange; -fx-background-radius: 20;" text="Editar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnCancel" layoutX="508.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Button>
+      <Text fx:id="txtFolio" layoutX="21.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Folio" wrappingWidth="60.13671875">
          <font>
             <Font size="27.0" />
          </font>
       </Text>
-      <Button fx:id="btnEditar" layoutX="357.0" layoutY="74.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: Orange; -fx-background-radius: 20;" text="Editar" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="22.0" />
-         </font>
-      </Button>
-      <Button fx:id="btnEliminar" layoutX="508.0" layoutY="74.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Borrar" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="22.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

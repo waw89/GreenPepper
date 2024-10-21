@@ -72,7 +72,7 @@ public class ActiveOrdersController implements Initializable {
                     OrderCardController cardController = loader.getController();
 
                     cardController.setTxtNombreMesa(dOrder.getOrderName());
-                    cardController.setTxtFolioMesa("#" + dOrder.getOrderNumber().toString());
+                    cardController.setTxtFolioMesa(dOrder.getOrderNumber().toString());
 
                     orderContainer.getChildren().add(orderCard);
                     orderContainer.setSpacing(10);
@@ -93,7 +93,7 @@ public class ActiveOrdersController implements Initializable {
                     DeliveryCardController cardController = loader.getController();
 
                     cardController.setTxtNombreCliente(delOrder.getCustomerName());
-                    cardController.setTxtDireccion(delOrder.getAddress());
+                    cardController.setTxtFolio(String.valueOf(delOrder.getOrderNumber()));
 
                     orderContainer.getChildren().add(orderDeliveryCard);
                     orderContainer.setSpacing(10);
@@ -115,7 +115,7 @@ public class ActiveOrdersController implements Initializable {
                     PickUpCardController cardController = loader.getController();
 
                     cardController.setTxtNombreCliente(pickUpOrder.getCustomerName());
-                    cardController.setTxtNumeroTelefono(pickUpOrder.getCustomerPhone());
+                    cardController.setTxtFolio(String.valueOf(pickUpOrder.getOrderNumber()));
 
                     orderContainer.getChildren().add(PickUpCard);
                     orderContainer.setSpacing(10);

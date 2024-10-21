@@ -132,4 +132,6 @@ public class OrderDAO implements Serializable {
       query.setParameter("ORDER_STATE", Arrays.asList(ORDER_STATE.PAID, ORDER_STATE.CANCELLED));
       return query.getResultList();
     }
+     
+
 }

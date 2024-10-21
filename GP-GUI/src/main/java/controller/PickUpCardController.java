@@ -4,11 +4,16 @@
  */
 package controller;
 
+import business.OrderBusiness;
+import com.mycompany.gp.domain.Order;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 /**
@@ -22,11 +27,17 @@ public class PickUpCardController implements Initializable {
     private Button btnVerOrden;
     @FXML
     private Button btnCobrar;
-    @FXML
     private Text txtNumeroTelefono;
     @FXML
     private Text txtNombreCliente;
+    @FXML
+    private Button btnEdit;
+    @FXML
+    private Button btnCancel;
+    @FXML
+    private Text txtFolio;
 
+     OrderBusiness ob = new OrderBusiness();
     /**
      * Initializes the controller class.
      */
@@ -65,6 +76,31 @@ public class PickUpCardController implements Initializable {
 
     public void setTxtNombreCliente(String txtNombreCliente) {
         this.txtNombreCliente.setText(txtNombreCliente);
+    }
+
+    public Text getTxtFolio() {
+        return txtFolio;
+    }
+
+    public void setTxtFolio(String txtFolio) {
+        this.txtFolio.setText(txtFolio);
+    }
+    
+    
+
+    @FXML
+    private void btnEdit(MouseEvent event) {
+    }
+
+     @FXML
+    private void cancelOrder(MouseEvent event) {
+        try {
+            Order order = ob.findOrderById(Long.parseLong(this.txtFolio.getText()));
+            ob.cancelOrder(order);
+            System.out.println("Orden cancelada");
+        } catch (Exception ex) {
+            Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
  
 }
