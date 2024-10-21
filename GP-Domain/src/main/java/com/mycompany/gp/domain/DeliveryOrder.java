@@ -26,7 +26,8 @@ public class DeliveryOrder extends Order implements Serializable{
     private String address;
     @Column(name = "phoneNumber")
     private String phoneNumber;
-   
+  
+    
     // Constructors
     public DeliveryOrder() {
 
@@ -38,6 +39,8 @@ public class DeliveryOrder extends Order implements Serializable{
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
+    
+
 
     
 
@@ -90,13 +93,7 @@ public class DeliveryOrder extends Order implements Serializable{
         this.creationDate = creationDate;
     }
 
-    public List<ProductOrder> getProducts() {
-        return products;
-    }
 
-    public void setProducts(List<ProductOrder> products) {
-        this.products = products;
-    }
 
     public Float getPrice() {
         return price;

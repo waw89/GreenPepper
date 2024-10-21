@@ -32,7 +32,7 @@ import javax.persistence.Table;
 @Table(name="orders")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "Type")
-public class Order implements Serializable{
+public class Order implements Serializable, Cloneable {
     
     // Atributes
     @Id
@@ -127,5 +127,9 @@ public class Order implements Serializable{
     public void setCashier(Employee cashier) {
         this.cashier = cashier;
     }
+    
+    // Code for the prototype
+    
+  
         
 }
