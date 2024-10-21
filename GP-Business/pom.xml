@@ -6,14 +6,15 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <dependencies>
+        
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>GP-Persistence</artifactId>
+            <artifactId>GP-Domain</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>GP-Domain</artifactId>
+            <artifactId>GP-Persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

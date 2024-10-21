@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="240.0" prefWidth="775.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controller.PickUpFieldsController">
+    <stylesheets>
+        <URL value="@/styles/pickupfields.css" />
+    </stylesheets>
+   <children>
+      <TextField fx:id="customerNameTxt" layoutX="56.0" layoutY="67.0" maxWidth="676.0" prefHeight="39.0" prefWidth="676.0" promptText="Nombre">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="phoneNumberTxt" layoutX="54.0" layoutY="133.0" maxWidth="676.0" prefHeight="39.0" prefWidth="676.0" promptText="Telefono">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>
