@@ -12,12 +12,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -54,10 +58,52 @@ public class ProductCardController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    private Timeline timelineIncrease;
+    private Timeline timelineDecrease;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }  
+        
+        btnDicreaseAmount.setDisable(true);
+
+        
+        timelineIncrease = new Timeline(new KeyFrame(Duration.millis(200), (ActionEvent event) -> {
+            increaseCounter();
+        }));
+        timelineIncrease.setCycleCount(Timeline.INDEFINITE);
+
+        
+        timelineDecrease = new Timeline(new KeyFrame(Duration.millis(200), (ActionEvent event) -> {
+            decreaseCounter();
+        }));
+        timelineDecrease.setCycleCount(Timeline.INDEFINITE);
+
+        
+        btnIncreaseAmount.setOnMousePressed(event -> {
+            timelineIncrease.play(); 
+        });
+
+        btnIncreaseAmount.setOnMouseReleased(event -> {
+            timelineIncrease.stop();  
+        });
+
+        
+        btnDicreaseAmount.setOnMousePressed(event -> {
+            timelineDecrease.play();  
+        });
+
+        btnDicreaseAmount.setOnMouseReleased(event -> {
+            timelineDecrease.stop();  
+        });
+        
+       
+        btnDicreaseAmount.setOnMouseClicked(event -> {
+            if (event.isStillSincePress()) {  
+                decreaseCounter();
+            }
+        });
+    }
+
 
     public Text getTxtProductName() {
         return txtProductName;
@@ -92,22 +138,32 @@ public class ProductCardController implements Initializable {
     }
 
     
-    
-    @FXML
+     @FXML
     private void increaseAmount(MouseEvent event) {
+        increaseCounter();
+    }
+
+    private void increaseCounter() {
         counter++;
         btnDicreaseAmount.setDisable(false);
-        txtAmount.setText(counter+"");
-        
+        txtAmount.setText(counter + "");
     }
+    
 
     @FXML
     private void dicreaseAmount(MouseEvent event) {
-        counter--;
-        txtAmount.setText(counter+"");
-        
-        if(counter == 1){
-            btnDicreaseAmount.setDisable(true);
+        decreaseCounter();
+    }
+
+    
+    private void decreaseCounter() {
+        if (counter > 1) {
+            counter--;
+            txtAmount.setText(counter + "");
+
+            if (counter == 1) {
+                btnDicreaseAmount.setDisable(true); 
+            }
         }
     }
 
@@ -115,6 +171,9 @@ public class ProductCardController implements Initializable {
     private void addProduct(MouseEvent event) {
         Product product = bp.findProductByName(txtProductName.getText());
         ProductOrder po = addProductDetails(product);
+        counter = 1;
+        btnDicreaseAmount.setDisable(true);
+        txtAmount.setText(counter+"");
         mainController.updateSummary(po);
     }
     
@@ -125,5 +184,7 @@ public class ProductCardController implements Initializable {
          po.setAmount(counter);
         return po;
     }
+
+   
     
 }
