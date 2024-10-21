@@ -114,7 +114,5 @@ public class PickUpOrderDAO implements IPickUpOrderDAO {
             em.close();
         }
     }
-
-    
-    
+  
 }

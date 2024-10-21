@@ -5,6 +5,7 @@
 package dao;
 
 import com.mycompany.gp.domain.DeliveryOrder;
+import java.util.List;
 
 /**
  *
@@ -12,4 +13,5 @@ import com.mycompany.gp.domain.DeliveryOrder;
  */
 public interface IDeliveryDAO {
     public DeliveryOrder create(DeliveryOrder orderToPersist);
+    public List<DeliveryOrder> findDeliveryOrderEntities();
 }

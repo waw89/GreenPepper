@@ -34,7 +34,7 @@ public class OrderBusiness {
     IDeliveryDAO deliveryDAOInterface = new DeliveryOrderDAO();
     OrderDAO odao = new OrderDAO();
     IDinerOrderDAO dinerdao = new DinerOrderDAO();
-
+    
     public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder) {
         float total = calculateCost(pickUpOrder);
 
@@ -68,7 +68,19 @@ public class OrderBusiness {
     public List<Product> getAllProducts() {
         return prodDao.findProductEntities();
     }
-
+    
+    public List<DinerOrder> getAllDinOrder(){
+        return dinerdao.findDinerOrderEntities();
+    }
+    
+    public List<DeliveryOrder> getAllDelOrder(){
+        return deliveryDAOInterface.findDeliveryOrderEntities();
+    }
+    
+    public List<PickUpOrder> getAllPickUpOrder(){
+        return pudao.findPickUpOrderEntities();
+    }
+    
     public float calculateCost(Order order) {
         float total = 0;
         List<ProductOrder> products = order.getProducts();;
