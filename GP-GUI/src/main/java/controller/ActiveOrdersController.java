@@ -125,20 +125,39 @@ public class ActiveOrdersController implements Initializable {
             }
         }
     }
+    
+    private void setButtonSelected(Button button) {
+        button.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-border-color: black; -fx-border-radius: 18; -fx-background-radius: 18;");
+    }
+
+
+    private void setButtonUnselected(Button button) {
+        button.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black; -fx-border-radius: 18; -fx-background-radius: 18;");
+    }
+    
 
     @FXML
     private void deliveryOption(MouseEvent event) {
         loadDeliveryOrders();
+        setButtonSelected(btnDelivery);
+        setButtonUnselected(btnDiner);
+        setButtonUnselected(btnPickUp);
     }
 
     @FXML
     private void dinerOption(MouseEvent event) {
         loadDinerOrders();
+        setButtonSelected(btnDiner);
+        setButtonUnselected(btnDelivery);
+        setButtonUnselected(btnPickUp);
     }
 
     @FXML
     private void pickUpOption(MouseEvent event) {
-        loadPickUpOrders();
+        loadPickUpOrders(); 
+        setButtonSelected(btnPickUp);
+        setButtonUnselected(btnDelivery);
+        setButtonUnselected(btnDiner); 
     }
     
 }
