@@ -39,8 +39,8 @@ public class ProductOrder implements Serializable {
     @Column(name = "price")
     private float price;
 
-    @Column(name = "amount")
-    private int amount;
+    @Column (name = "PRODUCT_SIZE")
+    protected PRODUCT_SIZE PRODUCT_SIZE;
 
     public ProductOrder() {
     }
