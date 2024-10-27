@@ -88,8 +88,7 @@ public class MainPageController implements Initializable {
     List<ProductOrder> poList = new ArrayList<>();
     BusinessProduct prodBusiness = new BusinessProduct();
     OrderBusiness oBusiness = new OrderBusiness();
-
-    Order order = new Order();
+    Order order = new Order(); 
 
     public Order getOrder() {
         return order;
@@ -166,9 +165,8 @@ public class MainPageController implements Initializable {
     }
 
     @FXML
-    private void save(MouseEvent event) throws IOException {
-        Order currentOrder = order;
-        loadPage("CreateOrder", currentOrder);
+    private void save(MouseEvent event) throws IOException {    
+        loadPage("CreateOrder", this.order);
     }
 
     @FXML
@@ -211,6 +209,7 @@ public class MainPageController implements Initializable {
 
         }
         order.setProducts(poList);
+ 
         lblSubtotal.setText("$" + oBusiness.calculateCost(order));
         lblTotal.setText(lblSubtotal.getText());
         order.setPrice(oBusiness.calculateCost(order));

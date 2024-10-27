@@ -5,6 +5,7 @@
 package dao;
 
 import com.mycompany.gp.domain.DinerOrder;
+import java.util.List;
 
 /**
  *
@@ -12,4 +13,5 @@ import com.mycompany.gp.domain.DinerOrder;
  */
 public interface IDinerOrderDAO {
     public DinerOrder create(DinerOrder dinerOrder);
+    public List<DinerOrder> findDinerOrderEntities();
 }

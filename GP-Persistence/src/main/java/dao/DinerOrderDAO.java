@@ -87,6 +87,7 @@ public class DinerOrderDAO implements IDinerOrderDAO {
         }
     }
 
+    @Override
     public List<DinerOrder> findDinerOrderEntities() {
         return findDinerOrderEntities(true, -1, -1);
     }
@@ -132,5 +133,5 @@ public class DinerOrderDAO implements IDinerOrderDAO {
             em.close();
         }
     }
-    
+  
 }

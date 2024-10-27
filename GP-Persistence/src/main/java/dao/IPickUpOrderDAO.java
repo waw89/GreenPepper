@@ -6,6 +6,7 @@ package dao;
 
 import com.mycompany.gp.domain.PickUpOrder;
 import dao.exceptions.NonexistentEntityException;
+import java.util.List;
 
 /**
  *
@@ -14,5 +15,6 @@ import dao.exceptions.NonexistentEntityException;
 public interface IPickUpOrderDAO {
     public PickUpOrder create(PickUpOrder pickUpOrder);
     public PickUpOrder edit(PickUpOrder pickUpOrder)throws NonexistentEntityException, Exception ;
+    public List<PickUpOrder> findPickUpOrderEntities();
     
 }

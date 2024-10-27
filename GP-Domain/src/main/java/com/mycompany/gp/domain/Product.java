@@ -44,9 +44,7 @@ public class Product implements Serializable {
     
     @Column (name = "productState")
     protected boolean productState;
-  
-    
-    
+   
     @ManyToOne
     @JoinColumn(name = "activeOffer")
     protected Discount activeOffer;
