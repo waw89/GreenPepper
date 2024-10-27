@@ -45,12 +45,13 @@ public class ProductOrder implements Serializable {
     public ProductOrder() {
     }
 
-    public ProductOrder(Long id, Product product, Order order, float price, int amount) {
+    public ProductOrder(Long id, Product product, Order order, float price, int amount, PRODUCT_SIZE PRODUCT_SIZE) {
         this.id = id;
         this.product = product;
         this.order = order;
         this.price = price;
-        this.amount = amount;
+        this.PRODUCT_SIZE = PRODUCT_SIZE;
+
     }
 
     // Getters & Setters
@@ -78,13 +79,7 @@ public class ProductOrder implements Serializable {
         this.price = price;
     }
 
-    public int getAmount() {
-        return amount;
-    }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
 
     public Product getProduct() {
         return product;
@@ -104,7 +99,7 @@ public class ProductOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "ProductOrder{" + "id=" + id + ", product=" + product + ", order=" + order + ", price=" + price + ", amount=" + amount + '}';
+        return "ProductOrder{" + "id=" + id + ", product=" + product + ", order=" + order + ", price=" + price;
     }
 
 }
