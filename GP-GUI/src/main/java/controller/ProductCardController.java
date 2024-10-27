@@ -8,6 +8,7 @@ import business.BusinessProduct;
 import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +169,7 @@ public class ProductCardController implements Initializable {
     }
 
     @FXML
-    private void addProduct(MouseEvent event) {
+    private void addProduct(MouseEvent event) throws IOException {
         Product product = bp.findProductByName(txtProductName.getText());
         ProductOrder po = addProductDetails(product);
         counter = 1;
