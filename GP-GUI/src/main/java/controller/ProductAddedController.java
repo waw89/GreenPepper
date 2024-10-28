@@ -75,6 +75,7 @@ public class ProductAddedController implements Initializable {
 
     private Image arrowUp = new Image("/images/Arrow-inverted.png");
     private Image arrowDown = new Image("/images/Group 6.png");
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         productListContainer.setVisible(false);
@@ -135,10 +136,6 @@ public class ProductAddedController implements Initializable {
         this.toogleImg = toogleImg;
     }
 
-    
-    
-    
-
     @FXML
     private void chSizeClicked(MouseEvent event) {
     }
@@ -156,18 +153,14 @@ public class ProductAddedController implements Initializable {
     }
 
     @FXML
-    private void deleteIndividualProduct(MouseEvent event) {
-    }
-
-    @FXML
     private void toggleProductList(MouseEvent event) {
         isListVisible = !isListVisible;
         productListContainer.setVisible(isListVisible);
         productListContainer.setManaged(isListVisible);
-        
-        if(isListVisible){
+
+        if (isListVisible) {
             this.toogleImg.setImage(arrowUp);
-        }else{
+        } else {
             this.toogleImg.setImage(arrowDown);
         }
     }
@@ -178,13 +171,17 @@ public class ProductAddedController implements Initializable {
         try {
             AnchorPane productItem = loader.load();
             ProductItemController itemController = loader.getController();
+            itemController.setMainController(mainController);
+            itemController.setProductOrder(productOrder);
             itemController.setNumberOfProduct(number);
             itemController.setTxtIndividualPrice(price);
             productListContainer.getChildren().add(productItem);
         } catch (IOException ex) {
             Logger.getLogger(ProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+    }
 
+    public void deleteProductFromListContainer(Node productNode) {
+        productListContainer.getChildren().remove(productNode);
     }
 }

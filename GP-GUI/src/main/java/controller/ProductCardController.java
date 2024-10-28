@@ -45,17 +45,16 @@ public class ProductCardController implements Initializable {
     private Button btnAddProduct;
     @FXML
     private Button btnDicreaseAmount;
-    
+
     private int counter = 1;
 
-    
     BusinessProduct bp = new BusinessProduct();
     MainPageController mainController;
-    
-     public void setMainController(MainPageController mainController) {
+
+    public void setMainController(MainPageController mainController) {
         this.mainController = mainController;
     }
-    
+
     /**
      * Initializes the controller class.
      */
@@ -64,47 +63,41 @@ public class ProductCardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         btnDicreaseAmount.setDisable(true);
 
-        
         timelineIncrease = new Timeline(new KeyFrame(Duration.millis(200), (ActionEvent event) -> {
             increaseCounter();
         }));
         timelineIncrease.setCycleCount(Timeline.INDEFINITE);
 
-        
         timelineDecrease = new Timeline(new KeyFrame(Duration.millis(200), (ActionEvent event) -> {
             decreaseCounter();
         }));
         timelineDecrease.setCycleCount(Timeline.INDEFINITE);
 
-        
         btnIncreaseAmount.setOnMousePressed(event -> {
-            timelineIncrease.play(); 
+            timelineIncrease.play();
         });
 
         btnIncreaseAmount.setOnMouseReleased(event -> {
-            timelineIncrease.stop();  
+            timelineIncrease.stop();
         });
 
-        
         btnDicreaseAmount.setOnMousePressed(event -> {
-            timelineDecrease.play();  
+            timelineDecrease.play();
         });
 
         btnDicreaseAmount.setOnMouseReleased(event -> {
-            timelineDecrease.stop();  
+            timelineDecrease.stop();
         });
-        
-       
+
         btnDicreaseAmount.setOnMouseClicked(event -> {
-            if (event.isStillSincePress()) {  
+            if (event.isStillSincePress()) {
                 decreaseCounter();
             }
         });
     }
-
 
     public Text getTxtProductName() {
         return txtProductName;
@@ -138,8 +131,7 @@ public class ProductCardController implements Initializable {
         this.counter = counter;
     }
 
-    
-     @FXML
+    @FXML
     private void increaseAmount(MouseEvent event) {
         increaseCounter();
     }
@@ -149,21 +141,19 @@ public class ProductCardController implements Initializable {
         btnDicreaseAmount.setDisable(false);
         txtAmount.setText(counter + "");
     }
-    
 
     @FXML
     private void dicreaseAmount(MouseEvent event) {
         decreaseCounter();
     }
 
-    
     private void decreaseCounter() {
         if (counter > 1) {
             counter--;
             txtAmount.setText(counter + "");
 
             if (counter == 1) {
-                btnDicreaseAmount.setDisable(true); 
+                btnDicreaseAmount.setDisable(true);
             }
         }
     }
@@ -172,20 +162,17 @@ public class ProductCardController implements Initializable {
     private void addProduct(MouseEvent event) throws IOException {
         Product product = bp.findProductByName(txtProductName.getText());
         ProductOrder po = addProductDetails(product);
-        counter = 1;
         btnDicreaseAmount.setDisable(true);
-        txtAmount.setText(counter+"");
-        mainController.updateSummary(po);
+        mainController.updateSummary(po, counter);
+        counter = 1;
+        txtAmount.setText(counter + "");
     }
-    
-    private ProductOrder addProductDetails(Product product){
-         ProductOrder po = new ProductOrder();
-         po.setProduct(product);
-         po.setPrice(product.getPrice());
-         po.setAmount(counter);
+
+    private ProductOrder addProductDetails(Product product) {
+        ProductOrder po = new ProductOrder();
+        po.setProduct(product);
+        po.setPrice(product.getPrice());
         return po;
     }
 
-   
-    
 }

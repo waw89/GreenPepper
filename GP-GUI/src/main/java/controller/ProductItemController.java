@@ -4,10 +4,12 @@
  */
 package controller;
 
+import com.mycompany.gp.domain.ProductOrder;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
@@ -42,6 +44,10 @@ public class ProductItemController implements Initializable {
     private Text txtIndividualPrice;
     @FXML
     private TextArea txtDetailProduct;
+    
+    private MainPageController mainController;
+    
+    private ProductOrder productOrder;
 
     /**
      * Initializes the controller class.
@@ -82,8 +88,19 @@ public class ProductItemController implements Initializable {
     public void setTxtDetailProduct(String txtDetailProduct) {
         this.txtDetailProduct.setText(txtDetailProduct);
     }
-    
-    
+
+    public MainPageController getMainController() {
+        return mainController;
+    }
+
+    public void setMainController(MainPageController mainController) {
+        this.mainController = mainController;
+    }
+
+    public void setProductOrder(ProductOrder productOrder) {
+        this.productOrder = productOrder;
+    }
+   
 
     @FXML
     private void chSizeClicked(MouseEvent event) {
@@ -103,6 +120,9 @@ public class ProductItemController implements Initializable {
 
     @FXML
     private void deleteIndividualProduct(MouseEvent event) {
+       Node productNode = imgTrashIndividual.getParent();
+       mainController.removeProductFromProductList(productNode, productOrder);
+       
     }
     
 }

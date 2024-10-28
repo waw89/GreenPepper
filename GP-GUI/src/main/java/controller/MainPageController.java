@@ -12,6 +12,7 @@ import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -88,7 +89,7 @@ public class MainPageController implements Initializable {
     List<ProductOrder> poList = new ArrayList<>();
     BusinessProduct prodBusiness = new BusinessProduct();
     OrderBusiness oBusiness = new OrderBusiness();
-    Order order = new Order(); 
+    Order order = new Order();
 
     public Order getOrder() {
         return order;
@@ -165,7 +166,8 @@ public class MainPageController implements Initializable {
     }
 
     @FXML
-    private void save(MouseEvent event) throws IOException {    
+    private void save(MouseEvent event) throws IOException {
+
         loadPage("CreateOrder", this.order);
     }
 
@@ -188,7 +190,7 @@ public class MainPageController implements Initializable {
     private void logOutImgClick(MouseEvent event) {
     }
 
-    public void updateSummary(ProductOrder productSelected) throws IOException {
+    public void updateSummary(ProductOrder productSelected, int amount) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductAdded.fxml"));
         AnchorPane productCell = loader.load();
@@ -196,12 +198,12 @@ public class MainPageController implements Initializable {
         cellController.setMainController(this);
         cellController.setProductOrder(productSelected);
         cellController.setTxtSummaryProductName(productSelected.getProduct().getName());
-        cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * productSelected.getAmount());
-        cellController.setTxtAmount("x" + productSelected.getAmount());
+        cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * amount);
+        cellController.setTxtAmount("x" + amount);
         summaryContainer.getChildren().add(productCell);
         int j = 1;
-        for (int i = 0; i < productSelected.getAmount(); i++) {
-            
+        for (int i = 0; i < amount; i++) {
+
             cellController.addProductToListContainer("$" + productSelected.getPrice(), "#" + j);
             j++;
             productSelected.setOrder(order);
@@ -209,17 +211,40 @@ public class MainPageController implements Initializable {
 
         }
         order.setProducts(poList);
- 
+
         lblSubtotal.setText("$" + oBusiness.calculateCost(order));
         lblTotal.setText(lblSubtotal.getText());
         order.setPrice(oBusiness.calculateCost(order));
+
     }
 
     public void removeProductFromSummary(Node productNode, ProductOrder productOrder) {
         summaryContainer.getChildren().remove(productNode);
-        poList.remove(productOrder);
+
+        Iterator<ProductOrder> iterator = poList.iterator();
+        while (iterator.hasNext()) {
+            ProductOrder product = iterator.next();
+            if (product.getProduct().getName().equalsIgnoreCase(productOrder.getProduct().getName())) {
+                iterator.remove();
+            }
+        }
+
         lblSubtotal.setText("$" + oBusiness.calculateCost(order));
         lblTotal.setText(lblSubtotal.getText());
+    }
+
+    public void removeProductFromProductList(Node productNode, ProductOrder productOrder) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductAdded.fxml"));
+            AnchorPane productCell = loader.load();
+            ProductAddedController cellController = loader.getController();
+            cellController.deleteProductFromListContainer(productNode);
+            poList.remove(productOrder);
+            lblSubtotal.setText("$" + oBusiness.calculateCost(order));
+            lblTotal.setText(lblSubtotal.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void cleanSummary() {
