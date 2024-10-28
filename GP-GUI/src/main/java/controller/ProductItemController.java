@@ -48,6 +48,8 @@ public class ProductItemController implements Initializable {
     private MainPageController mainController;
     
     private ProductOrder productOrder;
+    
+    private ProductAddedController paController;
 
     /**
      * Initializes the controller class.
@@ -100,6 +102,10 @@ public class ProductItemController implements Initializable {
     public void setProductOrder(ProductOrder productOrder) {
         this.productOrder = productOrder;
     }
+
+    public void setPaController(ProductAddedController paController) {
+        this.paController = paController;
+    }
    
 
     @FXML
@@ -121,8 +127,8 @@ public class ProductItemController implements Initializable {
     @FXML
     private void deleteIndividualProduct(MouseEvent event) {
        Node productNode = imgTrashIndividual.getParent();
-       mainController.removeProductFromProductList(productNode, productOrder);
-       
+       paController.deleteProductFromListContainer(productNode);
+       paController.checkIfEmptyAndRemove();
     }
     
 }

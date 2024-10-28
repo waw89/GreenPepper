@@ -72,6 +72,8 @@ public class ProductAddedController implements Initializable {
     private AnchorPane productListItem;
 
     private boolean isListVisible = false;
+    
+  
 
     private Image arrowUp = new Image("/images/Arrow-inverted.png");
     private Image arrowDown = new Image("/images/Group 6.png");
@@ -82,6 +84,10 @@ public class ProductAddedController implements Initializable {
         productListContainer.setManaged(false);
     }
 
+    public ProductOrder getProductOrder() {
+        return productOrder;
+    }
+    
     public void setProductOrder(ProductOrder productOrder) {
         this.productOrder = productOrder;
     }
@@ -93,6 +99,7 @@ public class ProductAddedController implements Initializable {
     @FXML
     private void deleteProductFromSummary(MouseEvent event) {
         Node productNode = imgTrashGeneral.getParent().getParent();
+        imgTrashGeneral.setDisable(true);
         mainController.removeProductFromSummary(productNode, productOrder);
     }
 
@@ -112,16 +119,16 @@ public class ProductAddedController implements Initializable {
         this.txtProductSummarySize.setText(txtProductSummarySize);
     }
 
-    public Text getTxtProductSummaryPrice() {
-        return txtProductSummaryPrice;
+    public String getTxtProductSummaryPrice() {
+        return txtProductSummaryPrice.getText();
     }
 
     public void setTxtProductSummaryPrice(String txtProductSummaryPrice) {
         this.txtProductSummaryPrice.setText(txtProductSummaryPrice);
     }
 
-    public Text getTxtAmount() {
-        return txtAmount;
+    public String getTxtAmount() {
+        return txtAmount.getText();
     }
 
     public void setTxtAmount(String txtAmount) {
@@ -166,22 +173,32 @@ public class ProductAddedController implements Initializable {
     }
 
     public void addProductToListContainer(String price, String number) {
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductItem.fxml"));
         try {
             AnchorPane productItem = loader.load();
             ProductItemController itemController = loader.getController();
             itemController.setMainController(mainController);
+            itemController.setPaController(this);
             itemController.setProductOrder(productOrder);
             itemController.setNumberOfProduct(number);
             itemController.setTxtIndividualPrice(price);
             productListContainer.getChildren().add(productItem);
+           
         } catch (IOException ex) {
             Logger.getLogger(ProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
         }
+       
     }
 
     public void deleteProductFromListContainer(Node productNode) {
         productListContainer.getChildren().remove(productNode);
+        mainController.removeProductFromProductList(productOrder);
+        
     }
+    
+    public void checkIfEmptyAndRemove() {
+    if (productListContainer.getChildren().isEmpty()) {
+        mainController.removeProductFromSummary(ProductSummaryContainer, productOrder);
+    }
+}
 }

@@ -191,31 +191,53 @@ public class MainPageController implements Initializable {
     }
 
     public void updateSummary(ProductOrder productSelected, int amount) throws IOException {
+        boolean productExists = false;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductAdded.fxml"));
-        AnchorPane productCell = loader.load();
-        ProductAddedController cellController = loader.getController();
-        cellController.setMainController(this);
-        cellController.setProductOrder(productSelected);
-        cellController.setTxtSummaryProductName(productSelected.getProduct().getName());
-        cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * amount);
-        cellController.setTxtAmount("x" + amount);
-        summaryContainer.getChildren().add(productCell);
-        int j = 1;
-        for (int i = 0; i < amount; i++) {
+        for (Node node : summaryContainer.getChildren()) {
+            ProductAddedController cellController = (ProductAddedController) node.getUserData();
+            if (cellController.getProductOrder().getProduct().getName().equals(productSelected.getProduct().getName())) {
+                int currentAmount = Integer.parseInt(cellController.getTxtAmount());
+                int newAmount = currentAmount + amount;
+                cellController.setTxtAmount(String.valueOf(newAmount));
+                cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * newAmount);
+                productExists = true;
 
-            cellController.addProductToListContainer("$" + productSelected.getPrice(), "#" + j);
-            j++;
-            productSelected.setOrder(order);
-            poList.add(productSelected);
-
+                int j = currentAmount + 1;
+                for (int i = 0; i < amount; i++) {
+                    cellController.addProductToListContainer("$" + productSelected.getPrice(), "#" + j);
+                    j++;
+                    productSelected.setOrder(order);
+                    poList.add(productSelected);
+                }
+                break;
+            }
         }
-        order.setProducts(poList);
 
+        if (!productExists) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductAdded.fxml"));
+            AnchorPane productCell = loader.load();
+            ProductAddedController cellController = loader.getController();
+            cellController.setMainController(this);
+            cellController.setProductOrder(productSelected);
+            cellController.setTxtSummaryProductName(productSelected.getProduct().getName());
+            cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * amount);
+            cellController.setTxtAmount(String.valueOf(amount));
+            productCell.setUserData(cellController);
+            summaryContainer.getChildren().add(productCell);
+
+            int j = 1;
+            for (int i = 0; i < amount; i++) {
+                cellController.addProductToListContainer("$" + productSelected.getPrice(), "#" + j);
+                j++;
+                productSelected.setOrder(order);
+                poList.add(productSelected);
+            }
+        }
+
+        order.setProducts(poList);
         lblSubtotal.setText("$" + oBusiness.calculateCost(order));
         lblTotal.setText(lblSubtotal.getText());
         order.setPrice(oBusiness.calculateCost(order));
-
     }
 
     public void removeProductFromSummary(Node productNode, ProductOrder productOrder) {
@@ -233,18 +255,10 @@ public class MainPageController implements Initializable {
         lblTotal.setText(lblSubtotal.getText());
     }
 
-    public void removeProductFromProductList(Node productNode, ProductOrder productOrder) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductAdded.fxml"));
-            AnchorPane productCell = loader.load();
-            ProductAddedController cellController = loader.getController();
-            cellController.deleteProductFromListContainer(productNode);
-            poList.remove(productOrder);
-            lblSubtotal.setText("$" + oBusiness.calculateCost(order));
-            lblTotal.setText(lblSubtotal.getText());
-        } catch (IOException ex) {
-            Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void removeProductFromProductList(ProductOrder productOrder) {
+        poList.remove(productOrder);
+        lblSubtotal.setText("$" + oBusiness.calculateCost(order));
+        lblTotal.setText(lblSubtotal.getText());
     }
 
     public void cleanSummary() {
