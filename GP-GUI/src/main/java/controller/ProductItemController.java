@@ -44,11 +44,11 @@ public class ProductItemController implements Initializable {
     private Text txtIndividualPrice;
     @FXML
     private TextArea txtDetailProduct;
-    
+
     private MainPageController mainController;
-    
+
     private ProductOrder productOrder;
-    
+
     private ProductAddedController paController;
 
     /**
@@ -57,7 +57,7 @@ public class ProductItemController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     public Text getNumberOfProduct() {
         return numberOfProduct;
@@ -106,7 +106,6 @@ public class ProductItemController implements Initializable {
     public void setPaController(ProductAddedController paController) {
         this.paController = paController;
     }
-   
 
     @FXML
     private void chSizeClicked(MouseEvent event) {
@@ -126,9 +125,12 @@ public class ProductItemController implements Initializable {
 
     @FXML
     private void deleteIndividualProduct(MouseEvent event) {
-       Node productNode = imgTrashIndividual.getParent();
-       paController.deleteProductFromListContainer(productNode);
-       paController.checkIfEmptyAndRemove();
+        Node productNode = imgTrashIndividual.getParent();
+        paController.deleteProductFromListContainer(productNode);
+        paController.checkIfEmptyAndRemove();
     }
-    
+
+    public void updateItemNumber(String newNumber) {
+        numberOfProduct.setText(newNumber);
+    }
 }

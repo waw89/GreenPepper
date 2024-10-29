@@ -72,8 +72,6 @@ public class ProductAddedController implements Initializable {
     private AnchorPane productListItem;
 
     private boolean isListVisible = false;
-    
-  
 
     private Image arrowUp = new Image("/images/Arrow-inverted.png");
     private Image arrowDown = new Image("/images/Group 6.png");
@@ -87,7 +85,7 @@ public class ProductAddedController implements Initializable {
     public ProductOrder getProductOrder() {
         return productOrder;
     }
-    
+
     public void setProductOrder(ProductOrder productOrder) {
         this.productOrder = productOrder;
     }
@@ -182,23 +180,34 @@ public class ProductAddedController implements Initializable {
             itemController.setProductOrder(productOrder);
             itemController.setNumberOfProduct(number);
             itemController.setTxtIndividualPrice(price);
+            productItem.setUserData(itemController);
             productListContainer.getChildren().add(productItem);
-           
+
         } catch (IOException ex) {
             Logger.getLogger(ProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }
 
     public void deleteProductFromListContainer(Node productNode) {
         productListContainer.getChildren().remove(productNode);
         mainController.removeProductFromProductList(productOrder);
-        
+        updateProductNumbers();
     }
-    
+
     public void checkIfEmptyAndRemove() {
-    if (productListContainer.getChildren().isEmpty()) {
-        mainController.removeProductFromSummary(ProductSummaryContainer, productOrder);
+        if (productListContainer.getChildren().isEmpty()) {
+            mainController.removeProductFromSummary(ProductSummaryContainer, productOrder);
+        }
+
     }
-}
+
+    private void updateProductNumbers() {
+        int count = 1;
+        for (Node node : productListContainer.getChildren()) {
+            ProductItemController itemController = (ProductItemController) node.getUserData();
+            itemController.updateItemNumber("#" + count);
+            count++;
+        }
+    }
 }
