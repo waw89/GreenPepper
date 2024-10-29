@@ -143,18 +143,22 @@ public class ProductAddedController implements Initializable {
 
     @FXML
     private void chSizeClicked(MouseEvent event) {
+        
     }
 
     @FXML
     private void mSizeClicked(MouseEvent event) {
+      
     }
 
     @FXML
     private void gSizeClicked(MouseEvent event) {
+        
     }
 
     @FXML
     private void eSizeClicked(MouseEvent event) {
+       
     }
 
     @FXML
@@ -182,6 +186,7 @@ public class ProductAddedController implements Initializable {
             itemController.setTxtIndividualPrice(price);
             productItem.setUserData(itemController);
             productListContainer.getChildren().add(productItem);
+            
 
         } catch (IOException ex) {
             Logger.getLogger(ProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
@@ -191,7 +196,9 @@ public class ProductAddedController implements Initializable {
 
     public void deleteProductFromListContainer(Node productNode) {
         productListContainer.getChildren().remove(productNode);
-        mainController.removeProductFromProductList(productOrder);
+        int newAmount = productListContainer.getChildren().size();
+        
+        mainController.removeProductFromProductList(productOrder, ProductSummaryContainer, newAmount);
         updateProductNumbers();
     }
 
@@ -210,4 +217,6 @@ public class ProductAddedController implements Initializable {
             count++;
         }
     }
+    
+
 }

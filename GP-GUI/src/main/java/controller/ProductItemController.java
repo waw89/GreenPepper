@@ -6,6 +6,7 @@ package controller;
 
 import com.mycompany.gp.domain.ProductOrder;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -109,18 +110,22 @@ public class ProductItemController implements Initializable {
 
     @FXML
     private void chSizeClicked(MouseEvent event) {
+        setSelectedButtonStyle(btnCH);
     }
 
     @FXML
     private void mSizeClicked(MouseEvent event) {
+        setSelectedButtonStyle(btnM);
     }
 
     @FXML
     private void gSizeClicked(MouseEvent event) {
+        setSelectedButtonStyle(btnG);
     }
 
     @FXML
     private void eSizeClicked(MouseEvent event) {
+        setSelectedButtonStyle(btnE);
     }
 
     @FXML
@@ -132,5 +137,20 @@ public class ProductItemController implements Initializable {
 
     public void updateItemNumber(String newNumber) {
         numberOfProduct.setText(newNumber);
+    }
+
+    private void setSelectedButtonStyle(Button selectedButton) {
+
+        List<Button> buttons = List.of(btnCH, btnM, btnG, btnE);
+
+        for (Button button : buttons) {
+            if (button.equals(selectedButton)) {
+
+                button.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+            } else {
+
+                button.setStyle("-fx-background-color:  #D9D9D9; -fx-text-fill: black;");
+            }
+        }
     }
 }

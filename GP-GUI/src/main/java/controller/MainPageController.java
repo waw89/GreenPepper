@@ -106,6 +106,11 @@ public class MainPageController implements Initializable {
         return order;
     }
 
+    public VBox getSummaryContainer() {
+        return summaryContainer;
+    }
+
+    
     /**
      * Initializes the controller class.
      */
@@ -268,8 +273,11 @@ public class MainPageController implements Initializable {
         lblTotal.setText(lblSubtotal.getText());
     }
 
-    public void removeProductFromProductList(ProductOrder productOrder) {
+    public void removeProductFromProductList(ProductOrder productOrder, Node node, int newAmount) {
         poList.remove(productOrder);
+        ProductAddedController cellController = (ProductAddedController) node.getUserData();
+        cellController.setTxtAmount(String.valueOf(newAmount));
+        cellController.setTxtProductSummaryPrice(String.valueOf(cellController.getProductOrder().getPrice() * newAmount));
         lblSubtotal.setText("$" + oBusiness.calculateCost(order));
         lblTotal.setText(lblSubtotal.getText());
     }
