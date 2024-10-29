@@ -18,6 +18,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,6 +32,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -92,6 +97,10 @@ public class MainPageController implements Initializable {
     OrderBusiness oBusiness = new OrderBusiness();
     Order order = new Order();
 
+    ObservableList<IndividualProduct> foodList;
+    ObservableList<IndividualProduct> drinkList;
+    ObservableList<IndividualProduct> extrasList;
+    FilteredList<IndividualProduct> filter;
 
     public Order getOrder() {
         return order;
@@ -102,10 +111,11 @@ public class MainPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        foodList = FXCollections.observableArrayList();
         List<IndividualProduct> products = prodBusiness.getAllFoods();
-
-        for (Product product : products) {
+        foodList.addAll(products);
+        filter = new FilteredList(foodList, p -> true);
+        for (Product product : foodList) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
                 AnchorPane productCard = loader.load();
@@ -281,10 +291,12 @@ public class MainPageController implements Initializable {
     private void showFoods(MouseEvent event) {
         setSelectedButtonStyle(btnFood);
         cleanProductsList();
-        
+        foodList = FXCollections.observableArrayList();
         List<IndividualProduct> products = prodBusiness.getAllFoods();
+        foodList.addAll(products);
+        filter = new FilteredList(foodList, p -> true);
 
-        for (Product product : products) {
+        for (Product product : foodList) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
                 AnchorPane productCard = loader.load();
@@ -308,9 +320,12 @@ public class MainPageController implements Initializable {
     private void showDrinks(MouseEvent event) {
         setSelectedButtonStyle(btnDrink);
         cleanProductsList();
+        drinkList = FXCollections.observableArrayList();
         List<IndividualProduct> products = prodBusiness.getAllDrinks();
+        drinkList.addAll(products);
+        filter = new FilteredList(drinkList, p -> true);
 
-        for (Product product : products) {
+        for (Product product : drinkList) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
                 AnchorPane productCard = loader.load();
@@ -332,11 +347,13 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void showExtras(MouseEvent event) {
-        setSelectedButtonStyle(btnExtra); 
+        setSelectedButtonStyle(btnExtra);
         cleanProductsList();
+        extrasList = FXCollections.observableArrayList();
         List<IndividualProduct> products = prodBusiness.getAllExtras();
-
-        for (Product product : products) {
+        extrasList.addAll(products);
+        filter = new FilteredList(extrasList, p -> true);
+        for (Product product : extrasList) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
                 AnchorPane productCard = loader.load();
@@ -355,26 +372,66 @@ public class MainPageController implements Initializable {
             }
         }
     }
-    
-    private void cleanProductsList(){
+
+    private void cleanProductsList() {
         productContainer.getChildren().clear();
     }
-    
-  private void setSelectedButtonStyle(Button selectedButton) {
-    
-    List<Button> buttons = List.of(btnFood, btnDrink, btnExtra);
 
-    for (Button button : buttons) {
-        if (button.equals(selectedButton)) {
-            
-            button.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 50; -fx-border-radius: 50;");
-        } else {
-            
-            button.setStyle("-fx-background-color: transparent; -fx-text-fill: black; -fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: black;");
+    private void setSelectedButtonStyle(Button selectedButton) {
+
+        List<Button> buttons = List.of(btnFood, btnDrink, btnExtra);
+
+        for (Button button : buttons) {
+            if (button.equals(selectedButton)) {
+
+                button.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 50; -fx-border-radius: 50;");
+            } else {
+
+                button.setStyle("-fx-background-color: transparent; -fx-text-fill: black; -fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: black;");
+            }
         }
     }
-}
 
+    @FXML
+    private void search(KeyEvent event) {
+        txtSearchProduct.textProperty().addListener((observable, oldValue, newValue) -> {
+            filter.setPredicate(product -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true; // Muestra todos si el campo de búsqueda está vacío
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                return product.getName().toLowerCase().contains(lowerCaseFilter); // Filtra por nombre
+            });
 
+            // Actualizar el contenedor con los productos filtrados
+            updateProductContainer(filter);
+        });
+    }
+
+    /**
+     * Método para actualizar el contenedor de productos basado en la lista
+     * filtrada
+     */
+    private void updateProductContainer(FilteredList<IndividualProduct> filteredList) {
+        productContainer.getChildren().clear(); // Limpia los productos actuales
+
+        for (IndividualProduct product : filteredList) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
+                AnchorPane productCard = loader.load();
+                ProductCardController cardController = loader.getController();
+
+                // Configurar los detalles del producto
+                cardController.setMainController(this);
+                cardController.setTxtProductName(product.getName());
+                cardController.setTxtPrice("$" + product.getPrice());
+
+                productContainer.getChildren().add(productCard); // Añadir el producto filtrado al contenedor
+                productContainer.setSpacing(10);
+            } catch (IOException ex) {
+                Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
 }

@@ -140,7 +140,7 @@
             </Button>
             <Pane layoutX="413.0" layoutY="78.0" prefHeight="536.0" prefWidth="726.0" style="-fx-background-color: #ECECEC;">
                <children>
-                  <TextField id="txtSearchProduct" fx:id="txtSearchProduct" layoutX="71.0" layoutY="30.0" prefHeight="36.0" prefWidth="390.0" promptText="Nombre del producto" style="-fx-background-radius: 30;">
+                  <TextField id="txtSearchProduct" fx:id="txtSearchProduct" layoutX="71.0" layoutY="30.0" onKeyTyped="#search" prefHeight="36.0" prefWidth="390.0" promptText="Nombre del producto" style="-fx-background-radius: 30;">
                      <font>
                         <Font name="Inter 18pt Regular" size="13.0" />
                      </font>
