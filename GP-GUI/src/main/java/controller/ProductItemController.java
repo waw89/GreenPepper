@@ -57,7 +57,7 @@ public class ProductItemController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
 
     public Text getNumberOfProduct() {
@@ -84,8 +84,8 @@ public class ProductItemController implements Initializable {
         this.txtIndividualPrice.setText(txtIndividualPrice);
     }
 
-    public TextArea getTxtDetailProduct() {
-        return txtDetailProduct;
+    public String getTxtDetailProduct() {
+        return txtDetailProduct.getText();
     }
 
     public void setTxtDetailProduct(String txtDetailProduct) {
@@ -102,6 +102,10 @@ public class ProductItemController implements Initializable {
 
     public void setProductOrder(ProductOrder productOrder) {
         this.productOrder = productOrder;
+    }
+
+    public ProductOrder getProductOrder() {
+        return productOrder;
     }
 
     public void setPaController(ProductAddedController paController) {
@@ -152,5 +156,10 @@ public class ProductItemController implements Initializable {
                 button.setStyle("-fx-background-color:  #D9D9D9; -fx-text-fill: black;");
             }
         }
+    }
+
+    public List<ProductOrder> getProductDetails(ProductOrder po) {
+        
+        return paController.getProductDetails(po);
     }
 }

@@ -94,6 +94,7 @@ public class MainPageController implements Initializable {
     BusinessProduct prodBusiness = new BusinessProduct();
     OrderBusiness oBusiness = new OrderBusiness();
     Order order = new Order();
+    ProductItemController piController;
 
     ObservableList<IndividualProduct> foodList;
     ObservableList<IndividualProduct> drinkList;
@@ -110,7 +111,14 @@ public class MainPageController implements Initializable {
         return summaryContainer;
     }
 
-    
+    public ProductItemController getPiController() {
+        return piController;
+    }
+
+    public void setPiController(ProductItemController piController) {
+        this.piController = piController;
+    }
+
     /**
      * Initializes the controller class.
      */
@@ -185,7 +193,9 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void save(MouseEvent event) throws IOException {
-
+        for (ProductOrder po : this.order.getProducts()) {
+            this.order.setProducts(piController.getProductDetails(po));
+        }
         loadPage("CreateOrder", this.order);
     }
 

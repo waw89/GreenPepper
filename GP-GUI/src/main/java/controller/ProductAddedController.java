@@ -7,6 +7,7 @@ package controller;
 import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -143,22 +144,22 @@ public class ProductAddedController implements Initializable {
 
     @FXML
     private void chSizeClicked(MouseEvent event) {
-        
+
     }
 
     @FXML
     private void mSizeClicked(MouseEvent event) {
-      
+
     }
 
     @FXML
     private void gSizeClicked(MouseEvent event) {
-        
+
     }
 
     @FXML
     private void eSizeClicked(MouseEvent event) {
-       
+
     }
 
     @FXML
@@ -181,12 +182,12 @@ public class ProductAddedController implements Initializable {
             ProductItemController itemController = loader.getController();
             itemController.setMainController(mainController);
             itemController.setPaController(this);
+            mainController.setPiController(itemController);
             itemController.setProductOrder(productOrder);
             itemController.setNumberOfProduct(number);
             itemController.setTxtIndividualPrice(price);
             productItem.setUserData(itemController);
             productListContainer.getChildren().add(productItem);
-            
 
         } catch (IOException ex) {
             Logger.getLogger(ProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
@@ -197,7 +198,7 @@ public class ProductAddedController implements Initializable {
     public void deleteProductFromListContainer(Node productNode) {
         productListContainer.getChildren().remove(productNode);
         int newAmount = productListContainer.getChildren().size();
-        
+
         mainController.removeProductFromProductList(productOrder, ProductSummaryContainer, newAmount);
         updateProductNumbers();
     }
@@ -217,6 +218,28 @@ public class ProductAddedController implements Initializable {
             count++;
         }
     }
+
+   public List<ProductOrder> getProductDetails(ProductOrder po) {
+    List<ProductOrder> newPoList = new ArrayList<>();
     
+    for (Node node : productListContainer.getChildren()) {
+        ProductItemController itemController = (ProductItemController) node.getUserData();
+        
+        
+        ProductOrder newPo = new ProductOrder();
+        newPo.setProduct(po.getProduct()); 
+        newPo.setPrice(po.getPrice()); 
+        newPo.setOrder(po.getOrder());
+      
+        newPo.setDetails(itemController.getTxtDetailProduct());
+        
+     
+        itemController.setProductOrder(newPo);
+        newPoList.add(newPo);
+    }
+
+    return newPoList;
+}
+
 
 }
