@@ -4,6 +4,7 @@
  */
 package com.mycompany.gp.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="discount")
-public class Discount {
+public class Discount implements Serializable {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

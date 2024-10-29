@@ -59,7 +59,7 @@ public class ActiveOrdersController implements Initializable {
         pickUpOrders = oBusiness.getAllPickUpOrder();
         deliveryOrders = oBusiness.getAllDelOrder();
         
-        loadDeliveryOrders();
+        loadDinerOrders();
     }    
     
     private void loadDinerOrders() {

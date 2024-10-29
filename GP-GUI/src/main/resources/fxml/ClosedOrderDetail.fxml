@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="829.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClosedOrderDetailController">
+   <children>
+      <Text layoutX="81.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apertura de Orden:">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtOpenDate" layoutX="306.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de Apertura" wrappingWidth="403.13671875">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="81.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pedido:">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtIdOrder" layoutX="174.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IdPedido" wrappingWidth="204.640625">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="84.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Productos">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <ScrollPane layoutX="84.0" layoutY="220.0" prefHeight="313.0" prefWidth="578.0">
+         <content>
+            <VBox fx:id="orderContainer" prefHeight="311.0" prefWidth="574.0" />
+         </content>
+      </ScrollPane>
+      <Text layoutX="84.0" layoutY="587.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtTotalPrice" layoutX="84.0" layoutY="622.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad Total">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="84.0" layoutY="667.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="84.0" layoutY="704.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Comedor">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="84.0" layoutY="743.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mesa">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtOrderName" layoutX="84.0" layoutY="776.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Mesa">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
