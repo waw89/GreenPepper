@@ -123,17 +123,17 @@
                   <Font name="Inter 18pt SemiBold" size="17.0" />
                </font>
             </Button>
-            <Button id="btnFood" fx:id="btnFood" layoutX="445.0" layoutY="17.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Comidas" textFill="WHITE">
+            <Button id="btnFood" fx:id="btnFood" layoutX="445.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#showFoods" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" stylesheets="@../styles/mainpage.css" text="Comidas" textFill="WHITE">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
             </Button>
-            <Button id="btnDrink" fx:id="btnDrink" layoutX="686.0" layoutY="18.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Bebidas">
+            <Button id="btnDrink" fx:id="btnDrink" layoutX="686.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#showDrinks" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Bebidas">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
             </Button>
-            <Button id="btnExtra" fx:id="btnExtra" layoutX="927.0" layoutY="17.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Extras">
+            <Button id="btnExtra" fx:id="btnExtra" layoutX="927.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#showExtras" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Extras">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>

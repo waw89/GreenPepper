@@ -15,3 +15,13 @@
     -fx-background-radius: 10; /* Bordes redondeados del thumb */
     
 }
+
+.selected-button {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.default-button {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}

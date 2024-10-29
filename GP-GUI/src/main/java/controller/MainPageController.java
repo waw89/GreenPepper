@@ -6,6 +6,7 @@ package controller;
 
 import business.BusinessProduct;
 import business.OrderBusiness;
+import com.mycompany.gp.domain.IndividualProduct;
 import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
@@ -91,6 +92,7 @@ public class MainPageController implements Initializable {
     OrderBusiness oBusiness = new OrderBusiness();
     Order order = new Order();
 
+
     public Order getOrder() {
         return order;
     }
@@ -100,7 +102,8 @@ public class MainPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        List<Product> products = prodBusiness.getAllProducts();
+
+        List<IndividualProduct> products = prodBusiness.getAllFoods();
 
         for (Product product : products) {
             try {
@@ -273,5 +276,105 @@ public class MainPageController implements Initializable {
     private void cleanFields(MouseEvent event) {
         cleanSummary();
     }
+
+    @FXML
+    private void showFoods(MouseEvent event) {
+        setSelectedButtonStyle(btnFood);
+        cleanProductsList();
+        
+        List<IndividualProduct> products = prodBusiness.getAllFoods();
+
+        for (Product product : products) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
+                AnchorPane productCard = loader.load();
+                ProductCardController cardController = loader.getController();
+
+                // Pasar la instancia del MainPageController al ProductCardController
+                cardController.setMainController(this);
+
+                cardController.setTxtProductName(product.getName());
+                cardController.setTxtPrice("$" + product.getPrice());
+                productContainer.getChildren().add(productCard);
+                productContainer.setSpacing(10);
+
+            } catch (IOException ex) {
+                Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @FXML
+    private void showDrinks(MouseEvent event) {
+        setSelectedButtonStyle(btnDrink);
+        cleanProductsList();
+        List<IndividualProduct> products = prodBusiness.getAllDrinks();
+
+        for (Product product : products) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
+                AnchorPane productCard = loader.load();
+                ProductCardController cardController = loader.getController();
+
+                // Pasar la instancia del MainPageController al ProductCardController
+                cardController.setMainController(this);
+
+                cardController.setTxtProductName(product.getName());
+                cardController.setTxtPrice("$" + product.getPrice());
+                productContainer.getChildren().add(productCard);
+                productContainer.setSpacing(10);
+
+            } catch (IOException ex) {
+                Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @FXML
+    private void showExtras(MouseEvent event) {
+        setSelectedButtonStyle(btnExtra); 
+        cleanProductsList();
+        List<IndividualProduct> products = prodBusiness.getAllExtras();
+
+        for (Product product : products) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
+                AnchorPane productCard = loader.load();
+                ProductCardController cardController = loader.getController();
+
+                // Pasar la instancia del MainPageController al ProductCardController
+                cardController.setMainController(this);
+
+                cardController.setTxtProductName(product.getName());
+                cardController.setTxtPrice("$" + product.getPrice());
+                productContainer.getChildren().add(productCard);
+                productContainer.setSpacing(10);
+
+            } catch (IOException ex) {
+                Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void cleanProductsList(){
+        productContainer.getChildren().clear();
+    }
+    
+  private void setSelectedButtonStyle(Button selectedButton) {
+    
+    List<Button> buttons = List.of(btnFood, btnDrink, btnExtra);
+
+    for (Button button : buttons) {
+        if (button.equals(selectedButton)) {
+            
+            button.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 50; -fx-border-radius: 50;");
+        } else {
+            
+            button.setStyle("-fx-background-color: transparent; -fx-text-fill: black; -fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: black;");
+        }
+    }
+}
+
+
 
 }

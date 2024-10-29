@@ -48,7 +48,40 @@ public class BusinessProduct {
     public List<Product> getAllProducts() {
         return prodDao.findProductEntities();
     }
+    
+    public List<IndividualProduct> getAllFoods(){
+        List<IndividualProduct> products = findProducts();
+        List<IndividualProduct> foodProducts = new ArrayList<>();
+        for(IndividualProduct product : products){
+            if(product.getType() == PRODUCT_TYPE.FOOD){
+                foodProducts.add(product);
+            }
+        }
+        return foodProducts;
+    }
 
+    public List<IndividualProduct> getAllDrinks(){
+        List<IndividualProduct> products = findProducts();
+        List<IndividualProduct> drinkProducts = new ArrayList<>();
+        for(IndividualProduct product : products){
+            if(product.getType() == PRODUCT_TYPE.DRINK){
+                drinkProducts.add(product);
+            }
+        }
+        return drinkProducts;
+    }
+    
+    public List<IndividualProduct> getAllExtras(){
+        List<IndividualProduct> products = findProducts();
+        List<IndividualProduct> extraProducts = new ArrayList<>();
+        for(IndividualProduct product : products){
+            if(product.getType() == PRODUCT_TYPE.EXTRA){
+                extraProducts.add(product);
+            }
+        }
+        return extraProducts;
+    }
+    
     public List<IndividualProduct> findProducts() {
         this.products = (ArrayList<IndividualProduct>) util.createProducts();
         return products;
