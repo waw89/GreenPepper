@@ -68,8 +68,6 @@ public class MainPageController implements Initializable {
     @FXML
     private TextField txtSearchProduct;
     @FXML
-    private Button btnSearch;
-    @FXML
     private BorderPane bp;
     @FXML
     private ImageView homeImg;
@@ -101,6 +99,8 @@ public class MainPageController implements Initializable {
     ObservableList<IndividualProduct> drinkList;
     ObservableList<IndividualProduct> extrasList;
     FilteredList<IndividualProduct> filter;
+    @FXML
+    private Button btnClean;
 
     public Order getOrder() {
         return order;
@@ -432,6 +432,11 @@ public class MainPageController implements Initializable {
                 Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    @FXML
+    private void cleanSearchBar(MouseEvent event) {
+        this.txtSearchProduct.clear();
     }
 
 }

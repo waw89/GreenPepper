@@ -145,7 +145,7 @@
                         <Font name="Inter 18pt Regular" size="13.0" />
                      </font>
                   </TextField>
-                  <Button id="btS" fx:id="btnSearch" layoutX="487.0" layoutY="30.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: #005ACF; -fx-border-radius: 40; -fx-background-radius: 40;" text="Busqueda" textFill="WHITE">
+                  <Button id="btS" fx:id="btnClean" layoutX="487.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#cleanSearchBar" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: #005ACF; -fx-border-radius: 40; -fx-background-radius: 40;" text="Borrar" textFill="WHITE">
                      <font>
                         <Font name="Inter 18pt SemiBold" size="18.0" />
                      </font>
