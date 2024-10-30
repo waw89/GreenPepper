@@ -1,19 +1,14 @@
-package controller;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
+package controller;
 
-import business.OrderBusiness;
-import com.mycompany.gp.domain.DinerOrder;
-import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.PickUpOrder;
 import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -33,7 +27,7 @@ import javafx.scene.text.Text;
  *
  * @author PC
  */
-public class ClosedOrderDetailController implements Initializable {
+public class ClosedOrderDetailPickUpController implements Initializable {
 
     @FXML
     private Text txtOpenDate;
@@ -44,42 +38,79 @@ public class ClosedOrderDetailController implements Initializable {
     @FXML
     private Text txtTotalPrice;
     @FXML
-    private Text txtOrderName;
+    private Text txtCustomerName;
     
-    OrderBusiness oBusiness = new OrderBusiness();
-    
+    private PickUpOrder pickUpOrder;
     private List<ProductOrder> productOrderList;
-    private List<ProductOrder> productOrder = oBusiness.getAllProductOrder();
-    private DinerOrder dinerOrder;
-    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        productOrder = oBusiness.getAllProductOrder();
         
-        if(dinerOrder != null){
-            setOrderDetails(dinerOrder);
+        if(pickUpOrder != null){
+            setPickUpOrder(pickUpOrder);
         }
-
-    }
-    
-    public void setOrderDetails(DinerOrder order) {
-        this.dinerOrder = order;
-        loadProductsOrder(); 
-    }
-    
-    private void loadProductsOrder() {
-        if (dinerOrder == null) return; 
-         
-        txtOpenDate.setText(dinerOrder.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
-        txtIdOrder.setText("#" + dinerOrder.getOrderNumber());
-        txtTotalPrice.setText("$" + dinerOrder.getPrice());
-        txtOrderName.setText(dinerOrder.getOrderName());
         
-        productOrderList = dinerOrder.getProducts();
+        
+    }
+    
+    public void setPickUpOrder(PickUpOrder order){
+        this.pickUpOrder = order;
+        loadProductsOrder();
+    }
+
+    public Text getTxtOpenDate() {
+        return txtOpenDate;
+    }
+
+    public void setTxtOpenDate(Text txtOpenDate) {
+        this.txtOpenDate = txtOpenDate;
+    }
+
+    public Text getTxtIdOrder() {
+        return txtIdOrder;
+    }
+
+    public void setTxtIdOrder(Text txtIdOrder) {
+        this.txtIdOrder = txtIdOrder;
+    }
+
+    public VBox getOrderContainer() {
+        return orderContainer;
+    }
+
+    public void setOrderContainer(VBox orderContainer) {
+        this.orderContainer = orderContainer;
+    }
+
+    public Text getTxtTotalPrice() {
+        return txtTotalPrice;
+    }
+
+    public void setTxtTotalPrice(Text txtTotalPrice) {
+        this.txtTotalPrice = txtTotalPrice;
+    }
+
+    public Text getTxtCustomerName() {
+        return txtCustomerName;
+    }
+
+    public void setTxtCustomerName(Text txtCustomerName) {
+        this.txtCustomerName = txtCustomerName;
+    }
+    
+    
+    private void loadProductsOrder(){
+        if(pickUpOrder == null) return;
+        
+        txtOpenDate.setText(pickUpOrder.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        txtIdOrder.setText("#" + pickUpOrder.getOrderNumber());
+        txtTotalPrice.setText("$" + pickUpOrder.getPrice());
+        txtCustomerName.setText(pickUpOrder.getCustomerName() + " - " + pickUpOrder.getCustomerPhone());
+        
+        productOrderList = pickUpOrder.getProducts();
         
         Map<String, Integer> productCount = new HashMap<>();
         
@@ -112,47 +143,8 @@ public class ClosedOrderDetailController implements Initializable {
             }
         }
         
-    }
-    
-
-    public Text getTxtOpenDate() {
-        return txtOpenDate;
-    }
-
-    public void setTxtOpenDate(Text txtOpenDate) {
-        this.txtOpenDate.setText(txtOpenDate.getText());
-    }
-
-    public Text getTxtIdOrder() {
-        return txtIdOrder;
-    }
-
-    public void setTxtIdOrder(Text txtIdOrder) {
-        this.txtIdOrder.setText(txtIdOrder.getText());
-    }
-
-    public VBox getOrderContainer() {
-        return orderContainer;
-    }
-
-    public void setOrderContainer(VBox orderContainer) {
-        this.orderContainer = orderContainer;
-    }
-
-    public Text getTxtTotalPrice() {
-        return txtTotalPrice;
-    }
-
-    public void setTxtTotalPrice(Text txtTotalPrice) {
-        this.txtTotalPrice.setText(txtTotalPrice.getText());
-    }
-
-    public Text getTxtOrderName() {
-        return txtOrderName;
-    }
-
-    public void setTxtOrderName(Text txtOrderName) {
-        this.txtOrderName.setText(txtOrderName.getText());
+        
+        
     }
 
     

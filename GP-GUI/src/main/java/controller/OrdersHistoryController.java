@@ -110,6 +110,7 @@ public class OrdersHistoryController implements Initializable {
                     AnchorPane orderCard = loader.load();
                     DeliveryHistoryCardController cardController = loader.getController();
                     
+                    cardController.setDeliveryOrder(delOrder);
                     cardController.setTxtNombreCliente(delOrder.getCustomerName());
                     cardController.setTxtDireccion(delOrder.getAddress());                       
                     
@@ -139,6 +140,7 @@ public class OrdersHistoryController implements Initializable {
                     AnchorPane orderCard = loader.load();
                     PickUpHistoryCardController cardController = loader.getController();
                     
+                    cardController.setPickUpOrder(pickOrder);
                     cardController.setTxtCliente(pickOrder.getCustomerName());
                     cardController.setTxtTelefono(pickOrder.getCustomerPhone());
                     

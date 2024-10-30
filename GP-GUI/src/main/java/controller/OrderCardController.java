@@ -5,16 +5,22 @@
 package controller;
 
 import business.OrderBusiness;
+import com.mycompany.gp.domain.DinerOrder;
 import com.mycompany.gp.domain.Order;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -27,25 +33,28 @@ public class OrderCardController implements Initializable {
     private Text txtNombreMesa;
     @FXML
     private Text txtFolioMesa;
-    private Button btnVerOrden;
-    private Button btnCobrar;
     @FXML
     private Button btnViewDetails;
     @FXML
     private Button btnPay;
-    @FXML
-    private Button btnEdit;
-    @FXML
-    private Button btnDelete;
+    
+    private DinerOrder dinerOrder;
 
     OrderBusiness ob = new OrderBusiness();
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        if(dinerOrder != null){
+            setDinerOrder(dinerOrder);
+        }
+    }
+    
+    public void setDinerOrder(DinerOrder order){
+        this.dinerOrder = order;;
+    }
 
     public Text getTxtNombreMesa() {
         return txtNombreMesa;
@@ -63,29 +72,57 @@ public class OrderCardController implements Initializable {
         this.txtFolioMesa.setText(txtFolioMesa);
     }
 
-    public Button getBtnVerOrden() {
-        return btnVerOrden;
+    public Button getBtnViewDetails() {
+        return btnViewDetails;
     }
 
-    public void setBtnVerOrden(Button btnVerOrden) {
-        this.btnVerOrden = btnVerOrden;
+    public void setBtnViewDetails(Button btnViewDetails) {
+        this.btnViewDetails = btnViewDetails;
     }
 
-    public Button getBtnCobrar() {
-        return btnCobrar;
+    public Button getBtnPay() {
+        return btnPay;
     }
 
-    public void setBtnCobrar(Button btnCobrar) {
-        this.btnCobrar = btnCobrar;
+    public void setBtnPay(Button btnPay) {
+        this.btnPay = btnPay;
     }
+
+    public OrderBusiness getOb() {
+        return ob;
+    }
+
+    public void setOb(OrderBusiness ob) {
+        this.ob = ob;
+    }
+
     
+    @FXML
+    private void OptionViewDetails(MouseEvent event) {
     
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ActiveOrderDetailDiner.fxml"));
+            Parent detail = loader.load();
+            
+            ActiveOrderDetailDinerController detailController = loader.getController();
+            
+            detailController.setDinerOrder(dinerOrder);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(detail));
+            stage.show();
+                    
+        } catch (IOException ex) {
+            Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
 
     @FXML
-    private void editOrder(MouseEvent event) {
+    private void OptionPayOrder(MouseEvent event) {
     }
 
-    @FXML
+
     private void cancelOrder(MouseEvent event) {
         try {
             Order order = ob.findOrderById(Long.parseLong(this.txtFolioMesa.getText()));
@@ -95,6 +132,5 @@ public class OrderCardController implements Initializable {
             Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
 }

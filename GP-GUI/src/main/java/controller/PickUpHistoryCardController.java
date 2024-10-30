@@ -4,13 +4,24 @@
  */
 package controller;
 
+import business.OrderBusiness;
+import com.mycompany.gp.domain.PickUpOrder;
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -27,14 +38,27 @@ public class PickUpHistoryCardController implements Initializable {
     private Text txtEstado;
     @FXML
     private Button btnVerDetalles;
+    
+    OrderBusiness oBusiness = new OrderBusiness();
+    List<PickUpOrder> orderList = oBusiness.getAllPickUpOrder();
+    private PickUpOrder pickUpOrder;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        orderList = oBusiness.getAllPickUpOrder();
+        
+        if(pickUpOrder != null){
+            setPickUpOrder(pickUpOrder);
+        }
+        
+    }
+
+    public void setPickUpOrder(PickUpOrder order){
+        this.pickUpOrder = order; 
+    }
 
     public Text getTxtCliente() {
         return txtCliente;
@@ -72,6 +96,41 @@ public class PickUpHistoryCardController implements Initializable {
 
     public void setBtnVerDetalles(Button btnVerDetalles) {
         this.btnVerDetalles = btnVerDetalles;
+    }
+    
+    
+    private PickUpOrder findOrder(Long idPedido){
+        Long orderId;
+        orderId = idPedido;
+        
+        for(PickUpOrder orderFind : orderList){
+            if(orderFind.getOrderNumber().equals(orderId)){
+                return orderFind;
+            }
+        }
+        return null;
+    }
+    
+
+    @FXML
+    private void detailOption(MouseEvent event) {
+    
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ClosedOrderDetailPickUp.fxml"));
+            Parent detail = loader.load();
+            
+            ClosedOrderDetailPickUpController detailController = loader.getController();
+            
+            detailController.setPickUpOrder(pickUpOrder);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(detail));
+            stage.show();
+        
+        } catch (IOException ex) {
+            Logger.getLogger(PickUpHistoryCardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     }
 
 }

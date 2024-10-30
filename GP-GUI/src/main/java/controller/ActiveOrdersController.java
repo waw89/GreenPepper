@@ -20,11 +20,14 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -59,10 +62,10 @@ public class ActiveOrdersController implements Initializable {
         pickUpOrders = oBusiness.getAllPickUpOrder();
         deliveryOrders = oBusiness.getAllDelOrder();
         
-        loadDinerOrders();
+        loadDeliveryOrders();
     }    
     
-    private void loadDinerOrders() {
+    public void loadDinerOrders() {
         orderContainer.getChildren().clear();  
         for(DinerOrder dOrder : dinerOrders){
             try {
@@ -71,8 +74,10 @@ public class ActiveOrdersController implements Initializable {
                     AnchorPane orderCard = loader.load();
                     OrderCardController cardController = loader.getController();
 
+                    cardController.setDinerOrder(dOrder);
                     cardController.setTxtNombreMesa(dOrder.getOrderName());
-                    cardController.setTxtFolioMesa(dOrder.getOrderNumber().toString());
+                    cardController.setTxtFolioMesa("#" + dOrder.getOrderNumber().toString());
+                    
 
                     orderContainer.getChildren().add(orderCard);
                     orderContainer.setSpacing(10);
@@ -83,7 +88,7 @@ public class ActiveOrdersController implements Initializable {
         }
     }
     
-     private void loadDeliveryOrders() {
+     public void loadDeliveryOrders() {
         orderContainer.getChildren().clear();  
         for (DeliveryOrder delOrder : deliveryOrders) {
             try {
@@ -92,8 +97,9 @@ public class ActiveOrdersController implements Initializable {
                     AnchorPane orderDeliveryCard = loader.load();
                     DeliveryCardController cardController = loader.getController();
 
-                    cardController.setTxtNombreCliente(delOrder.getCustomerName());
-                    cardController.setTxtFolio(String.valueOf(delOrder.getOrderNumber()));
+                    cardController.setDeliveryOrder(delOrder);
+                    cardController.setTxtNombreCliente(delOrder.getCustomerName() + " - " + delOrder.getAddress());
+                    cardController.setTxtFolio(String.valueOf("#" + delOrder.getOrderNumber()));
 
                     orderContainer.getChildren().add(orderDeliveryCard);
                     orderContainer.setSpacing(10);
@@ -105,7 +111,7 @@ public class ActiveOrdersController implements Initializable {
     }
 
     
-    private void loadPickUpOrders() {
+    public void loadPickUpOrders() {
         orderContainer.getChildren().clear(); 
         for (PickUpOrder pickUpOrder : pickUpOrders) {
             try {
@@ -114,8 +120,9 @@ public class ActiveOrdersController implements Initializable {
                     AnchorPane PickUpCard = loader.load();
                     PickUpCardController cardController = loader.getController();
 
-                    cardController.setTxtNombreCliente(pickUpOrder.getCustomerName());
-                    cardController.setTxtFolio(String.valueOf(pickUpOrder.getOrderNumber()));
+                    cardController.setPickUpOrder(pickUpOrder);
+                    cardController.setTxtNombreCliente(pickUpOrder.getCustomerName() + " - " + pickUpOrder.getCustomerPhone());
+                    cardController.setTxtFolio("#" + String.valueOf(pickUpOrder.getOrderNumber()));
 
                     orderContainer.getChildren().add(PickUpCard);
                     orderContainer.setSpacing(10);
@@ -126,6 +133,7 @@ public class ActiveOrdersController implements Initializable {
         }
     }
     
+    //Change color buttons
     private void setButtonSelected(Button button) {
         button.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-border-color: black; -fx-border-radius: 18; -fx-background-radius: 18;");
     }
@@ -159,5 +167,5 @@ public class ActiveOrdersController implements Initializable {
         setButtonUnselected(btnDelivery);
         setButtonUnselected(btnDiner); 
     }
-    
+       
 }

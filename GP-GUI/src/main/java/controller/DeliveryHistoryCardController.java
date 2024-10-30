@@ -4,12 +4,24 @@
  */
 package controller;
 
+import business.OrderBusiness;
+import com.mycompany.gp.domain.DeliveryOrder;
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -24,13 +36,28 @@ public class DeliveryHistoryCardController implements Initializable {
     private Text txtDireccion;
     @FXML
     private Text txtEstado;
+    @FXML
+    private Button btnVerDetalles;
+    
+    OrderBusiness oBusiness = new OrderBusiness();
+    List<DeliveryOrder> orderList = oBusiness.getAllDelOrder();
+    private DeliveryOrder deliveryOrder;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        orderList = oBusiness.getAllDelOrder();
+        
+        if(deliveryOrder != null){
+            setDeliveryOrder(deliveryOrder);
+        }
+        
+    }
+    
+    public void setDeliveryOrder(DeliveryOrder order){
+        this.deliveryOrder = order;
     }
 
     public Text getTxtNombreCliente() {
@@ -61,6 +88,28 @@ public class DeliveryHistoryCardController implements Initializable {
         }
         
         this.txtEstado.setText(txtEstado);
+    }
+
+    @FXML
+    private void detailOption(MouseEvent event) {
+    
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ClosedOrderDetailDelivery.fxml"));
+            Parent detail = loader.load();
+            
+            ClosedOrderDetailDeliveryController detailController = loader.getController();
+            
+            detailController.setDeliveryOrder(deliveryOrder);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(detail));
+            stage.show();
+            
+        }catch (IOException ex) {
+            Logger.getLogger(PickUpHistoryCardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    
     }
 
     

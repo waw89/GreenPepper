@@ -11,9 +11,7 @@ import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,33 +22,39 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
  * @author PC
  */
-public class ClosedOrderDetailController implements Initializable {
+public class ActiveOrderDetailDinerController implements Initializable {
 
     @FXML
     private Text txtOpenDate;
     @FXML
     private Text txtIdOrder;
     @FXML
-    private VBox orderContainer;
-    @FXML
     private Text txtTotalPrice;
     @FXML
     private Text txtOrderName;
+    @FXML
+    private VBox orderContainer;
+    @FXML
+    private Button btnAddProduct;
+    @FXML
+    private Button btnPayOrder;
+    @FXML
+    private Button btnDelete;
     
-    OrderBusiness oBusiness = new OrderBusiness();
-    
-    private List<ProductOrder> productOrderList;
-    private List<ProductOrder> productOrder = oBusiness.getAllProductOrder();
     private DinerOrder dinerOrder;
+    List<ProductOrder> productOrderList;
+    OrderBusiness oBusiness = new OrderBusiness();
     
 
     /**
@@ -58,25 +62,79 @@ public class ClosedOrderDetailController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        productOrder = oBusiness.getAllProductOrder();
-        
         if(dinerOrder != null){
-            setOrderDetails(dinerOrder);
+            setDinerOrder(dinerOrder);
         }
-
     }
     
-    public void setOrderDetails(DinerOrder order) {
+    public void setDinerOrder(DinerOrder order){
         this.dinerOrder = order;
-        loadProductsOrder(); 
+        loadProductsOrder();
     }
     
-    private void loadProductsOrder() {
-        if (dinerOrder == null) return; 
-         
+
+    public Text getTxtOpenDate() {
+        return txtOpenDate;
+    }
+
+    public void setTxtOpenDate(Text txtOpenDate) {
+        this.txtOpenDate = txtOpenDate;
+    }
+
+    public Text getTxtIdOrder() {
+        return txtIdOrder;
+    }
+
+    public void setTxtIdOrder(Text txtIdOrder) {
+        this.txtIdOrder = txtIdOrder;
+    }
+
+    public Text getTxtTotalPrice() {
+        return txtTotalPrice;
+    }
+
+    public void setTxtTotalPrice(Text txtTotalPrice) {
+        this.txtTotalPrice = txtTotalPrice;
+    }
+
+    public Text getTxtOrderName() {
+        return txtOrderName;
+    }
+
+    public void setTxtOrderName(Text txtOrderName) {
+        this.txtOrderName = txtOrderName;
+    }
+
+    public VBox getOrderContainer() {
+        return orderContainer;
+    }
+
+    public void setOrderContainer(VBox orderContainer) {
+        this.orderContainer = orderContainer;
+    }
+
+    public Button getBtnAddProduct() {
+        return btnAddProduct;
+    }
+
+    public void setBtnAddProduct(Button btnAddProduct) {
+        this.btnAddProduct = btnAddProduct;
+    }
+
+    public Button getBtnPayOrder() {
+        return btnPayOrder;
+    }
+
+    public void setBtnPayOrder(Button btnPayOrder) {
+        this.btnPayOrder = btnPayOrder;
+    }
+    
+    public void loadProductsOrder(){
+        if(dinerOrder == null) return;
+        
         txtOpenDate.setText(dinerOrder.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
-        txtIdOrder.setText("#" + dinerOrder.getOrderNumber());
-        txtTotalPrice.setText("$" + dinerOrder.getPrice());
+        txtIdOrder.setText("#"+dinerOrder.getOrderNumber());
+        txtTotalPrice.setText("$"+dinerOrder.getPrice());
         txtOrderName.setText(dinerOrder.getOrderName());
         
         productOrderList = dinerOrder.getProducts();
@@ -111,50 +169,28 @@ public class ClosedOrderDetailController implements Initializable {
                 Logger.getLogger(ClosedOrderDetailController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-    }
-    
-
-    public Text getTxtOpenDate() {
-        return txtOpenDate;
     }
 
-    public void setTxtOpenDate(Text txtOpenDate) {
-        this.txtOpenDate.setText(txtOpenDate.getText());
+    @FXML
+    private void OptionAddProduct(MouseEvent event) {
     }
 
-    public Text getTxtIdOrder() {
-        return txtIdOrder;
+    @FXML
+    private void OptionPayOrder(MouseEvent event) {
     }
 
-    public void setTxtIdOrder(Text txtIdOrder) {
-        this.txtIdOrder.setText(txtIdOrder.getText());
-    }
+    @FXML
+    private void OptionDeleteOrder(MouseEvent event) {
+        try {
+                Order order = oBusiness.findOrderById(dinerOrder.getOrderNumber());
+                oBusiness.cancelOrder(order);
 
-    public VBox getOrderContainer() {
-        return orderContainer;
-    }
+                Stage stage = (Stage) btnDelete.getScene().getWindow();
+                stage.close();
 
-    public void setOrderContainer(VBox orderContainer) {
-        this.orderContainer = orderContainer;
+        } catch (Exception ex) {
+            Logger.getLogger(ActiveOrderDetailDinerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
-    public Text getTxtTotalPrice() {
-        return txtTotalPrice;
-    }
-
-    public void setTxtTotalPrice(Text txtTotalPrice) {
-        this.txtTotalPrice.setText(txtTotalPrice.getText());
-    }
-
-    public Text getTxtOrderName() {
-        return txtOrderName;
-    }
-
-    public void setTxtOrderName(Text txtOrderName) {
-        this.txtOrderName.setText(txtOrderName.getText());
-    }
-
-    
-    
+  
 }

@@ -22,7 +22,7 @@
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
             </Button>
-            <Button id="btnDrink" fx:id="btnDiner" layoutX="448.0" layoutY="126.0" mnemonicParsing="false" onMouseClicked="#dinerOption" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 18; -fx-border-radius: 18;" text="En Comedor">
+            <Button id="btnDrink" fx:id="btnDiner" layoutX="448.0" layoutY="125.0" mnemonicParsing="false" onMouseClicked="#dinerOption" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 18; -fx-border-radius: 18;" text="En Comedor">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
@@ -32,9 +32,9 @@
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
             </Button>
-            <ScrollPane fx:id="scrollPane" layoutX="112.0" layoutY="200.0" prefHeight="450.0" prefWidth="902.0">
+            <ScrollPane fx:id="scrollPane" layoutX="75.0" layoutY="201.0" prefHeight="472.0" prefWidth="935.0">
                <content>
-                  <VBox fx:id="orderContainer" prefHeight="448.0" prefWidth="898.0" />
+                  <VBox fx:id="orderContainer" prefHeight="470.0" prefWidth="933.0" />
                </content></ScrollPane>
          </children>
       </AnchorPane>
