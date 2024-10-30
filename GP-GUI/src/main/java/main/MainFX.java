@@ -24,8 +24,8 @@ public class MainFX extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
 
-        stage.setMaximized(false); // Cambiar a True cuando el sistema sea responsivo
-        stage.setResizable(false);
+        stage.setMaximized(true); // Cambiar a True cuando el sistema sea responsivo
+//    stage.setResizable(false);
         stage.show();
     }
 
