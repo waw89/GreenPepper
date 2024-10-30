@@ -89,20 +89,34 @@ public class MainPageController implements Initializable {
     private Label lblDiscount;
     @FXML
     private Label lblTotal;
-
-    List<ProductOrder> poList = new ArrayList<>();
-    BusinessProduct prodBusiness = new BusinessProduct();
-    OrderBusiness oBusiness = new OrderBusiness();
-    Order order = new Order();
-    ProductItemController piController;
-
-    ObservableList<IndividualProduct> foodList;
-    ObservableList<IndividualProduct> drinkList;
-    ObservableList<IndividualProduct> extrasList;
-    FilteredList<IndividualProduct> filter;
     @FXML
     private Button btnClean;
 
+    
+
+    List<ProductOrder> poList = new ArrayList<>();
+    
+    BusinessProduct prodBusiness = new BusinessProduct();
+    
+    OrderBusiness oBusiness = new OrderBusiness();
+    
+    Order order = new Order(); // why is this being created here?
+    
+    ProductItemController productItemController;
+
+    ObservableList<IndividualProduct> foodList;
+    
+    ObservableList<IndividualProduct> drinkList;
+    
+    ObservableList<IndividualProduct> extrasList;
+    
+    FilteredList<IndividualProduct> filter;
+    
+ 
+    /**
+     * Gets the order of the controller
+     * @return 
+     */
     public Order getOrder() {
         return order;
     }
@@ -111,12 +125,12 @@ public class MainPageController implements Initializable {
         return summaryContainer;
     }
 
-    public ProductItemController getPiController() {
-        return piController;
+    public ProductItemController getProductItemController() {
+        return productItemController;
     }
 
-    public void setPiController(ProductItemController piController) {
-        this.piController = piController;
+    public void setProductItemController(ProductItemController productItemController) {
+        this.productItemController = productItemController;
     }
 
     /**
@@ -124,6 +138,7 @@ public class MainPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         foodList = FXCollections.observableArrayList();
         List<IndividualProduct> products = prodBusiness.getAllFoods();
         foodList.addAll(products);
@@ -179,6 +194,11 @@ public class MainPageController implements Initializable {
         bp.setCenter(root);
     }
 
+    /**
+     * loads a new CreateOrderController, by recieving the name of the FXML and the order that is being created.
+     * @param namePage name of the FXML file for the Create Order
+     * @param order 
+     */
     private void loadPage(String namePage, Order order) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + namePage + ".fxml"));
@@ -194,7 +214,7 @@ public class MainPageController implements Initializable {
     @FXML
     private void save(MouseEvent event) throws IOException {
         for (ProductOrder po : this.order.getProducts()) {
-            this.order.setProducts(piController.getProductDetails(po));
+            this.order.setProducts(productItemController.getProductDetails(po));
         }
         loadPage("CreateOrder", this.order);
     }
@@ -218,20 +238,22 @@ public class MainPageController implements Initializable {
     private void logOutImgClick(MouseEvent event) {
     }
 
-    public void updateSummary(ProductOrder productSelected, int amount) throws IOException {
-        boolean productExists = false;
+    public void updateSummaryWithNewSelectedProduct(ProductOrder productSelected, int selectedAmmountOfProduct) throws IOException {
+        boolean productExists = false; 
 
-        for (Node node : summaryContainer.getChildren()) {
-            ProductAddedController cellController = (ProductAddedController) node.getUserData();
-            if (cellController.getProductOrder().getProduct().getName().equals(productSelected.getProduct().getName())) {
+       // ANALIZAR SI CONVIENE CAMBIAR LA LOGICA PARA QUE SE USE SOLO UN IF Y ELSE Y SE MANDE A LLAMAR A METODOS EXTERNOS   
+        // This logic is for when the type of product is already in the order
+        for (Node node : summaryContainer.getChildren()) { // iterate the list of nodes that are in the summaryContainer
+            ProductAddedController cellController = (ProductAddedController) node.getUserData(); // get the information of the node and cast it to a Controller
+            if (cellController.getProductOrder().getProduct().getName().equals(productSelected.getProduct().getName())) { // verify if the selectedProduct is equal to the node in turn in the iteration
                 int currentAmount = Integer.parseInt(cellController.getTxtAmount());
-                int newAmount = currentAmount + amount;
+                int newAmount = currentAmount + selectedAmmountOfProduct;
                 cellController.setTxtAmount(String.valueOf(newAmount));
-                cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * newAmount);
+                cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * newAmount); // QUIZAS SEA CONVENIENTE HACER UN METODO SOLO PARA CALCULAR EL NUEVO PRECIO
                 productExists = true;
 
                 int j = currentAmount + 1;
-                for (int i = 0; i < amount; i++) {
+                for (int i = 0; i < selectedAmmountOfProduct; i++) {
                     cellController.addProductToListContainer("$" + productSelected.getPrice(), "#" + j);
                     j++;
                     productSelected.setOrder(order);
@@ -248,13 +270,13 @@ public class MainPageController implements Initializable {
             cellController.setMainController(this);
             cellController.setProductOrder(productSelected);
             cellController.setTxtSummaryProductName(productSelected.getProduct().getName());
-            cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * amount);
-            cellController.setTxtAmount(String.valueOf(amount));
+            cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * selectedAmmountOfProduct);
+            cellController.setTxtAmount(String.valueOf(selectedAmmountOfProduct));
             productCell.setUserData(cellController);
             summaryContainer.getChildren().add(productCell);
 
             int j = 1;
-            for (int i = 0; i < amount; i++) {
+            for (int i = 0; i < selectedAmmountOfProduct; i++) {
                 cellController.addProductToListContainer("$" + productSelected.getPrice(), "#" + j);
                 j++;
                 productSelected.setOrder(order);

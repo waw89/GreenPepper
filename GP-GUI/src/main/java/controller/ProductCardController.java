@@ -46,9 +46,10 @@ public class ProductCardController implements Initializable {
     @FXML
     private Button btnDicreaseAmount;
 
-    private int counter = 1;
+    private int selectedAmmountOfProduct = 1;
 
-    BusinessProduct bp = new BusinessProduct();
+    BusinessProduct businessProduct = new BusinessProduct();
+
     MainPageController mainController;
 
     public void setMainController(MainPageController mainController) {
@@ -123,12 +124,12 @@ public class ProductCardController implements Initializable {
         this.txtAmount = txtAmount;
     }
 
-    public int getCounter() {
-        return counter;
+    public int getSelectedAmmountOfProduct() {
+        return selectedAmmountOfProduct;
     }
 
-    public void setCounter(int counter) {
-        this.counter = counter;
+    public void setSelectedAmmountOfProduct(int selectedAmmountOfProduct) {
+        this.selectedAmmountOfProduct = selectedAmmountOfProduct;
     }
 
     @FXML
@@ -136,38 +137,62 @@ public class ProductCardController implements Initializable {
         increaseCounter();
     }
 
-    private void increaseCounter() {
-        counter++;
-        btnDicreaseAmount.setDisable(false);
-        txtAmount.setText(counter + "");
-    }
 
     @FXML
     private void dicreaseAmount(MouseEvent event) {
         decreaseCounter();
     }
 
+    /*
+        
+        Behavior for the + button in the Product Card
+    
+     */
+    private void increaseCounter() {
+        selectedAmmountOfProduct++;
+        btnDicreaseAmount.setDisable(false);
+        txtAmount.setText(selectedAmmountOfProduct + "");
+    }
+    
+    /*
+        
+        Behavior for the - button in the Product Card
+    
+     */
     private void decreaseCounter() {
-        if (counter > 1) {
-            counter--;
-            txtAmount.setText(counter + "");
+        if (selectedAmmountOfProduct > 1) { // if the counter is greater than 1, decrease the ammount of the txt
+            selectedAmmountOfProduct--;
+            txtAmount.setText(selectedAmmountOfProduct + "");
 
-            if (counter == 1) {
-                btnDicreaseAmount.setDisable(true);
+            if (selectedAmmountOfProduct == 1) {
+                btnDicreaseAmount.setDisable(true); // if the counter reaches 1 disable the decrease button
             }
         }
     }
 
+    /*
+        Adds a product to the summary (in the Main Page).
+    
+        1. Searches for the product with the name.
+        2. creates a product order with the addProductDetails() method.
+        3. Disables the dicrease ammount of the product (button).
+    
+     */
     @FXML
     private void addProduct(MouseEvent event) throws IOException {
-        Product product = bp.findProductByName(txtProductName.getText());
+        Product product = businessProduct.findProductByName(txtProductName.getText());
         ProductOrder po = addProductDetails(product);
         btnDicreaseAmount.setDisable(true);
-        mainController.updateSummary(po, counter);
-        counter = 1;
-        txtAmount.setText(counter + "");
+        mainController.updateSummaryWithNewSelectedProduct(po, selectedAmmountOfProduct);
+        selectedAmmountOfProduct = 1;
+        txtAmount.setText(selectedAmmountOfProduct + "");
     }
-
+    
+    
+    
+    /*
+        Creates a ProductOrder object with the details of the product.
+     */
     private ProductOrder addProductDetails(Product product) {
         ProductOrder po = new ProductOrder();
         po.setProduct(product);

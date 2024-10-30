@@ -182,7 +182,7 @@ public class ProductAddedController implements Initializable {
             ProductItemController itemController = loader.getController();
             itemController.setMainController(mainController);
             itemController.setPaController(this);
-            mainController.setPiController(itemController);
+            mainController.setProductItemController(itemController);
             itemController.setProductOrder(productOrder);
             itemController.setNumberOfProduct(number);
             itemController.setTxtIndividualPrice(price);
