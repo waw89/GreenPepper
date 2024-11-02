@@ -21,10 +21,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -50,10 +52,13 @@ public class ActiveOrderDetailDeliveryController implements Initializable {
     private Button btnPayOrder;
     @FXML
     private Button btnDelete;
+    @FXML
+    private Button btnEdit;
     
     private DeliveryOrder deliveryOrder;
     List<ProductOrder> productOrderList;
     OrderBusiness oBusiness = new OrderBusiness();
+    
     
 
     /**
@@ -133,7 +138,7 @@ public class ActiveOrderDetailDeliveryController implements Initializable {
         txtOpenDate.setText(deliveryOrder.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         txtIdOrder.setText("#" + deliveryOrder.getOrderNumber());
         txtTotalPrice.setText("$" + deliveryOrder.getPrice());
-        txtCustomerData.setText(deliveryOrder.getCustomerName() + " - " + deliveryOrder.getAddress());
+        txtCustomerData.setText(deliveryOrder.getCustomerName() + " - " + deliveryOrder.getAddress() + " - " + deliveryOrder.getPhoneNumber());
         
         productOrderList = deliveryOrder.getProducts();
         
@@ -189,6 +194,31 @@ public class ActiveOrderDetailDeliveryController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    
+    }
+
+    @FXML
+    private void OptionEditOrder(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditDeliveryOrder.fxml"));
+            Parent root = loader.load();
+            
+            EditDeliveryOrderController orderController = loader.getController();
+            orderController.setDeliveryOrder(deliveryOrder);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Editar nombre de Orden");
+            stage.showAndWait();
+            
+            txtCustomerData.setText(deliveryOrder.getCustomerName() + " - " + deliveryOrder.getAddress() + " - " + deliveryOrder.getPhoneNumber());
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ActiveOrderDetailDeliveryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     
     }
     

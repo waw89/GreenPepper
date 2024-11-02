@@ -17,7 +17,7 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Text fx:id="txtNombreCliente" layoutX="189.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de Cliente" wrappingWidth="470.13671875">
+      <Text fx:id="txtNombreCliente" layoutX="189.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de Cliente" wrappingWidth="648.13671875">
          <font>
             <Font size="27.0" />
          </font>

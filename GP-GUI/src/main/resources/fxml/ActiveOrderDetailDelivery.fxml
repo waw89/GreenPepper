@@ -69,17 +69,22 @@
             <VBox fx:id="orderContainer" prefHeight="311.0" prefWidth="574.0" />
          </content>
       </ScrollPane>
-      <Button fx:id="btnAddProduct" layoutX="858.0" layoutY="306.0" mnemonicParsing="false" onMouseClicked="#OptionAddProduct" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: ffc605; -fx-background-radius: 20;" text="Capturar" textFill="WHITE">
+      <Button fx:id="btnAddProduct" layoutX="854.0" layoutY="268.0" mnemonicParsing="false" onMouseClicked="#OptionAddProduct" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: ffc605; -fx-background-radius: 20;" text="Capturar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="btnPayOrder" layoutX="858.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#OptionPayOrder" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: green; -fx-background-radius: 20;" text="Cobrar" textFill="WHITE">
+      <Button fx:id="btnPayOrder" layoutX="854.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#OptionPayOrder" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: green; -fx-background-radius: 20;" text="Cobrar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="btnDelete" layoutX="858.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#OptionDeleteOrder" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Eliminar" textFill="WHITE">
+      <Button fx:id="btnDelete" layoutX="854.0" layoutY="418.0" mnemonicParsing="false" onMouseClicked="#OptionDeleteOrder" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Eliminar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnEdit" layoutX="854.0" layoutY="495.0" mnemonicParsing="false" onMouseClicked="#OptionEditOrder" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: #6ba5f9; -fx-background-radius: 20;" text="Editar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>

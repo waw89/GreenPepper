@@ -50,12 +50,13 @@ public class OrderCardController implements Initializable {
         if(dinerOrder != null){
             setDinerOrder(dinerOrder);
         }
+        
     }
     
     public void setDinerOrder(DinerOrder order){
-        this.dinerOrder = order;;
+        this.dinerOrder = order;
     }
-
+    
     public Text getTxtNombreMesa() {
         return txtNombreMesa;
     }
@@ -110,7 +111,9 @@ public class OrderCardController implements Initializable {
             
             Stage stage = new Stage();
             stage.setScene(new Scene(detail));
-            stage.show();
+            stage.showAndWait();
+            
+            txtNombreMesa.setText(dinerOrder.getOrderName());
                     
         } catch (IOException ex) {
             Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,15 +125,5 @@ public class OrderCardController implements Initializable {
     private void OptionPayOrder(MouseEvent event) {
     }
 
-
-    private void cancelOrder(MouseEvent event) {
-        try {
-            Order order = ob.findOrderById(Long.parseLong(this.txtFolioMesa.getText()));
-            ob.cancelOrder(order);
-            System.out.println("Orden cancelada");
-        } catch (Exception ex) {
-            Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
 }

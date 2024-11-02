@@ -109,7 +109,9 @@ public class PickUpCardController implements Initializable {
             
             Stage stage = new Stage();
             stage.setScene(new Scene(detail));
-            stage.show();
+            stage.showAndWait();
+            
+            txtNombreCliente.setText(pickUpOrder.getCustomerName() + " - " + pickUpOrder.getCustomerPhone());
         
         } catch (IOException ex) {
             Logger.getLogger(PickUpHistoryCardController.class.getName()).log(Level.SEVERE, null, ex);

@@ -22,10 +22,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -51,10 +53,14 @@ public class ActiveOrderDetailDinerController implements Initializable {
     private Button btnPayOrder;
     @FXML
     private Button btnDelete;
+    @FXML
+    private Button btnEdit;
+    
     
     private DinerOrder dinerOrder;
     List<ProductOrder> productOrderList;
     OrderBusiness oBusiness = new OrderBusiness();
+    
     
 
     /**
@@ -129,6 +135,22 @@ public class ActiveOrderDetailDinerController implements Initializable {
         this.btnPayOrder = btnPayOrder;
     }
     
+    public Button getBtnEdit() {
+        return btnEdit;
+    }
+
+    public void setBtnEdit(Button btnEdit) {
+        this.btnEdit = btnEdit;
+    }
+
+    public Button getBtnDelete() {
+        return btnDelete;
+    }
+
+    public void setBtnDelete(Button btnDelete) {
+        this.btnDelete = btnDelete;
+    }
+      
     public void loadProductsOrder(){
         if(dinerOrder == null) return;
         
@@ -184,13 +206,39 @@ public class ActiveOrderDetailDinerController implements Initializable {
         try {
                 Order order = oBusiness.findOrderById(dinerOrder.getOrderNumber());
                 oBusiness.cancelOrder(order);
-
+                
                 Stage stage = (Stage) btnDelete.getScene().getWindow();
                 stage.close();
-
+                
         } catch (Exception ex) {
             Logger.getLogger(ActiveOrderDetailDinerController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    
+    private void OptionEditOrder(MouseEvent event) {
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditDinerOrder.fxml"));
+            Parent root = loader.load();
+            
+            EditDinerOrderController orderController = loader.getController();
+            orderController.setDinerOrder(dinerOrder);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Editar nombre de Orden");
+            stage.showAndWait();
+            
+            txtOrderName.setText(dinerOrder.getOrderName());
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ActiveOrderDetailDinerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    
     }
   
 }

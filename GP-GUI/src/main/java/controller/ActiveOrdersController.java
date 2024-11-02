@@ -27,6 +27,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -73,7 +74,7 @@ public class ActiveOrdersController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/OrderCard.fxml"));
                     AnchorPane orderCard = loader.load();
                     OrderCardController cardController = loader.getController();
-
+                    
                     cardController.setDinerOrder(dOrder);
                     cardController.setTxtNombreMesa(dOrder.getOrderName());
                     cardController.setTxtFolioMesa("#" + dOrder.getOrderNumber().toString());
@@ -98,7 +99,7 @@ public class ActiveOrdersController implements Initializable {
                     DeliveryCardController cardController = loader.getController();
 
                     cardController.setDeliveryOrder(delOrder);
-                    cardController.setTxtNombreCliente(delOrder.getCustomerName() + " - " + delOrder.getAddress());
+                    cardController.setTxtNombreCliente(delOrder.getCustomerName() + " - " + delOrder.getAddress() + " - " + delOrder.getPhoneNumber());
                     cardController.setTxtFolio(String.valueOf("#" + delOrder.getOrderNumber()));
 
                     orderContainer.getChildren().add(orderDeliveryCard);

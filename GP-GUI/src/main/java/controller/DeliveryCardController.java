@@ -94,7 +94,10 @@ public class DeliveryCardController implements Initializable {
             
             Stage stage = new Stage();
             stage.setScene(new Scene(detail));
-            stage.show();
+            stage.showAndWait();
+            
+            txtNombreCliente.setText(deliveryOrder.getCustomerName() + " - " + deliveryOrder.getAddress());
+            
                     
         } catch (IOException ex) {
             Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);

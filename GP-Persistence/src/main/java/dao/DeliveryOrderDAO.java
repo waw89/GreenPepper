@@ -46,7 +46,7 @@ public class DeliveryOrderDAO implements IDeliveryDAO, Serializable {
 
     }
 
-    public void edit(DeliveryOrder deliveryOrder) throws NonexistentEntityException, Exception {
+    public DeliveryOrder edit(DeliveryOrder deliveryOrder) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -67,6 +67,7 @@ public class DeliveryOrderDAO implements IDeliveryDAO, Serializable {
                 em.close();
             }
         }
+        return deliveryOrder;
     }
 
     public void destroy(Long id) throws NonexistentEntityException {
