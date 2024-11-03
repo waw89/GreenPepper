@@ -46,6 +46,8 @@ public class EditPickUpOrderController implements Initializable {
     
     public void setPickUpOrder(PickUpOrder order){
         this.pickUpOrder = order;
+        txtNewOrderName.setText(pickUpOrder.getCustomerName());
+        txtNewPhoneNumber.setText(pickUpOrder.getCustomerPhone());
     }
 
     public TextField getTxtNewOrderName() {

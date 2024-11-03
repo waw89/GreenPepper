@@ -79,7 +79,7 @@ public class ActiveOrdersController implements Initializable {
                     cardController.setTxtNombreMesa(dOrder.getOrderName());
                     cardController.setTxtFolioMesa("#" + dOrder.getOrderNumber().toString());
                     
-
+                    
                     orderContainer.getChildren().add(orderCard);
                     orderContainer.setSpacing(10);
                 }

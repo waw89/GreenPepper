@@ -7,13 +7,11 @@ package controller;
 
 import business.OrderBusiness;
 import com.mycompany.gp.domain.DinerOrder;
-import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.ORDER_STATE;
 import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +22,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -45,12 +45,15 @@ public class ClosedOrderDetailController implements Initializable {
     private Text txtTotalPrice;
     @FXML
     private Text txtOrderName;
+    @FXML
+    private Button btnReopen;
     
     OrderBusiness oBusiness = new OrderBusiness();
     
     private List<ProductOrder> productOrderList;
     private List<ProductOrder> productOrder = oBusiness.getAllProductOrder();
     private DinerOrder dinerOrder;
+    
     
 
     /**
@@ -153,6 +156,18 @@ public class ClosedOrderDetailController implements Initializable {
 
     public void setTxtOrderName(Text txtOrderName) {
         this.txtOrderName.setText(txtOrderName.getText());
+    }
+
+    @FXML
+    private void OptionReopenOrder(MouseEvent event) {
+    
+        dinerOrder.setORDER_STATE(ORDER_STATE.ACTIVE);
+        
+        oBusiness.EditDataDiner(dinerOrder);
+        
+        Stage stage = (Stage) btnReopen.getScene().getWindow();
+        stage.close();
+    
     }
 
     

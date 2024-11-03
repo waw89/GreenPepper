@@ -4,7 +4,9 @@
  */
 package controller;
 
+import business.OrderBusiness;
 import com.mycompany.gp.domain.DeliveryOrder;
+import com.mycompany.gp.domain.ORDER_STATE;
 import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
 import java.net.URL;
@@ -19,8 +21,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -39,9 +44,13 @@ public class ClosedOrderDetailDeliveryController implements Initializable {
     private Text txtTotalPrice;
     @FXML
     private Text txtCustomerData;
+    @FXML
+    private Button btnReopen;
     
     private DeliveryOrder deliveryOrder;
     private List<ProductOrder> productOrderList;
+    OrderBusiness oBusiness = new OrderBusiness();
+    
 
     /**
      * Initializes the controller class.
@@ -144,6 +153,19 @@ public class ClosedOrderDetailDeliveryController implements Initializable {
                 Logger.getLogger(ClosedOrderDetailController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+    }
+
+    @FXML
+    private void OptionReopenOrder(MouseEvent event) {
+    
+        deliveryOrder.setState(ORDER_STATE.ACTIVE);
+        
+        oBusiness.EditDataDelivery(deliveryOrder);
+        
+        Stage stage = (Stage) btnReopen.getScene().getWindow();
+        stage.close();
+        
         
     }
     
