@@ -6,18 +6,24 @@ package controller;
 
 import business.BusinessProduct;
 import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.PRODUCT_SIZE;
 import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -40,24 +46,60 @@ public class ProductCardController implements Initializable {
     private Button btnAddProduct;
     @FXML
     private Button btnDicreaseAmount;
-    
-    private int counter = 1;
 
-    
-    BusinessProduct bp = new BusinessProduct();
+    private int selectedAmmountOfProduct = 1;
+
+    BusinessProduct businessProduct = new BusinessProduct();
+
     MainPageController mainController;
-    
-     public void setMainController(MainPageController mainController) {
+
+    public void setMainController(MainPageController mainController) {
         this.mainController = mainController;
     }
-    
+
     /**
      * Initializes the controller class.
      */
+    private Timeline timelineIncrease;
+    private Timeline timelineDecrease;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }  
+
+        btnDicreaseAmount.setDisable(true);
+
+        timelineIncrease = new Timeline(new KeyFrame(Duration.millis(200), (ActionEvent event) -> {
+            increaseCounter();
+        }));
+        timelineIncrease.setCycleCount(Timeline.INDEFINITE);
+
+        timelineDecrease = new Timeline(new KeyFrame(Duration.millis(200), (ActionEvent event) -> {
+            decreaseCounter();
+        }));
+        timelineDecrease.setCycleCount(Timeline.INDEFINITE);
+
+        btnIncreaseAmount.setOnMousePressed(event -> {
+            timelineIncrease.play();
+        });
+
+        btnIncreaseAmount.setOnMouseReleased(event -> {
+            timelineIncrease.stop();
+        });
+
+        btnDicreaseAmount.setOnMousePressed(event -> {
+            timelineDecrease.play();
+        });
+
+        btnDicreaseAmount.setOnMouseReleased(event -> {
+            timelineDecrease.stop();
+        });
+
+        btnDicreaseAmount.setOnMouseClicked(event -> {
+            if (event.isStillSincePress()) {
+                decreaseCounter();
+            }
+        });
+    }
 
     public Text getTxtProductName() {
         return txtProductName;
@@ -83,47 +125,81 @@ public class ProductCardController implements Initializable {
         this.txtAmount = txtAmount;
     }
 
-    public int getCounter() {
-        return counter;
+    public int getSelectedAmmountOfProduct() {
+        return selectedAmmountOfProduct;
     }
 
-    public void setCounter(int counter) {
-        this.counter = counter;
+    public void setSelectedAmmountOfProduct(int selectedAmmountOfProduct) {
+        this.selectedAmmountOfProduct = selectedAmmountOfProduct;
     }
 
-    
-    
     @FXML
     private void increaseAmount(MouseEvent event) {
-        counter++;
-        btnDicreaseAmount.setDisable(false);
-        txtAmount.setText(counter+"");
-        
+        increaseCounter();
     }
+
 
     @FXML
     private void dicreaseAmount(MouseEvent event) {
-        counter--;
-        txtAmount.setText(counter+"");
+        decreaseCounter();
+    }
+
+    /*
         
-        if(counter == 1){
-            btnDicreaseAmount.setDisable(true);
+        Behavior for the + button in the Product Card
+    
+     */
+    private void increaseCounter() {
+        selectedAmmountOfProduct++;
+        btnDicreaseAmount.setDisable(false);
+        txtAmount.setText(selectedAmmountOfProduct + "");
+    }
+    
+    /*
+        
+        Behavior for the - button in the Product Card
+    
+     */
+    private void decreaseCounter() {
+        if (selectedAmmountOfProduct > 1) { // if the counter is greater than 1, decrease the ammount of the txt
+            selectedAmmountOfProduct--;
+            txtAmount.setText(selectedAmmountOfProduct + "");
+
+            if (selectedAmmountOfProduct == 1) {
+                btnDicreaseAmount.setDisable(true); // if the counter reaches 1 disable the decrease button
+            }
         }
     }
 
+    /*
+        Adds a product to the summary (in the Main Page).
+    
+        1. Searches for the product with the name.
+        2. creates a product order with the addProductDetails() method.
+        3. Disables the dicrease ammount of the product (button).
+    
+     */
     @FXML
-    private void addProduct(MouseEvent event) {
-        Product product = bp.findProductByName(txtProductName.getText());
+    private void addProduct(MouseEvent event) throws IOException {
+        Product product = businessProduct.findProductByName(txtProductName.getText());
         ProductOrder po = addProductDetails(product);
-        mainController.updateSummary(po);
+        btnDicreaseAmount.setDisable(true);
+        mainController.updateSummaryWithNewSelectedProduct(po, selectedAmmountOfProduct);
+        selectedAmmountOfProduct = 1;
+        txtAmount.setText(selectedAmmountOfProduct + "");
     }
     
-    private ProductOrder addProductDetails(Product product){
-         ProductOrder po = new ProductOrder();
-         po.setProduct(product);
-         po.setPrice(product.getPrice());
-         po.setAmount(counter);
+    
+    
+    /*
+        Creates a ProductOrder object with the details of the product.
+     */
+    private ProductOrder addProductDetails(Product product) {
+        ProductOrder po = new ProductOrder();
+        po.setProduct(product);
+        po.setPRODUCT_SIZE(PRODUCT_SIZE.SMALL);
+        po.setPrice(product.getPrice());
         return po;
     }
-    
+
 }

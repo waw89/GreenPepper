@@ -27,6 +27,7 @@ import java.util.Scanner;
  * @author Raul
  */
 public class Main {
+ 
 
     /**
      * @param args the command line arguments
@@ -34,6 +35,8 @@ public class Main {
     /*
         Metodo main
      */
+    /**
+ 
     private static Scanner scanner = new Scanner(System.in);
 
     private static BusinessProduct productBusinessLogicAccessPoint = new BusinessProduct();    // This variable provides an access point to the methods that are in the product business
@@ -856,5 +859,7 @@ public class Main {
         }
 
     }
+    
+     */
 
 }

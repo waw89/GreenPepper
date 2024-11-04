@@ -34,10 +34,12 @@ public class Combo extends Product implements Serializable {
         this.productList = productList;
     }
 
-    public Combo(List<ComboProduct> productList, String name, int price, boolean productState, Discount activeOffer) {
-        super(name, price, productState, activeOffer);
+    public Combo(List<ComboProduct> productList, String name, int price, boolean productState, Discount activeOffer, com.mycompany.gp.domain.PRODUCT_SIZE PRODUCT_SIZE) {
+        super(name, price, productState, activeOffer, PRODUCT_SIZE);
         this.productList = productList;
     }
+
+    
 
     public long getId() {
         return id;

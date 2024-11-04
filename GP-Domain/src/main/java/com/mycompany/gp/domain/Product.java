@@ -49,16 +49,22 @@ public class Product implements Serializable {
     @JoinColumn(name = "activeOffer")
     protected Discount activeOffer;
     
+    @Column (name = "PRODUCT_SIZE")
+    protected PRODUCT_SIZE PRODUCT_SIZE;
+
 
     public Product() {
     }
 
-    public Product(String name, int price, boolean state, Discount activeOffer) {
+    public Product(String name, int price, boolean productState, Discount activeOffer, PRODUCT_SIZE PRODUCT_SIZE) {
         this.name = name;
         this.price = price;
-        this.productState = state;
+        this.productState = productState;
         this.activeOffer = activeOffer;
+        this.PRODUCT_SIZE = PRODUCT_SIZE;
     }
+
+    
 
     public long getId() {
         return id;
@@ -100,6 +106,15 @@ public class Product implements Serializable {
         this.price = price;
     }
 
+    public PRODUCT_SIZE getPRODUCT_SIZE() {
+        return PRODUCT_SIZE;
+    }
+
+    public void setPRODUCT_SIZE(PRODUCT_SIZE PRODUCT_SIZE) {
+        this.PRODUCT_SIZE = PRODUCT_SIZE;
+    }
+
+    
     @Override
     public String toString() {
         return "Product{" + "id=" + id + ", name=" + name + ", price=" + price + ", stateProduct=" + productState + ", activeOffer=" + activeOffer + '}';

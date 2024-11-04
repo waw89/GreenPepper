@@ -38,6 +38,9 @@ public class ProductOrder implements Serializable {
 
     @Column(name = "price")
     private float price;
+    
+    @Column(name = "details")
+    private String details;
 
     @Column (name = "PRODUCT_SIZE")
     protected PRODUCT_SIZE PRODUCT_SIZE;
@@ -45,14 +48,16 @@ public class ProductOrder implements Serializable {
     public ProductOrder() {
     }
 
-    public ProductOrder(Long id, Product product, Order order, float price, int amount, PRODUCT_SIZE PRODUCT_SIZE) {
-        this.id = id;
+
+    public ProductOrder(Product product, Order order, float price, String details, PRODUCT_SIZE PRODUCT_SIZE) {
         this.product = product;
         this.order = order;
         this.price = price;
+        this.details = details;
         this.PRODUCT_SIZE = PRODUCT_SIZE;
-
     }
+    
+    
 
     // Getters & Setters
     public Long getId() {
@@ -97,6 +102,23 @@ public class ProductOrder implements Serializable {
         this.order = order;
     }
 
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public PRODUCT_SIZE getPRODUCT_SIZE() {
+        return PRODUCT_SIZE;
+    }
+
+    public void setPRODUCT_SIZE(PRODUCT_SIZE PRODUCT_SIZE) {
+        this.PRODUCT_SIZE = PRODUCT_SIZE;
+    }
+
+    
     @Override
     public String toString() {
         return "ProductOrder{" + "id=" + id + ", product=" + product + ", order=" + order + ", price=" + price;

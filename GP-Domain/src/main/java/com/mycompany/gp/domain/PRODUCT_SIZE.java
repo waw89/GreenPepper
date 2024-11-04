@@ -12,5 +12,6 @@ public enum PRODUCT_SIZE {
   SMALL, 
   MEDIUM,
   LARGE,
+  STUDENT,
   UNDEFINED,
 }

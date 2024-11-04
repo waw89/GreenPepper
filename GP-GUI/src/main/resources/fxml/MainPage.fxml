@@ -123,29 +123,29 @@
                   <Font name="Inter 18pt SemiBold" size="17.0" />
                </font>
             </Button>
-            <Button id="btnFood" fx:id="btnFood" layoutX="445.0" layoutY="17.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Comidas" textFill="WHITE">
+            <Button id="btnFood" fx:id="btnFood" layoutX="445.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#showFoods" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" stylesheets="@../styles/mainpage.css" text="Comidas" textFill="WHITE">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
             </Button>
-            <Button id="btnDrink" fx:id="btnDrink" layoutX="686.0" layoutY="18.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Bebidas">
+            <Button id="btnDrink" fx:id="btnDrink" layoutX="686.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#showDrinks" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Bebidas">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
             </Button>
-            <Button id="btnExtra" fx:id="btnExtra" layoutX="927.0" layoutY="17.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Extras">
+            <Button id="btnExtra" fx:id="btnExtra" layoutX="927.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#showExtras" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Extras">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
             </Button>
             <Pane layoutX="413.0" layoutY="78.0" prefHeight="536.0" prefWidth="726.0" style="-fx-background-color: #ECECEC;">
                <children>
-                  <TextField id="txtSearchProduct" fx:id="txtSearchProduct" layoutX="71.0" layoutY="30.0" prefHeight="36.0" prefWidth="390.0" promptText="Nombre del producto" style="-fx-background-radius: 30;">
+                  <TextField id="txtSearchProduct" fx:id="txtSearchProduct" layoutX="71.0" layoutY="30.0" onKeyTyped="#search" prefHeight="36.0" prefWidth="390.0" promptText="Nombre del producto" style="-fx-background-radius: 30;">
                      <font>
                         <Font name="Inter 18pt Regular" size="13.0" />
                      </font>
                   </TextField>
-                  <Button id="btS" fx:id="btnSearch" layoutX="487.0" layoutY="30.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: #005ACF; -fx-border-radius: 40; -fx-background-radius: 40;" text="Busqueda" textFill="WHITE">
+                  <Button id="btS" fx:id="btnClean" layoutX="487.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#cleanSearchBar" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: #005ACF; -fx-border-radius: 40; -fx-background-radius: 40;" text="Borrar" textFill="WHITE">
                      <font>
                         <Font name="Inter 18pt SemiBold" size="18.0" />
                      </font>

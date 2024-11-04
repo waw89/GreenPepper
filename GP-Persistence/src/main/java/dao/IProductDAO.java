@@ -15,4 +15,7 @@ public interface IProductDAO {
 
     public List<Product> findProductEntities();
     public Product findProductByName(String name);
+    public Product findSmallProduct(String name);
+    public Product findMediumProduct(String name);
+    public Product findLargeProduct(String name);
 }
