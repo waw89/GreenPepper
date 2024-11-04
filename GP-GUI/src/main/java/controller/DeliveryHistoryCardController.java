@@ -1,15 +1,14 @@
-package controller;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
+package controller;
 
 import business.OrderBusiness;
 import com.mycompany.gp.domain.DeliveryOrder;
-import com.mycompany.gp.domain.Order;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -28,19 +28,19 @@ import javafx.stage.Stage;
  *
  * @author PC
  */
-public class DeliveryCardController implements Initializable {
+public class DeliveryHistoryCardController implements Initializable {
 
     @FXML
     private Text txtNombreCliente;
+    @FXML
     private Text txtDireccion;
     @FXML
-    private Button btnViewDetails;
+    private Text txtEstado;
     @FXML
-    private Button btnPay;
-    @FXML
-    private Text txtFolio;
+    private Button btnVerDetalles;
     
-    OrderBusiness ob = new OrderBusiness();
+    OrderBusiness oBusiness = new OrderBusiness();
+    List<DeliveryOrder> orderList = oBusiness.getAllDelOrder();
     private DeliveryOrder deliveryOrder;
 
     /**
@@ -48,9 +48,12 @@ public class DeliveryCardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        orderList = oBusiness.getAllDelOrder();
+        
         if(deliveryOrder != null){
             setDeliveryOrder(deliveryOrder);
         }
+        
     }
     
     public void setDeliveryOrder(DeliveryOrder order){
@@ -73,52 +76,41 @@ public class DeliveryCardController implements Initializable {
         this.txtDireccion.setText(txtDireccion);
     }
 
-    public Text getTxtFolio() {
-        return txtFolio;
+    public Text getTxtEstado() {
+        return txtEstado;
     }
 
-    public void setTxtFolio(String txtFolio) {
-        this.txtFolio.setText(txtFolio);
-    }
-    
-    @FXML
-    private void OptionViewDetails(MouseEvent event) {
+    public void setTxtEstado(String txtEstado) {
+        if("CANCELADO".equals(txtEstado)){
+            this.txtEstado.setFill(Color.RED);
+        }else if("PAGADO".equals(txtEstado)){
+            this.txtEstado.setFill(Color.GREEN);
+        }
         
+        this.txtEstado.setText(txtEstado);
+    }
+
+    @FXML
+    private void detailOption(MouseEvent event) {
+    
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ActiveOrderDetailDelivery.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ClosedOrderDetailDelivery.fxml"));
             Parent detail = loader.load();
             
-            ActiveOrderDetailDeliveryController detailController = loader.getController();
+            ClosedOrderDetailDeliveryController detailController = loader.getController();
             
             detailController.setDeliveryOrder(deliveryOrder);
             
             Stage stage = new Stage();
             stage.setScene(new Scene(detail));
-            stage.showAndWait();
+            stage.show();
             
-            txtNombreCliente.setText(deliveryOrder.getCustomerName() + " - " + deliveryOrder.getAddress());
-            
-                    
-        } catch (IOException ex) {
-            Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (IOException ex) {
+            Logger.getLogger(PickUpHistoryCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    @FXML
-    private void OptionPayOrder(MouseEvent event) {
-    }
-
-    private void cancelOrder(MouseEvent event) {
-        try {
-            Order order = ob.findOrderById(Long.parseLong(this.txtFolio.getText()));
-            ob.cancelOrder(order);
-            System.out.println("Orden cancelada");
-        } catch (Exception ex) {
-            Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     
+    
+    }
 
     
     

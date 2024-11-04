@@ -5,6 +5,7 @@
 package dao;
 
 import com.mycompany.gp.domain.DinerOrder;
+import dao.exceptions.NonexistentEntityException;
 import java.util.List;
 
 /**
@@ -14,4 +15,5 @@ import java.util.List;
 public interface IDinerOrderDAO {
     public DinerOrder create(DinerOrder dinerOrder);
     public List<DinerOrder> findDinerOrderEntities();
+    public DinerOrder edit(DinerOrder dinerOrder) throws NonexistentEntityException, Exception;
 }

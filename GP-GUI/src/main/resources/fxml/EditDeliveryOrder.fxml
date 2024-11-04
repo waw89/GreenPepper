@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="361.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditDeliveryOrderController">
+   <children>
+      <Text layoutX="88.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Cliente" wrappingWidth="223.13671875">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtNewOrderName" layoutX="48.0" layoutY="49.0" prefHeight="35.0" prefWidth="305.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <Button fx:id="btnCancel" layoutX="46.0" layoutY="299.0" mnemonicParsing="false" onMouseClicked="#OptionCancel" prefHeight="39.0" prefWidth="133.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnAccept" layoutX="221.0" layoutY="299.0" mnemonicParsing="false" onMouseClicked="#OptionAccept" prefHeight="39.0" prefWidth="133.0" style="-fx-background-color: green; -fx-background-radius: 20;" text="Aceptar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Text layoutX="144.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Domicilio" wrappingWidth="111.13671875">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtAddress" layoutX="48.0" layoutY="132.0" prefHeight="35.0" prefWidth="305.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <Text layoutX="92.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero telefoníco" wrappingWidth="216.13671875">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtNewPhoneNumber" layoutX="48.0" layoutY="224.0" prefHeight="35.0" prefWidth="305.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>

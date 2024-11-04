@@ -7,35 +7,25 @@
 
 <AnchorPane id="AnchorPane" prefHeight="154.0" prefWidth="670.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PickUpCardController">
    <children>
-      <Button fx:id="btnVerOrden" layoutX="33.0" layoutY="74.0" mnemonicParsing="false" style="-fx-background-color: black; -fx-background-radius: 20;" text="Ver detalles" textFill="WHITE">
+      <Button fx:id="btnVerOrden" layoutX="21.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#OptionViewDetails" style="-fx-background-color: black; -fx-background-radius: 20;" text="Ver detalles" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="btnCobrar" layoutX="214.0" layoutY="74.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="152.0" style="-fx-background-color: green; -fx-background-radius: 20;" text="Cobrar" textFill="WHITE">
+      <Button fx:id="btnCobrar" layoutX="189.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#OptionPayOrder" prefHeight="46.0" prefWidth="152.0" style="-fx-background-color: green; -fx-background-radius: 20;" text="Cobrar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Text fx:id="txtFolio" layoutX="33.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Folio" wrappingWidth="64.46630859375">
+      <Text fx:id="txtFolio" layoutX="21.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Folio" wrappingWidth="152.0">
          <font>
             <Font size="27.0" />
          </font>
       </Text>
-      <Text fx:id="txtNombreCliente" layoutX="219.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Cliente">
+      <Text fx:id="txtNombreCliente" layoutX="189.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Cliente" wrappingWidth="454.46630859375">
          <font>
             <Font size="27.0" />
          </font>
       </Text>
-      <Button fx:id="btnEdit" layoutX="386.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#btnEdit" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: Orange; -fx-background-radius: 20;" text="Editar" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="22.0" />
-         </font>
-      </Button>
-      <Button fx:id="btnCancel" layoutX="530.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#cancelOrder" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Borrar" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="22.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

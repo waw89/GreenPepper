@@ -42,8 +42,8 @@ public class DinerOrderDAO implements IDinerOrderDAO {
         }
         return dinerOrder;
     }
-
-    public void edit(DinerOrder dinerOrder) throws NonexistentEntityException, Exception {
+    
+    public DinerOrder edit(DinerOrder dinerOrder) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -64,6 +64,7 @@ public class DinerOrderDAO implements IDinerOrderDAO {
                 em.close();
             }
         }
+        return dinerOrder;
     }
 
     public void destroy(Long id) throws NonexistentEntityException {
