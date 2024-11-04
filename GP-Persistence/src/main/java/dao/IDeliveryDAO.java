@@ -5,6 +5,7 @@
 package dao;
 
 import com.mycompany.gp.domain.DeliveryOrder;
+import dao.exceptions.NonexistentEntityException;
 import java.util.List;
 
 /**
@@ -14,4 +15,5 @@ import java.util.List;
 public interface IDeliveryDAO {
     public DeliveryOrder create(DeliveryOrder orderToPersist);
     public List<DeliveryOrder> findDeliveryOrderEntities();
+    public DeliveryOrder edit(DeliveryOrder deliveryOrder)throws NonexistentEntityException, Exception;
 }

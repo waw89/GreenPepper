@@ -6,15 +6,21 @@ package controller;
 
 import business.OrderBusiness;
 import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.PickUpOrder;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -27,23 +33,28 @@ public class PickUpCardController implements Initializable {
     private Button btnVerOrden;
     @FXML
     private Button btnCobrar;
+    @FXML
     private Text txtNumeroTelefono;
     @FXML
     private Text txtNombreCliente;
     @FXML
-    private Button btnEdit;
-    @FXML
-    private Button btnCancel;
-    @FXML
     private Text txtFolio;
 
      OrderBusiness ob = new OrderBusiness();
+     private PickUpOrder pickUpOrder;
+     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        if(pickUpOrder != null){
+            setPickUpOrder(pickUpOrder);
+        }
+    }
+    
+    public void setPickUpOrder(PickUpOrder order){
+        this.pickUpOrder = order;
     }
 
     public Button getBtnVerOrden() {
@@ -86,13 +97,33 @@ public class PickUpCardController implements Initializable {
         this.txtFolio.setText(txtFolio);
     }
     
-    
-
     @FXML
-    private void btnEdit(MouseEvent event) {
+    private void OptionViewDetails(MouseEvent event) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ActiveOrderDetailPickUp.fxml"));
+            Parent detail = loader.load();
+            
+            ActiveOrderDetailPickUpController detailController = loader.getController();
+            
+            detailController.setPickUpOrder(pickUpOrder);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(detail));
+            stage.showAndWait();
+            
+            txtNombreCliente.setText(pickUpOrder.getCustomerName() + " - " + pickUpOrder.getCustomerPhone());
+        
+        } catch (IOException ex) {
+            Logger.getLogger(PickUpHistoryCardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     }
 
-     @FXML
+    @FXML
+    private void OptionPayOrder(MouseEvent event) {
+    }
+
+
     private void cancelOrder(MouseEvent event) {
         try {
             Order order = ob.findOrderById(Long.parseLong(this.txtFolio.getText()));
@@ -102,5 +133,7 @@ public class PickUpCardController implements Initializable {
             Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    
  
 }

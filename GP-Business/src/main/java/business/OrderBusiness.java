@@ -22,7 +22,10 @@ import dao.IProductDAO;
 import dao.OrderDAO;
 import dao.PickUpOrderDAO;
 import dao.ProductDAO;
+import dao.ProductOrderDAO;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -35,6 +38,7 @@ public class OrderBusiness {
     IDeliveryDAO deliveryDAOInterface = new DeliveryOrderDAO();
     OrderDAO odao = new OrderDAO();
     IDinerOrderDAO dinerdao = new DinerOrderDAO();
+    ProductOrderDAO podao = new ProductOrderDAO();
     
     public PickUpOrder createPickUpOrder(PickUpOrder pickUpOrder) {
         float total = calculateCost(pickUpOrder);
@@ -82,6 +86,14 @@ public class OrderBusiness {
         return pudao.findPickUpOrderEntities();
     }
     
+    public List<Order> getAllOrder(){
+        return odao.findOrderEntities();
+    }
+    
+    public List<ProductOrder> getAllProductOrder(){
+        return podao.findProductOrderEntities();
+    }
+    
     public float calculateCost(Order order) {
         float total = 0;
         List<ProductOrder> products = order.getProducts();
@@ -102,5 +114,32 @@ public class OrderBusiness {
     public Order findOrderById(Long orderNumber){
         return odao.findOrder(orderNumber);
     }
-  
+    
+    public DinerOrder EditDataDiner(DinerOrder dinerOrder){
+        try {
+            return dinerdao.edit(dinerOrder);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderBusiness.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return dinerOrder;
+    }
+    
+    public DeliveryOrder EditDataDelivery(DeliveryOrder deliveryOrder){
+        try{
+            return deliveryDAOInterface.edit(deliveryOrder);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderBusiness.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return deliveryOrder;
+    }
+    
+    public PickUpOrder EditDataPickUp(PickUpOrder pickUpOrder){
+        try{
+            return pudao.edit(pickUpOrder);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderBusiness.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pickUpOrder;
+    }
+      
 }
