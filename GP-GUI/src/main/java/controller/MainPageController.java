@@ -92,30 +92,30 @@ public class MainPageController implements Initializable {
     @FXML
     private Button btnClean;
 
-    
-
     List<ProductOrder> poList = new ArrayList<>();
-    
+
     BusinessProduct prodBusiness = new BusinessProduct();
-    
+
     OrderBusiness oBusiness = new OrderBusiness();
-    
+
     Order order = new Order(); // why is this being created here?
-    
+
     ProductItemController productItemController;
 
     ObservableList<IndividualProduct> foodList;
-    
+
     ObservableList<IndividualProduct> drinkList;
-    
+
     ObservableList<IndividualProduct> extrasList;
-    
+
     FilteredList<IndividualProduct> filter;
     
- 
+    List<ProductAddedController> productAddedNodes = new ArrayList<>();
+
     /**
      * Gets the order of the controller
-     * @return 
+     *
+     * @return
      */
     public Order getOrder() {
         return order;
@@ -138,7 +138,7 @@ public class MainPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         foodList = FXCollections.observableArrayList();
         List<IndividualProduct> products = prodBusiness.getAllFoods();
         foodList.addAll(products);
@@ -195,9 +195,11 @@ public class MainPageController implements Initializable {
     }
 
     /**
-     * loads a new CreateOrderController, by recieving the name of the FXML and the order that is being created.
+     * loads a new CreateOrderController, by recieving the name of the FXML and
+     * the order that is being created.
+     *
      * @param namePage name of the FXML file for the Create Order
-     * @param order 
+     * @param order
      */
     private void loadPage(String namePage, Order order) {
         try {
@@ -213,9 +215,7 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void save(MouseEvent event) throws IOException {
-        for (ProductOrder po : this.order.getProducts()) {
-            this.order.setProducts(productItemController.getProductDetails(po));
-        }
+       
         loadPage("CreateOrder", this.order);
     }
 
@@ -239,22 +239,20 @@ public class MainPageController implements Initializable {
     }
 
     public void updateSummaryWithNewSelectedProduct(ProductOrder productSelected, int selectedAmmountOfProduct) throws IOException {
-        boolean productExists = false; 
+        boolean productExists = false;
 
-       // ANALIZAR SI CONVIENE CAMBIAR LA LOGICA PARA QUE SE USE SOLO UN IF Y ELSE Y SE MANDE A LLAMAR A METODOS EXTERNOS   
-        // This logic is for when the type of product is already in the order
-        for (Node node : summaryContainer.getChildren()) { // iterate the list of nodes that are in the summaryContainer
+        for (Node node : summaryContainer.getChildren()) {
             ProductAddedController cellController = (ProductAddedController) node.getUserData(); // get the information of the node and cast it to a Controller
             if (cellController.getProductOrder().getProduct().getName().equals(productSelected.getProduct().getName())) { // verify if the selectedProduct is equal to the node in turn in the iteration
                 int currentAmount = Integer.parseInt(cellController.getTxtAmount());
                 int newAmount = currentAmount + selectedAmmountOfProduct;
                 cellController.setTxtAmount(String.valueOf(newAmount));
-                cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * newAmount); // QUIZAS SEA CONVENIENTE HACER UN METODO SOLO PARA CALCULAR EL NUEVO PRECIO
+                cellController.setTxtProductSummaryPrice(String.valueOf(productSelected.getProduct().getPrice() * newAmount)); // QUIZAS SEA CONVENIENTE HACER UN METODO SOLO PARA CALCULAR EL NUEVO PRECIO
                 productExists = true;
 
                 int j = currentAmount + 1;
                 for (int i = 0; i < selectedAmmountOfProduct; i++) {
-                    cellController.addProductToListContainer("$" + productSelected.getPrice(), "#" + j);
+                    cellController.addProductToListContainer(productSelected.getPrice(), "#" + j);
                     j++;
                     productSelected.setOrder(order);
                     poList.add(productSelected);
@@ -270,14 +268,14 @@ public class MainPageController implements Initializable {
             cellController.setMainController(this);
             cellController.setProductOrder(productSelected);
             cellController.setTxtSummaryProductName(productSelected.getProduct().getName());
-            cellController.setTxtProductSummaryPrice("$" + productSelected.getProduct().getPrice() * selectedAmmountOfProduct);
+            cellController.setTxtProductSummaryPrice(String.valueOf(productSelected.getProduct().getPrice() * selectedAmmountOfProduct));
             cellController.setTxtAmount(String.valueOf(selectedAmmountOfProduct));
             productCell.setUserData(cellController);
             summaryContainer.getChildren().add(productCell);
 
             int j = 1;
             for (int i = 0; i < selectedAmmountOfProduct; i++) {
-                cellController.addProductToListContainer("$" + productSelected.getPrice(), "#" + j);
+                cellController.addProductToListContainer(productSelected.getPrice(), "#" + j);
                 j++;
                 productSelected.setOrder(order);
                 poList.add(productSelected);
@@ -479,4 +477,23 @@ public class MainPageController implements Initializable {
         this.txtSearchProduct.clear();
     }
 
+    public void updateTotalPrice() {
+        float total = 0;
+        for (Node node : summaryContainer.getChildren()) {
+            ProductAddedController paController = (ProductAddedController) node.getUserData();
+            total += Float.parseFloat(paController.getTxtProductSummaryPrice());
+        }
+        
+        lblSubtotal.setText("$" + oBusiness.calculateCost(order));
+        lblTotal.setText(lblSubtotal.getText());
+        order.setPrice(oBusiness.calculateCost(order));
+    }
+
+    public void removeItemFromPoList(ProductOrder productOrder) {
+        this.order.getProducts().remove(productOrder);
+    }
+
+    public void addItemToPoList(ProductOrder productOrder) {
+        this.order.getProducts().add(productOrder);
+    }
 }

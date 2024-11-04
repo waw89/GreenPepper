@@ -4,6 +4,7 @@
  */
 package dao;
 
+import com.mycompany.gp.domain.PRODUCT_SIZE;
 import com.mycompany.gp.domain.Product;
 import dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
@@ -136,11 +137,44 @@ public class ProductDAO implements IProductDAO {
     @Override
     public Product findProductByName(String name) {
       EntityManager em = getEntityManager();
-      String jpql = "Select p FROM Product p WHERE p.name = :name";
+      String jpql = "Select p FROM Product p WHERE p.name = :name ";
       TypedQuery<Product> query = em.createQuery(jpql, Product.class);
       query.setParameter("name", name);
+      query.setMaxResults(1);
       return query.getSingleResult();
     }
+
+    @Override
+    public Product findSmallProduct(String name) {
+      EntityManager em = getEntityManager();
+      String jpql = "Select p FROM Product p WHERE p.name = :name AND p.PRODUCT_SIZE = :PRODUCT_SIZE";
+      TypedQuery<Product> query = em.createQuery(jpql, Product.class);
+      query.setParameter("name", name);
+      query.setParameter("PRODUCT_SIZE", PRODUCT_SIZE.SMALL);
+      return query.getSingleResult();
+    }
+
+    @Override
+    public Product findMediumProduct(String name) {
+      EntityManager em = getEntityManager();
+      String jpql = "Select p FROM Product p WHERE p.name = :name AND p.PRODUCT_SIZE = :PRODUCT_SIZE";
+      TypedQuery<Product> query = em.createQuery(jpql, Product.class);
+      query.setParameter("name", name);
+      query.setParameter("PRODUCT_SIZE", PRODUCT_SIZE.MEDIUM);
+      return query.getSingleResult();
+    }
+
+    @Override
+    public Product findLargeProduct(String name) {
+      EntityManager em = getEntityManager();
+      String jpql = "Select p FROM Product p WHERE p.name = :name AND p.PRODUCT_SIZE = :PRODUCT_SIZE";
+      TypedQuery<Product> query = em.createQuery(jpql, Product.class);
+      query.setParameter("name", name);
+      query.setParameter("PRODUCT_SIZE", PRODUCT_SIZE.LARGE);
+      return query.getSingleResult();
+    }
+    
+    
     
     
 }

@@ -4,6 +4,9 @@
  */
 package controller;
 
+import business.BusinessProduct;
+import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
 import java.net.URL;
@@ -72,10 +75,14 @@ public class ProductAddedController implements Initializable {
     @FXML
     private AnchorPane productListItem;
 
+    private float oldProductPrice = 0;
+
     private boolean isListVisible = false;
 
     private Image arrowUp = new Image("/images/Arrow-inverted.png");
     private Image arrowDown = new Image("/images/Group 6.png");
+
+    List<ProductItemController> productItemNodes = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,6 +100,14 @@ public class ProductAddedController implements Initializable {
 
     public void setMainController(MainPageController mainController) {
         this.mainController = mainController;
+    }
+
+    public List<ProductItemController> getProductItemNodes() {
+        return productItemNodes;
+    }
+
+    public void setProductItemNodes(List<ProductItemController> productItemNodes) {
+        this.productItemNodes = productItemNodes;
     }
 
     @FXML
@@ -142,6 +157,10 @@ public class ProductAddedController implements Initializable {
         this.toogleImg = toogleImg;
     }
 
+    public VBox getProductListContainer() {
+        return productListContainer;
+    }
+
     @FXML
     private void chSizeClicked(MouseEvent event) {
 
@@ -175,7 +194,7 @@ public class ProductAddedController implements Initializable {
         }
     }
 
-    public void addProductToListContainer(String price, String number) {
+    public void addProductToListContainer(float price, String number) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductItem.fxml"));
         try {
             AnchorPane productItem = loader.load();
@@ -185,10 +204,10 @@ public class ProductAddedController implements Initializable {
             mainController.setProductItemController(itemController);
             itemController.setProductOrder(productOrder);
             itemController.setNumberOfProduct(number);
-            itemController.setTxtIndividualPrice(price);
+            itemController.setTxtIndividualPrice(String.valueOf(price));
             productItem.setUserData(itemController);
             productListContainer.getChildren().add(productItem);
-
+            productItemNodes.add(itemController);
         } catch (IOException ex) {
             Logger.getLogger(ProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -219,27 +238,56 @@ public class ProductAddedController implements Initializable {
         }
     }
 
-   public List<ProductOrder> getProductDetails(ProductOrder po) {
-    List<ProductOrder> newPoList = new ArrayList<>();
-    
-    for (Node node : productListContainer.getChildren()) {
-        ProductItemController itemController = (ProductItemController) node.getUserData();
-        
-        
-        ProductOrder newPo = new ProductOrder();
-        newPo.setProduct(po.getProduct()); 
-        newPo.setPrice(po.getPrice()); 
-        newPo.setOrder(po.getOrder());
-      
-        newPo.setDetails(itemController.getTxtDetailProduct());
-        
-     
-        itemController.setProductOrder(newPo);
-        newPoList.add(newPo);
+    public List<ProductOrder> getProductDetails(ProductOrder po) {
+        List<ProductOrder> newPoList = new ArrayList<>();
+
+        for (Node node : productListContainer.getChildren()) {
+            ProductItemController itemController = (ProductItemController) node.getUserData();
+
+            ProductOrder newPo = new ProductOrder();
+            newPo.setProduct(po.getProduct());
+            newPo.setPrice(po.getPrice());
+            newPo.setOrder(po.getOrder());
+
+            newPo.setDetails(itemController.getTxtDetailProduct());
+
+            itemController.setProductOrder(newPo);
+            newPoList.add(newPo);
+        }
+
+        return newPoList;
     }
 
-    return newPoList;
-}
+    public ProductOrder updateProductOrder(ProductItemController itemController, String size) {
+        BusinessProduct bp = new BusinessProduct();
+        ProductOrder originalPo = itemController.getProductOrder();
 
+        ProductOrder newPo = new ProductOrder();
+        newPo.setProduct(originalPo.getProduct());
+        newPo.setOrder(originalPo.getOrder());
+
+        Product product = bp.findProductBySize(originalPo.getProduct().getName(), size);
+
+        newPo.setProduct(product);
+        newPo.setPrice(product.getPrice());
+        newPo.setPRODUCT_SIZE(product.getPRODUCT_SIZE());
+
+        mainController.removeItemFromPoList(originalPo);
+        itemController.setProductOrder(newPo);
+        mainController.addItemToPoList(newPo);
+
+        return newPo;
+    }
+
+    public void updateTotalPrice() {
+        float total = 0;
+        for (Node node : productListContainer.getChildren()) {
+            ProductItemController itemController = (ProductItemController) node.getUserData();
+            total += Float.parseFloat(itemController.getTxtIndividualPrice());
+        }
+        txtProductSummaryPrice.setText(String.valueOf(total));
+        mainController.updateTotalPrice();
+
+    }
 
 }

@@ -5,6 +5,7 @@
 package business;
 
 import com.mycompany.gp.domain.IndividualProduct;
+import com.mycompany.gp.domain.PRODUCT_SIZE;
 import com.mycompany.gp.domain.PRODUCT_TYPE;
 import com.mycompany.gp.domain.Product;
 import dao.IProductDAO;
@@ -40,7 +41,7 @@ public class BusinessProduct {
     }
 
     public List<IndividualProduct> chargerProducts() {
-        // lista con una lista de productos creados con la clase de utilidades
+       
         this.products = (ArrayList<IndividualProduct>) util.createProducts();
         return inProdDao.fillIndividualProductList(products);
     }
@@ -49,22 +50,26 @@ public class BusinessProduct {
         return prodDao.findProductEntities();
     }
     
-    public List<IndividualProduct> getAllFoods(){
-        List<IndividualProduct> products = findProducts();
-        List<IndividualProduct> foodProducts = new ArrayList<>();
-        for(IndividualProduct product : products){
-            if(product.getType() == PRODUCT_TYPE.FOOD){
-                foodProducts.add(product);
-            }
+    public List<IndividualProduct> getAllFoods() {
+    List<IndividualProduct> products = findProducts();
+    List<IndividualProduct> foodProducts = new ArrayList<>();
+    
+    for (IndividualProduct product : products) {
+       
+        if (product.getType() == PRODUCT_TYPE.FOOD && product.getPRODUCT_SIZE() == PRODUCT_SIZE.SMALL || product.getPRODUCT_SIZE() == PRODUCT_SIZE.STUDENT) {
+            foodProducts.add(product);
         }
-        return foodProducts;
     }
+    
+    return foodProducts;
+}
+
 
     public List<IndividualProduct> getAllDrinks(){
         List<IndividualProduct> products = findProducts();
         List<IndividualProduct> drinkProducts = new ArrayList<>();
         for(IndividualProduct product : products){
-            if(product.getType() == PRODUCT_TYPE.DRINK){
+            if(product.getType() == PRODUCT_TYPE.DRINK && product.getPRODUCT_SIZE() == PRODUCT_SIZE.SMALL){
                 drinkProducts.add(product);
             }
         }
@@ -88,7 +93,26 @@ public class BusinessProduct {
     }
 
     public Product findProductByName(String name) {
+        
         return prodDao.findProductByName(name);
+    }
+    
+    public Product findProductBySize(String name,String size){
+       Product product = new Product();
+        switch (size) {
+            case "CH":
+              product = prodDao.findSmallProduct(name);
+                break;
+            case "M":
+               product = prodDao.findMediumProduct(name);
+                break;
+            case "G":
+               product = prodDao.findLargeProduct(name);
+                break;
+            default:
+                break;
+        }
+        return product;
     }
 
 }

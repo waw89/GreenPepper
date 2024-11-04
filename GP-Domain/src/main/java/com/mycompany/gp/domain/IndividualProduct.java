@@ -30,10 +30,13 @@ public class IndividualProduct extends Product implements Serializable {
     public IndividualProduct() {
     }
 
-    public IndividualProduct(PRODUCT_TYPE type, String name, int price, boolean stateProduct, Discount activeOffer) {
-        super(name, price, stateProduct, activeOffer);
+    public IndividualProduct(PRODUCT_TYPE type, String name, int price, boolean productState, Discount activeOffer, PRODUCT_SIZE PRODUCT_SIZE) {
+        super(name, price, productState, activeOffer, PRODUCT_SIZE);
         this.type = type;
     }
+    
+    
+   
 
     public PRODUCT_TYPE getType() {
         return type;

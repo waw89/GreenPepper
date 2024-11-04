@@ -38,8 +38,6 @@ public class ProductItemController implements Initializable {
     @FXML
     private Button btnG;
     @FXML
-    private Button btnE;
-    @FXML
     private ImageView imgTrashIndividual;
     @FXML
     private Text txtIndividualPrice;
@@ -76,8 +74,8 @@ public class ProductItemController implements Initializable {
         this.txtSize.setText(txtSize);
     }
 
-    public Text getTxtIndividualPrice() {
-        return txtIndividualPrice;
+    public String getTxtIndividualPrice() {
+        return txtIndividualPrice.getText();
     }
 
     public void setTxtIndividualPrice(String txtIndividualPrice) {
@@ -114,22 +112,32 @@ public class ProductItemController implements Initializable {
 
     @FXML
     private void chSizeClicked(MouseEvent event) {
+        Node productNode = btnCH.getParent();
         setSelectedButtonStyle(btnCH);
+        ProductOrder productOrder = paController.updateProductOrder(this, "CH");
+        String newPrice = String.valueOf(productOrder.getPrice());
+        setSelectedSize("CH", newPrice);
+        paController.updateTotalPrice();
     }
 
     @FXML
     private void mSizeClicked(MouseEvent event) {
+        Node productNode = btnM.getParent();
         setSelectedButtonStyle(btnM);
+        ProductOrder productOrder = paController.updateProductOrder(this, "M");
+        String price = String.valueOf(productOrder.getPrice());
+        setSelectedSize("M", price);
+        paController.updateTotalPrice();
     }
 
     @FXML
     private void gSizeClicked(MouseEvent event) {
+        Node productNode = btnG.getParent();
         setSelectedButtonStyle(btnG);
-    }
-
-    @FXML
-    private void eSizeClicked(MouseEvent event) {
-        setSelectedButtonStyle(btnE);
+        ProductOrder productOrder = paController.updateProductOrder(this, "G");
+        String price = String.valueOf(productOrder.getPrice());
+        setSelectedSize("G", price);
+        paController.updateTotalPrice();
     }
 
     @FXML
@@ -145,7 +153,7 @@ public class ProductItemController implements Initializable {
 
     private void setSelectedButtonStyle(Button selectedButton) {
 
-        List<Button> buttons = List.of(btnCH, btnM, btnG, btnE);
+        List<Button> buttons = List.of(btnCH, btnM, btnG);
 
         for (Button button : buttons) {
             if (button.equals(selectedButton)) {
@@ -159,7 +167,28 @@ public class ProductItemController implements Initializable {
     }
 
     public List<ProductOrder> getProductDetails(ProductOrder po) {
-        
+
         return paController.getProductDetails(po);
     }
+
+    public void setSelectedSize(String size, String price) {
+
+        switch (size) {
+            case "CH":
+                this.txtSize.setText(size);
+                this.txtIndividualPrice.setText(price);
+                break;
+            case "M":
+                this.txtSize.setText(size);
+                this.txtIndividualPrice.setText(price);
+                break;
+            case "G":
+                this.txtSize.setText(size);
+                this.txtIndividualPrice.setText(price);
+                break;
+            default:
+                break;
+        }
+    }
+
 }

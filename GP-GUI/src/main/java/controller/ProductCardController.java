@@ -6,6 +6,7 @@ package controller;
 
 import business.BusinessProduct;
 import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.PRODUCT_SIZE;
 import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
@@ -196,6 +197,7 @@ public class ProductCardController implements Initializable {
     private ProductOrder addProductDetails(Product product) {
         ProductOrder po = new ProductOrder();
         po.setProduct(product);
+        po.setPRODUCT_SIZE(PRODUCT_SIZE.SMALL);
         po.setPrice(product.getPrice());
         return po;
     }

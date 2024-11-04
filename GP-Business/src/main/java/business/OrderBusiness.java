@@ -84,7 +84,7 @@ public class OrderBusiness {
     
     public float calculateCost(Order order) {
         float total = 0;
-        List<ProductOrder> products = order.getProducts();;
+        List<ProductOrder> products = order.getProducts();
         for (ProductOrder product : products) {
             total = total + product.getPrice();
         }
