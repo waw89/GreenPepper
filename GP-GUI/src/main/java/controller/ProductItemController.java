@@ -49,6 +49,7 @@ public class ProductItemController implements Initializable {
     private ProductOrder productOrder;
 
     private ProductAddedController paController;
+    
 
     /**
      * Initializes the controller class.
@@ -109,6 +110,20 @@ public class ProductItemController implements Initializable {
     public void setPaController(ProductAddedController paController) {
         this.paController = paController;
     }
+
+    public Button getBtnCH() {
+        return btnCH;
+    }
+
+    public Button getBtnM() {
+        return btnM;
+    }
+
+    public Button getBtnG() {
+        return btnG;
+    }
+    
+    
 
     @FXML
     private void chSizeClicked(MouseEvent event) {

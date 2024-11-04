@@ -5,7 +5,10 @@
 package controller;
 
 import business.BusinessProduct;
+import com.mycompany.gp.domain.IndividualProduct;
 import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.PRODUCT_SIZE;
+import com.mycompany.gp.domain.PRODUCT_TYPE;
 import com.mycompany.gp.domain.Product;
 import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
@@ -206,12 +209,33 @@ public class ProductAddedController implements Initializable {
             itemController.setNumberOfProduct(number);
             itemController.setTxtIndividualPrice(String.valueOf(price));
             productItem.setUserData(itemController);
+            
+            if (productOrder.getProduct().getPRODUCT_SIZE() == PRODUCT_SIZE.STUDENT) {
+                disableButtons(itemController);
+                productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.STUDENT);
+            } else if (productOrder.getProduct().getPRODUCT_SIZE() == PRODUCT_SIZE.UNDEFINED) {
+                disableButtons(itemController);
+                productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.UNDEFINED);
+            } else if (productOrder.getProduct() instanceof IndividualProduct) {
+                IndividualProduct individualProduct = (IndividualProduct) productOrder.getProduct();
+                if (individualProduct.getType() == PRODUCT_TYPE.DRINK) {
+                    itemController.getBtnM().setDisable(true);
+                    productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.SMALL);
+                }
+            }
+            
             productListContainer.getChildren().add(productItem);
             productItemNodes.add(itemController);
         } catch (IOException ex) {
             Logger.getLogger(ProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public void disableButtons(ProductItemController itemController) {
+        itemController.getBtnCH().setDisable(true);
+        itemController.getBtnM().setDisable(true);
+        itemController.getBtnG().setDisable(true);
     }
 
     public void deleteProductFromListContainer(Node productNode) {
