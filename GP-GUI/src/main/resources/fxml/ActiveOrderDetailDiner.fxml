@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -89,5 +91,10 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Button>
+      <ImageView fx:id="btnBack" fitHeight="65.0" fitWidth="67.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#OptionBack" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/left-arrow.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

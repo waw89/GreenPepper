@@ -7,6 +7,7 @@ package controller;
 
 import business.OrderBusiness;
 import com.mycompany.gp.domain.DinerOrder;
+import com.mycompany.gp.domain.ORDER_STATE;
 import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -55,12 +57,15 @@ public class ActiveOrderDetailDinerController implements Initializable {
     private Button btnDelete;
     @FXML
     private Button btnEdit;
-    
+    @FXML
+    private ImageView btnBack;
     
     private DinerOrder dinerOrder;
     List<ProductOrder> productOrderList;
     OrderBusiness oBusiness = new OrderBusiness();
-    
+    private ORDER_STATE orderState;
+    private Order order;
+      
     
 
     /**
@@ -199,6 +204,35 @@ public class ActiveOrderDetailDinerController implements Initializable {
 
     @FXML
     private void OptionPayOrder(MouseEvent event) {
+    
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PayOrder.fxml"));
+            Parent orderCard = loader.load();
+            PayOrderController payController = loader.getController();
+            
+            order = oBusiness.findOrderById(dinerOrder.getOrderNumber());
+            
+            payController.setDinerOrder(dinerOrder);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(orderCard));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            
+            if(dinerOrder.getORDER_STATE() == orderState.CANCELLED || dinerOrder.getORDER_STATE() == orderState.PAID){
+                Stage stageClose = (Stage) btnPayOrder.getScene().getWindow();
+                stageClose.close();
+            }
+            
+            
+            
+            
+                
+        }catch (IOException ex) {
+                Logger.getLogger(ClosedOrderDetailController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
 
     @FXML
@@ -238,6 +272,14 @@ public class ActiveOrderDetailDinerController implements Initializable {
             Logger.getLogger(ActiveOrderDetailDinerController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    
+    }
+
+    @FXML
+    private void OptionBack(MouseEvent event) {
+        
+        Stage stage = (Stage) btnBack.getScene().getWindow();
+        stage.close();
     
     }
   

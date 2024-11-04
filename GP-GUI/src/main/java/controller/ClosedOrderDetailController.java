@@ -23,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -53,6 +54,8 @@ public class ClosedOrderDetailController implements Initializable {
     private List<ProductOrder> productOrderList;
     private List<ProductOrder> productOrder = oBusiness.getAllProductOrder();
     private DinerOrder dinerOrder;
+    @FXML
+    private ImageView btnBack;
     
     
 
@@ -166,6 +169,14 @@ public class ClosedOrderDetailController implements Initializable {
         oBusiness.EditDataDiner(dinerOrder);
         
         Stage stage = (Stage) btnReopen.getScene().getWindow();
+        stage.close();
+    
+    }
+
+    @FXML
+    private void OptionBack(MouseEvent event) {
+    
+        Stage stage = (Stage) btnBack.getScene().getWindow();
         stage.close();
     
     }

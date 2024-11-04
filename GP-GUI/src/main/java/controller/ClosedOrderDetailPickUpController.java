@@ -22,6 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -50,6 +51,8 @@ public class ClosedOrderDetailPickUpController implements Initializable {
     private PickUpOrder pickUpOrder;
     private List<ProductOrder> productOrderList;
     OrderBusiness oBusiness = new OrderBusiness();
+    @FXML
+    private ImageView btnBack;
     
 
     /**
@@ -164,6 +167,14 @@ public class ClosedOrderDetailPickUpController implements Initializable {
         oBusiness.EditDataPickUp(pickUpOrder);
         
         Stage stage = (Stage) btnReopen.getScene().getWindow();
+        stage.close();
+    
+    }
+
+    @FXML
+    private void OptionBack(MouseEvent event) {
+    
+        Stage stage = (Stage) btnBack.getScene().getWindow();
         stage.close();
     
     }
