@@ -496,4 +496,6 @@ public class MainPageController implements Initializable {
     public void addItemToPoList(ProductOrder productOrder) {
         this.order.getProducts().add(productOrder);
     }
+    
+    
 }
