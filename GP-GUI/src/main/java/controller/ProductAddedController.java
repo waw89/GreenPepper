@@ -209,7 +209,7 @@ public class ProductAddedController implements Initializable {
             itemController.setNumberOfProduct(number);
             itemController.setTxtIndividualPrice(String.valueOf(price));
             productItem.setUserData(itemController);
-            
+
             if (productOrder.getProduct().getPRODUCT_SIZE() == PRODUCT_SIZE.STUDENT) {
                 disableButtons(itemController);
                 productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.STUDENT);
@@ -223,7 +223,7 @@ public class ProductAddedController implements Initializable {
                     productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.SMALL);
                 }
             }
-            
+
             productListContainer.getChildren().add(productItem);
             productItemNodes.add(itemController);
         } catch (IOException ex) {
@@ -262,24 +262,22 @@ public class ProductAddedController implements Initializable {
         }
     }
 
-    public List<ProductOrder> getProductDetails(ProductOrder po) {
-        List<ProductOrder> newPoList = new ArrayList<>();
+    public ProductOrder getProductDetails(ProductItemController itemController) {
+        ProductOrder originalPo = itemController.getProductOrder();
 
-        for (Node node : productListContainer.getChildren()) {
-            ProductItemController itemController = (ProductItemController) node.getUserData();
+        ProductOrder newPo = new ProductOrder();
+        newPo.setProduct(originalPo.getProduct());
+        newPo.setPrice(originalPo.getPrice());
+        newPo.setOrder(originalPo.getOrder());
+        newPo.setDetails(itemController.getTxtDetailProduct());
+        newPo.setPRODUCT_SIZE(originalPo.getProduct().getPRODUCT_SIZE());
+        itemController.setProductOrder(newPo);
 
-            ProductOrder newPo = new ProductOrder();
-            newPo.setProduct(po.getProduct());
-            newPo.setPrice(po.getPrice());
-            newPo.setOrder(po.getOrder());
+        mainController.removeItemFromPoList(originalPo);
+        itemController.setProductOrder(newPo);
+        mainController.addItemToPoList(newPo);
 
-            newPo.setDetails(itemController.getTxtDetailProduct());
-
-            itemController.setProductOrder(newPo);
-            newPoList.add(newPo);
-        }
-
-        return newPoList;
+        return newPo;
     }
 
     public ProductOrder updateProductOrder(ProductItemController itemController, String size) {

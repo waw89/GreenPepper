@@ -109,7 +109,7 @@ public class MainPageController implements Initializable {
     ObservableList<IndividualProduct> extrasList;
 
     FilteredList<IndividualProduct> filter;
-    
+
     List<ProductAddedController> productAddedNodes = new ArrayList<>();
 
     /**
@@ -215,7 +215,11 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void save(MouseEvent event) throws IOException {
-       
+        for (ProductAddedController paController : productAddedNodes) {
+            for (ProductItemController piController : paController.getProductItemNodes()) {
+                productItemController.getProductDetails(piController);
+            }
+        }
         loadPage("CreateOrder", this.order);
     }
 
@@ -272,7 +276,7 @@ public class MainPageController implements Initializable {
             cellController.setTxtAmount(String.valueOf(selectedAmmountOfProduct));
             productCell.setUserData(cellController);
             summaryContainer.getChildren().add(productCell);
-
+            productAddedNodes.add(cellController);
             int j = 1;
             for (int i = 0; i < selectedAmmountOfProduct; i++) {
                 cellController.addProductToListContainer(productSelected.getPrice(), "#" + j);
@@ -483,7 +487,7 @@ public class MainPageController implements Initializable {
             ProductAddedController paController = (ProductAddedController) node.getUserData();
             total += Float.parseFloat(paController.getTxtProductSummaryPrice());
         }
-        
+
         lblSubtotal.setText("$" + oBusiness.calculateCost(order));
         lblTotal.setText(lblSubtotal.getText());
         order.setPrice(oBusiness.calculateCost(order));
@@ -496,6 +500,5 @@ public class MainPageController implements Initializable {
     public void addItemToPoList(ProductOrder productOrder) {
         this.order.getProducts().add(productOrder);
     }
-    
-    
+
 }

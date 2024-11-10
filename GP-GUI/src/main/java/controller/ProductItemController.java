@@ -49,7 +49,6 @@ public class ProductItemController implements Initializable {
     private ProductOrder productOrder;
 
     private ProductAddedController paController;
-    
 
     /**
      * Initializes the controller class.
@@ -122,8 +121,6 @@ public class ProductItemController implements Initializable {
     public Button getBtnG() {
         return btnG;
     }
-    
-    
 
     @FXML
     private void chSizeClicked(MouseEvent event) {
@@ -181,9 +178,9 @@ public class ProductItemController implements Initializable {
         }
     }
 
-    public List<ProductOrder> getProductDetails(ProductOrder po) {
+    public ProductOrder getProductDetails(ProductItemController piController) {
 
-        return paController.getProductDetails(po);
+        return paController.getProductDetails(piController);
     }
 
     public void setSelectedSize(String size, String price) {
