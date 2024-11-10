@@ -30,7 +30,23 @@ public class DeliveryFieldsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+           
+        txtCustomerName.textProperty().addListener((observable, oldValue, newValue) -> {
+           
+            String cleaned = newValue.replaceAll("[^a-zA-Z]", "");
+            txtCustomerName.setText(cleaned);
+        });
+
+        
+        txtCustomerPhone.textProperty().addListener((observable, oldValue, newValue) -> {
+          
+            String cleaned = newValue.replaceAll("[^\\d]", "");
+            
+            if (cleaned.length() > 10) {
+                cleaned = cleaned.substring(0, 10);
+            }
+            txtCustomerPhone.setText(cleaned);
+        });
     }
 
     public TextField getTxtCustomerName() {

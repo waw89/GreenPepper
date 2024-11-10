@@ -26,7 +26,7 @@ public class DinerFieldsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }
 
     public TextField getTxtTableName() {

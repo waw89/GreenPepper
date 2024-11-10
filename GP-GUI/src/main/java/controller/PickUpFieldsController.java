@@ -28,7 +28,22 @@ public class PickUpFieldsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+          customerNameTxt.textProperty().addListener((observable, oldValue, newValue) -> {
+           
+            String cleaned = newValue.replaceAll("[^a-zA-Z]", "");
+            customerNameTxt.setText(cleaned);
+        });
+
+        
+        phoneNumberTxt.textProperty().addListener((observable, oldValue, newValue) -> {
+          
+            String cleaned = newValue.replaceAll("[^\\d]", "");
+            
+            if (cleaned.length() > 10) {
+                cleaned = cleaned.substring(0, 10);
+            }
+            phoneNumberTxt.setText(cleaned);
+        });
     }
 
     public TextField getCustomerNameTxt() {
