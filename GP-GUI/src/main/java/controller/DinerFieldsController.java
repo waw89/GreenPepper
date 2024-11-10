@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 
 /**
  * FXML Controller class
@@ -26,7 +27,7 @@ public class DinerFieldsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     public TextField getTxtTableName() {
         return txtTableName;
@@ -35,7 +36,21 @@ public class DinerFieldsController implements Initializable {
     public void setTxtTableName(TextField txtTableName) {
         this.txtTableName = txtTableName;
     }
-    
-    
-    
+
+    public boolean hasEmptyFields() {
+        boolean hasEmpty = false;
+
+        if (txtTableName.getText() == null || txtTableName.getText().isBlank()) {
+            txtTableName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+            txtTableName.setTooltip(tooltip);
+            hasEmpty = true;
+        } else {
+            txtTableName.setStyle("");
+            txtTableName.setTooltip(null);
+        }
+
+        return hasEmpty;
+    }
+
 }

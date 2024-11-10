@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 
 /**
  * FXML Controller class
@@ -30,7 +31,7 @@ public class DeliveryFieldsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }   
+    }
 
     public TextField getTxtCustomerName() {
         return txtCustomerName;
@@ -55,7 +56,41 @@ public class DeliveryFieldsController implements Initializable {
     public void setTxtCustomerPhone(TextField txtCustomerPhone) {
         this.txtCustomerPhone = txtCustomerPhone;
     }
-    
-    
-    
+
+    public boolean hasEmptyFields() {
+        boolean hasEmpty = false;
+
+        if (txtCustomerName.getText() == null || txtCustomerName.getText().isBlank()) {
+            txtCustomerName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+            txtCustomerName.setTooltip(tooltip);
+            hasEmpty = true;
+        } else {
+            txtCustomerName.setStyle("");
+            txtCustomerName.setTooltip(null);
+        }
+
+        if (txtCustomerAddress.getText() == null || txtCustomerAddress.getText().isBlank()) {
+            txtCustomerAddress.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+            txtCustomerAddress.setTooltip(tooltip);
+            hasEmpty = true;
+        } else {
+            txtCustomerAddress.setStyle("");
+            txtCustomerAddress.setTooltip(null);
+        }
+
+        if (txtCustomerPhone.getText() == null || txtCustomerPhone.getText().isBlank()) {
+            txtCustomerPhone.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+            txtCustomerPhone.setTooltip(tooltip);
+            hasEmpty = true;
+        } else {
+            txtCustomerPhone.setStyle("");
+            txtCustomerPhone.setTooltip(null);
+        }
+
+        return hasEmpty;
+    }
+
 }

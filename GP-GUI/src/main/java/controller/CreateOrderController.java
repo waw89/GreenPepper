@@ -25,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
@@ -158,46 +159,69 @@ public class CreateOrderController implements Initializable {
     @FXML
     private void createOrder(MouseEvent event) throws IOException {
 
-        if (type.equals("Delivery")) {
-
-            DeliveryOrder deliveryOrder = new DeliveryOrder();
-            List<ProductOrder> productsForDelivery = new ArrayList<>();
-
-            for (ProductOrder po : this.order.getProducts()) {
-                po.setOrder(deliveryOrder);
-                productsForDelivery.add(po);
-            }
-
-            deliveryOrder.setProducts(productsForDelivery);
-
-            deliveryOrder.setPrice(order.getPrice());
-
-            deliveryOrder.setCustomerName(this.dfc.getTxtCustomerName().getText());
-
-            deliveryOrder.setAddress(this.dfc.getTxtCustomerAddress().getText());
-
-            deliveryOrder.setPhoneNumber(this.dfc.getTxtCustomerPhone().getText());
-
-            deliveryOrder.setDetails(this.txtDetails.getText());
-
-            deliveryOrder.setState(ORDER_STATE.ACTIVE);
-
-            deliveryOrder.setCreationDate(LocalDateTime.now());
-
-            deliveryOrder.setCashier((Employee) us.findUser(2L));
-
-            ob.createDeliveryOrder(deliveryOrder);
-
-            System.out.println("Orden creada!");
-
-        } else if (type.equals("Diner")) {
-
-            saveForDiner();
-
-        } else if (type.equals("Pick Up")) {
-            
-            saveForPickUp();
+        switch (type) {
+            case "Delivery":
+                if (!dfc.hasEmptyFields()) {
+                    saveForDelivery();
+                    showOrderConfirmation();
+                }else{
+                    showEmptyFieldsError();
+                }
+                break;
+            case "Diner":
+                if (!dinerFieldsController.hasEmptyFields()) {
+                    saveForDiner();
+                    showOrderConfirmation();
+                }else{
+                    showEmptyFieldsError();
+                }
+                break;
+            case "Pick Up":
+                if (!pickUpFieldsController.hasEmptyFields()) {
+                    saveForPickUp();
+                    showOrderConfirmation();
+                }else{
+                    showEmptyFieldsError();
+                }
+                break;
+            default:
+                break;
         }
+    }
+
+    private DeliveryOrder saveForDelivery() {
+
+        DeliveryOrder deliveryOrder = new DeliveryOrder();
+        List<ProductOrder> productsForDelivery = new ArrayList<>();
+
+        for (ProductOrder po : this.order.getProducts()) {
+            po.setOrder(deliveryOrder);
+            productsForDelivery.add(po);
+        }
+
+        deliveryOrder.setProducts(productsForDelivery);
+
+        deliveryOrder.setPrice(order.getPrice());
+
+        deliveryOrder.setCustomerName(this.dfc.getTxtCustomerName().getText());
+
+        deliveryOrder.setAddress(this.dfc.getTxtCustomerAddress().getText());
+
+        deliveryOrder.setPhoneNumber(this.dfc.getTxtCustomerPhone().getText());
+
+        deliveryOrder.setDetails(this.txtDetails.getText());
+
+        deliveryOrder.setState(ORDER_STATE.ACTIVE);
+
+        deliveryOrder.setCreationDate(LocalDateTime.now());
+
+        deliveryOrder.setCashier((Employee) us.findUser(2L));
+
+        ob.createDeliveryOrder(deliveryOrder);
+
+        System.out.println("Orden creada!");
+
+        return deliveryOrder;
     }
 
     private DinerOrder saveForDiner() {
@@ -226,12 +250,12 @@ public class CreateOrderController implements Initializable {
         ob.createDinerOrder(dinerOrder);
 
         System.out.println("Orden creada!");
-        
+
         return dinerOrder;
 
     }
-    
-    private PickUpOrder saveForPickUp(){
+
+    private PickUpOrder saveForPickUp() {
         PickUpOrder pickUpOrder = new PickUpOrder();
         List<ProductOrder> productsForPickUp = new ArrayList<>();
 
@@ -239,9 +263,9 @@ public class CreateOrderController implements Initializable {
             po.setOrder(pickUpOrder);
             productsForPickUp.add(po);
         }
-        
+
         pickUpOrder.setCustomerName(this.pickUpFieldsController.getCustomerNameTxt().getText().toString());
-        
+
         pickUpOrder.setCustomerPhone(this.pickUpFieldsController.getPhoneNumberTxt().getText().toString());
 
         pickUpOrder.setProducts(productsForPickUp);
@@ -263,4 +287,19 @@ public class CreateOrderController implements Initializable {
         return pickUpOrder;
     }
 
+    private void showOrderConfirmation(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Orden creada");
+        alert.setContentText("Se ha creado la orden correctamente");
+        alert.showAndWait();
+    }
+    
+     private void showEmptyFieldsError(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setTitle("Error al crear la orden");
+        alert.setContentText("No se pudo crear la orden. Debe llenar los campos obligatorios");
+        alert.showAndWait();
+    }
 }

@@ -4,12 +4,12 @@ package controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 
 /**
  * FXML Controller class
@@ -29,7 +29,7 @@ public class PickUpFieldsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     public TextField getCustomerNameTxt() {
         return customerNameTxt;
@@ -46,5 +46,30 @@ public class PickUpFieldsController implements Initializable {
     public void setPhoneNumberTxt(TextField phoneNumberTxt) {
         this.phoneNumberTxt = phoneNumberTxt;
     }
-    
+
+    public boolean hasEmptyFields() {
+        boolean hasEmpty = false;
+
+        if (customerNameTxt.getText() == null || customerNameTxt.getText().isBlank()) {
+            customerNameTxt.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+            customerNameTxt.setTooltip(tooltip);
+            hasEmpty = true;
+        } else {
+            customerNameTxt.setStyle("");
+            customerNameTxt.setTooltip(null);
+        }
+
+        if (phoneNumberTxt.getText() == null || phoneNumberTxt.getText().isBlank()) {
+            phoneNumberTxt.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+            phoneNumberTxt.setTooltip(tooltip);
+            hasEmpty = true;
+        } else {
+            phoneNumberTxt.setStyle("");
+            phoneNumberTxt.setTooltip(null);
+        }
+
+        return hasEmpty;
+    }
 }

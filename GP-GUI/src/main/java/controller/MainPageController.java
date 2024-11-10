@@ -27,6 +27,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -215,12 +216,17 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void save(MouseEvent event) throws IOException {
-        for (ProductAddedController paController : productAddedNodes) {
-            for (ProductItemController piController : paController.getProductItemNodes()) {
-                productItemController.getProductDetails(piController);
+        if (!poList.isEmpty()) {
+            for (ProductAddedController paController : productAddedNodes) {
+                for (ProductItemController piController : paController.getProductItemNodes()) {
+                    productItemController.getProductDetails(piController);
+                }
             }
+            loadPage("CreateOrder", this.order);
+        } else {
+            showEmptyPoListError();
         }
-        loadPage("CreateOrder", this.order);
+
     }
 
     @FXML
@@ -501,4 +507,11 @@ public class MainPageController implements Initializable {
         this.order.getProducts().add(productOrder);
     }
 
+    private void showEmptyPoListError(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setTitle("Lista de productos vacía");
+        alert.setContentText("No se puede crear la orden. Agregue al menos un producto");
+        alert.showAndWait();
+    }
 }
