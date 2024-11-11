@@ -205,6 +205,8 @@ public class ProductAddedController implements Initializable {
             itemController.setMainController(mainController);
             itemController.setPaController(this);
             mainController.setProductItemController(itemController);
+            mainController.setProductAddedController(this);
+            itemController.setNode(productItem);
             itemController.setProductOrder(productOrder);
             itemController.setNumberOfProduct(number);
             itemController.setTxtIndividualPrice(String.valueOf(price));
@@ -239,9 +241,24 @@ public class ProductAddedController implements Initializable {
     }
 
     public void deleteProductFromListContainer(Node productNode) {
+        // Remueve el nodo del contenedor visual
         productListContainer.getChildren().remove(productNode);
-        int newAmount = productListContainer.getChildren().size();
 
+        // Busca y remueve el controlador correspondiente del nodo en la lista de controladores
+        ProductItemController itemControllerToRemove = null;
+        for (ProductItemController itemController : productItemNodes) {
+            if (itemController.getNode() == productNode) {
+                itemControllerToRemove = itemController;
+                break;
+            }
+        }
+
+        if (itemControllerToRemove != null) {
+            productItemNodes.remove(itemControllerToRemove);
+        }
+
+        // Actualiza la cantidad total de productos y realiza otras operaciones necesarias
+        int newAmount = productListContainer.getChildren().size();
         mainController.removeProductFromProductList(productOrder, ProductSummaryContainer, newAmount);
         updateProductNumbers();
     }

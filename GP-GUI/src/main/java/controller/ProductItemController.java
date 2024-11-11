@@ -50,6 +50,16 @@ public class ProductItemController implements Initializable {
 
     private ProductAddedController paController;
 
+  
+    private Node node;
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
+    public Node getNode() {
+        return this.node;
+    }
     /**
      * Initializes the controller class.
      */

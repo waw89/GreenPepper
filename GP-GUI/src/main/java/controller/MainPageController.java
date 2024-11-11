@@ -113,6 +113,8 @@ public class MainPageController implements Initializable {
 
     List<ProductAddedController> productAddedNodes = new ArrayList<>();
 
+    ProductAddedController productAddedController;
+
     /**
      * Gets the order of the controller
      *
@@ -132,6 +134,14 @@ public class MainPageController implements Initializable {
 
     public void setProductItemController(ProductItemController productItemController) {
         this.productItemController = productItemController;
+    }
+
+    public ProductAddedController getProductAddedController() {
+        return productAddedController;
+    }
+
+    public void setProductAddedController(ProductAddedController productAddedController) {
+        this.productAddedController = productAddedController;
     }
 
     /**
@@ -222,6 +232,14 @@ public class MainPageController implements Initializable {
                     productItemController.getProductDetails(piController);
                 }
             }
+            Iterator<ProductOrder> iterator = poList.iterator();
+            while (iterator.hasNext()) {
+                ProductOrder po = iterator.next();
+                if (po.getPRODUCT_SIZE() == null || po.getDetails() == null) {
+                    iterator.remove(); // Elimina de forma segura el elemento actual.
+                }
+            }
+            this.order.setProducts(poList);
             loadPage("CreateOrder", this.order);
         } else {
             showEmptyPoListError();
@@ -300,12 +318,19 @@ public class MainPageController implements Initializable {
 
     public void removeProductFromSummary(Node productNode, ProductOrder productOrder) {
         summaryContainer.getChildren().remove(productNode);
-
+        Iterator<ProductAddedController> nodeIterator = productAddedNodes.iterator();
         Iterator<ProductOrder> iterator = poList.iterator();
         while (iterator.hasNext()) {
             ProductOrder product = iterator.next();
             if (product.getProduct().getName().equalsIgnoreCase(productOrder.getProduct().getName())) {
                 iterator.remove();
+            }
+        }
+
+        while (nodeIterator.hasNext()) {
+            ProductAddedController pa = nodeIterator.next();
+            if (pa.getProductOrder().getProduct().getName().equalsIgnoreCase(productOrder.getProduct().getName())) {
+                nodeIterator.remove();
             }
         }
 
@@ -325,9 +350,10 @@ public class MainPageController implements Initializable {
     public void cleanSummary() {
         summaryContainer.getChildren().clear();
         poList.clear();
+        productAddedController.getProductItemNodes().clear();
+        productAddedNodes.clear();
         lblSubtotal.setText("$0.00");
         lblTotal.setText(lblSubtotal.getText());
-
     }
 
     @FXML
@@ -507,7 +533,7 @@ public class MainPageController implements Initializable {
         this.order.getProducts().add(productOrder);
     }
 
-    private void showEmptyPoListError(){
+    private void showEmptyPoListError() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
         alert.setTitle("Lista de productos vacía");
