@@ -137,7 +137,7 @@ public class ProductDAO implements IProductDAO {
     @Override
     public Product findProductByName(String name) {
       EntityManager em = getEntityManager();
-      String jpql = "Select p FROM Product p WHERE p.name = :name ";
+      String jpql = "Select p FROM Product p WHERE p.name = :name ORDER BY p.price ASC";
       TypedQuery<Product> query = em.createQuery(jpql, Product.class);
       query.setParameter("name", name);
       query.setMaxResults(1);
