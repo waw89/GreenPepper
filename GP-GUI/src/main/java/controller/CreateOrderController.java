@@ -163,7 +163,7 @@ public class CreateOrderController implements Initializable {
 
     @FXML
     private void goBack(MouseEvent event) {
-
+        mainController.getBp().setCenter(mainController.getAp());
     }
 
     @FXML
