@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -66,8 +69,13 @@ public class ActiveOrderDetailDinerController implements Initializable {
     private ORDER_STATE orderState;
     private Order order;
       
-    
+    MainPageController mainPageController;
 
+    public void setMainPageController(MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
+    }
+
+    
     /**
      * Initializes the controller class.
      */
@@ -235,20 +243,23 @@ public class ActiveOrderDetailDinerController implements Initializable {
         
     }
 
-    @FXML
+     @FXML
     private void OptionDeleteOrder(MouseEvent event) {
         try {
+            // Primero muestra la alerta de confirmación
+            boolean cancelOrder = askForCancelation();
+
+            // Si el usuario acepta la cancelación, se procede
+            if (cancelOrder) {
                 Order order = oBusiness.findOrderById(dinerOrder.getOrderNumber());
                 oBusiness.cancelOrder(order);
-                
-                Stage stage = (Stage) btnDelete.getScene().getWindow();
-                stage.close();
-                
+                showOrderCancelledConfirmation();  // Mostrar la alerta de cancelación exitosa
+                mainPageController.loadPage("ActiveOrders");
+            }
         } catch (Exception ex) {
-            Logger.getLogger(ActiveOrderDetailDinerController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     @FXML
     
     private void OptionEditOrder(MouseEvent event) {
@@ -278,9 +289,27 @@ public class ActiveOrderDetailDinerController implements Initializable {
     @FXML
     private void OptionBack(MouseEvent event) {
         
-        Stage stage = (Stage) btnBack.getScene().getWindow();
-        stage.close();
+//        Stage stage = (Stage) btnBack.getScene().getWindow();
+//        stage.close();
     
     }
-  
+    
+    private void showOrderCancelledConfirmation() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Orden cancelada");
+        alert.setContentText("Se ha cancelado la orden correctamente");
+        alert.showAndWait();
+    }
+
+    private boolean askForCancelation() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Cancelación de orden");
+        alert.setContentText("¿Desea cancelar la orden?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
 }

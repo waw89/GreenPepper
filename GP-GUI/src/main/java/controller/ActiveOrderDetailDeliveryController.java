@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -56,26 +59,29 @@ public class ActiveOrderDetailDeliveryController implements Initializable {
     private Button btnDelete;
     @FXML
     private Button btnEdit;
-    
+
     private DeliveryOrder deliveryOrder;
     List<ProductOrder> productOrderList;
     OrderBusiness oBusiness = new OrderBusiness();
-    @FXML
     private ImageView btnBack;
-    
-    
+
+    MainPageController mainPageController;
+
+    public void setMainPageController(MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(deliveryOrder != null){
+        if (deliveryOrder != null) {
             setDeliveryOrder(deliveryOrder);
         }
     }
 
-    public void setDeliveryOrder(DeliveryOrder order){
+    public void setDeliveryOrder(DeliveryOrder order) {
         this.deliveryOrder = order;
         loadProductsOrder();
     }
@@ -135,27 +141,29 @@ public class ActiveOrderDetailDeliveryController implements Initializable {
     public void setBtnPayOrder(Button btnPayOrder) {
         this.btnPayOrder = btnPayOrder;
     }
-    
-    public void loadProductsOrder(){
-        if(deliveryOrder == null) return;
-        
+
+    public void loadProductsOrder() {
+        if (deliveryOrder == null) {
+            return;
+        }
+
         txtOpenDate.setText(deliveryOrder.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         txtIdOrder.setText("#" + deliveryOrder.getOrderNumber());
         txtTotalPrice.setText("$" + deliveryOrder.getPrice());
         txtCustomerData.setText(deliveryOrder.getCustomerName() + " - " + deliveryOrder.getAddress() + " - " + deliveryOrder.getPhoneNumber());
-        
+
         productOrderList = deliveryOrder.getProducts();
-        
+
         Map<String, Integer> productCount = new HashMap<>();
-        
-        for(ProductOrder orderProduct : productOrderList){
+
+        for (ProductOrder orderProduct : productOrderList) {
             String productName = orderProduct.getProduct().getName();
             productCount.put(productName, productCount.getOrDefault(productName, 0) + 1);
         }
-        
+
         orderContainer.getChildren().clear();
-        
-        for(Map.Entry<String, Integer> entry : productCount.entrySet()){
+
+        for (Map.Entry<String, Integer> entry : productCount.entrySet()) {
             String productName = entry.getKey();
             int count = entry.getValue();
 
@@ -169,7 +177,7 @@ public class ActiveOrderDetailDeliveryController implements Initializable {
                 cardController.setTxtProduct(count + " x " + productName);
                 cardController.setTxtPrice("$" + (count * price));
 
-                orderContainer.getChildren().add(orderCard); 
+                orderContainer.getChildren().add(orderCard);
                 orderContainer.setSpacing(0);
 
             } catch (IOException ex) {
@@ -177,53 +185,51 @@ public class ActiveOrderDetailDeliveryController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void OptionAddProduct(MouseEvent event) {
     }
 
     @FXML
     private void OptionPayOrder(MouseEvent event) {
-    
-        try{
+
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PayOrder.fxml"));
             Parent orderCard = loader.load();
             PayOrderController payController = loader.getController();
-            
+
             payController.setDeliveryOrder(deliveryOrder);
-            
+
             Stage stage = new Stage();
             stage.setScene(new Scene(orderCard));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-            
-            if(deliveryOrder.getState()== ORDER_STATE.CANCELLED || deliveryOrder.getState() == ORDER_STATE.PAID){
+
+            if (deliveryOrder.getState() == ORDER_STATE.CANCELLED || deliveryOrder.getState() == ORDER_STATE.PAID) {
                 Stage stageClose = (Stage) btnPayOrder.getScene().getWindow();
                 stageClose.close();
             }
-            
-            
-            
-            
-                
-        }catch (IOException ex) {
-                Logger.getLogger(ClosedOrderDetailController.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (IOException ex) {
+            Logger.getLogger(ClosedOrderDetailController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @FXML
     private void OptionDeleteOrder(MouseEvent event) {
-    
         try {
-            Order order = oBusiness.findOrderById(deliveryOrder.getOrderNumber());
-            oBusiness.cancelOrder(order);
-            
-            Stage stage = (Stage) btnDelete.getScene().getWindow();
-            stage.close();
+
+            boolean cancelOrder = askForCancelation();
+
+            if (cancelOrder) {
+                Order order = oBusiness.findOrderById(deliveryOrder.getOrderNumber());
+                oBusiness.cancelOrder(order);
+                showOrderCancelledConfirmation();
+                mainPageController.loadPage("ActiveOrders");
+            }
         } catch (Exception ex) {
             Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
     }
 
     @FXML
@@ -231,32 +237,48 @@ public class ActiveOrderDetailDeliveryController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditDeliveryOrder.fxml"));
             Parent root = loader.load();
-            
+
             EditDeliveryOrderController orderController = loader.getController();
             orderController.setDeliveryOrder(deliveryOrder);
-            
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Editar nombre de Orden");
             stage.showAndWait();
-            
+
             txtCustomerData.setText(deliveryOrder.getCustomerName() + " - " + deliveryOrder.getAddress() + " - " + deliveryOrder.getPhoneNumber());
-            
-            
+
         } catch (IOException ex) {
             Logger.getLogger(ActiveOrderDetailDeliveryController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-    
+
     }
 
-    @FXML
     private void OptionBack(MouseEvent event) {
-    
+
         Stage stage = (Stage) btnBack.getScene().getWindow();
         stage.close();
-    
+
     }
-    
+
+    private void showOrderCancelledConfirmation() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Orden cancelada");
+        alert.setContentText("Se ha cancelado la orden correctamente");
+        alert.showAndWait();
+    }
+
+    private boolean askForCancelation() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Cancelación de orden");
+        alert.setContentText("¿Desea cancelar la orden?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
 }

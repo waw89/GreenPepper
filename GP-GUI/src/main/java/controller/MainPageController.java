@@ -151,8 +151,6 @@ public class MainPageController implements Initializable {
     public BorderPane getBp() {
         return bp;
     }
-    
-    
 
     /**
      * Initializes the controller class.
@@ -203,15 +201,24 @@ public class MainPageController implements Initializable {
     private void logOut(MouseEvent event) {
     }
 
+    @FXML
     public void loadPage(String namePage) {
-        Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/" + namePage + ".fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + namePage + ".fxml"));
+            Parent root = loader.load();
+
+            if (namePage.equals("ActiveOrders")) {
+                ActiveOrdersController aoController = loader.getController();
+                aoController.setMainController(this);  // Pasando el controlador principal
+            } else if (namePage.equals("OrdersHistory")) {
+                OrdersHistoryController ohController = loader.getController();
+                ohController.setMainPageController(this);
+            }
+
+            bp.setCenter(root);  // Establece el contenido en el centro del BorderPane
         } catch (IOException ex) {
             Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        bp.setCenter(root);
     }
 
     /**
@@ -505,7 +512,6 @@ public class MainPageController implements Initializable {
                 // Configurar los detalles del producto
                 cardController.setMainController(this);
                 cardController.setTxtProductName(product.getName());
-                
 
                 productContainer.getChildren().add(productCard); // Añadir el producto filtrado al contenedor
                 productContainer.setSpacing(10);

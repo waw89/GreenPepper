@@ -43,6 +43,7 @@ public class DeliveryCardController implements Initializable {
     OrderBusiness ob = new OrderBusiness();
     private DeliveryOrder deliveryOrder;
 
+    MainPageController mainPageController;
     /**
      * Initializes the controller class.
      */
@@ -52,6 +53,11 @@ public class DeliveryCardController implements Initializable {
             setDeliveryOrder(deliveryOrder);
         }
     }
+
+    public void setMainPageController(MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
+    }
+    
     
     public void setDeliveryOrder(DeliveryOrder order){
         this.deliveryOrder = order;
@@ -91,11 +97,11 @@ public class DeliveryCardController implements Initializable {
             ActiveOrderDetailDeliveryController detailController = loader.getController();
             
             detailController.setDeliveryOrder(deliveryOrder);
-            
-            Stage stage = new Stage();
-            stage.setScene(new Scene(detail));
-            stage.showAndWait();
-            
+            detailController.setMainPageController(mainPageController);
+//            Stage stage = new Stage();
+//            stage.setScene(new Scene(detail));
+//            stage.showAndWait();
+            mainPageController.getBp().setCenter(detail);
             txtNombreCliente.setText(deliveryOrder.getCustomerName() + " - " + deliveryOrder.getAddress());
             
                     

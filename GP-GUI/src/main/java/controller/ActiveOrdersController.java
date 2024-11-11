@@ -50,10 +50,14 @@ public class ActiveOrdersController implements Initializable {
     
     OrderBusiness oBusiness = new OrderBusiness();
     
+    MainPageController mainController;
     List<DinerOrder> dinerOrders = oBusiness.getAllDinOrder();
     List<PickUpOrder> pickUpOrders = oBusiness.getAllPickUpOrder();
     List<DeliveryOrder> deliveryOrders = oBusiness.getAllDelOrder();
 
+    public void setMainController(MainPageController mainController) {
+        this.mainController = mainController;
+    }
     /**
      * Initializes the controller class.
      */
@@ -62,8 +66,10 @@ public class ActiveOrdersController implements Initializable {
         dinerOrders = oBusiness.getAllDinOrder();
         pickUpOrders = oBusiness.getAllPickUpOrder();
         deliveryOrders = oBusiness.getAllDelOrder();
-        
-        loadDeliveryOrders();
+        setButtonUnselected(btnDiner);
+        setButtonUnselected(btnDelivery);
+        setButtonUnselected(btnPickUp);
+//        loadDeliveryOrders();
     }    
     
     public void loadDinerOrders() {
@@ -74,7 +80,7 @@ public class ActiveOrdersController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/OrderCard.fxml"));
                     AnchorPane orderCard = loader.load();
                     OrderCardController cardController = loader.getController();
-                    
+                    cardController.setMainPageController(mainController);
                     cardController.setDinerOrder(dOrder);
                     cardController.setTxtNombreMesa(dOrder.getOrderName());
                     cardController.setTxtFolioMesa("#" + dOrder.getOrderNumber().toString());
@@ -97,7 +103,7 @@ public class ActiveOrdersController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/DeliveryCard.fxml"));
                     AnchorPane orderDeliveryCard = loader.load();
                     DeliveryCardController cardController = loader.getController();
-
+                    cardController.setMainPageController(mainController);
                     cardController.setDeliveryOrder(delOrder);
                     cardController.setTxtNombreCliente(delOrder.getCustomerName() + " - " + delOrder.getAddress() + " - " + delOrder.getPhoneNumber());
                     cardController.setTxtFolio(String.valueOf("#" + delOrder.getOrderNumber()));
@@ -120,7 +126,7 @@ public class ActiveOrdersController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PickUpCard.fxml"));
                     AnchorPane PickUpCard = loader.load();
                     PickUpCardController cardController = loader.getController();
-
+                    cardController.setMainPageController(mainController);
                     cardController.setPickUpOrder(pickUpOrder);
                     cardController.setTxtNombreCliente(pickUpOrder.getCustomerName() + " - " + pickUpOrder.getCustomerPhone());
                     cardController.setTxtFolio("#" + String.valueOf(pickUpOrder.getOrderNumber()));
@@ -136,12 +142,12 @@ public class ActiveOrdersController implements Initializable {
     
     //Change color buttons
     private void setButtonSelected(Button button) {
-        button.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-border-color: black; -fx-border-radius: 18; -fx-background-radius: 18;");
+        button.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-border-color: black; -fx-border-radius: 50; -fx-background-radius: 50;");
     }
 
 
     private void setButtonUnselected(Button button) {
-        button.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black; -fx-border-radius: 18; -fx-background-radius: 18;");
+        button.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black; -fx-border-radius: 50; -fx-background-radius: 50;");
     }
     
 

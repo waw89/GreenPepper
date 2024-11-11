@@ -42,6 +42,7 @@ public class OrderCardController implements Initializable {
 
     OrderBusiness ob = new OrderBusiness();
     
+    MainPageController mainPageController;
     /**
      * Initializes the controller class.
      */
@@ -52,6 +53,11 @@ public class OrderCardController implements Initializable {
         }
         
     }
+
+    public void setMainPageController(MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
+    }
+    
     
     public void setDinerOrder(DinerOrder order){
         this.dinerOrder = order;
@@ -108,11 +114,11 @@ public class OrderCardController implements Initializable {
             ActiveOrderDetailDinerController detailController = loader.getController();
             
             detailController.setDinerOrder(dinerOrder);
-            
-            Stage stage = new Stage();
-            stage.setScene(new Scene(detail));
-            stage.showAndWait();
-            
+            detailController.setMainPageController(mainPageController);
+//            Stage stage = new Stage();
+//            stage.setScene(new Scene(detail));
+//            stage.showAndWait();
+            mainPageController.getBp().setCenter(detail);
             txtNombreMesa.setText(dinerOrder.getOrderName());
                     
         } catch (IOException ex) {

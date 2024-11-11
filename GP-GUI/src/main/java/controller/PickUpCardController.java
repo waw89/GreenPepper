@@ -40,6 +40,7 @@ public class PickUpCardController implements Initializable {
     @FXML
     private Text txtFolio;
 
+    MainPageController mainPageController;
      OrderBusiness ob = new OrderBusiness();
      private PickUpOrder pickUpOrder;
      
@@ -52,6 +53,11 @@ public class PickUpCardController implements Initializable {
             setPickUpOrder(pickUpOrder);
         }
     }
+
+    public void setMainPageController(MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
+    }
+    
     
     public void setPickUpOrder(PickUpOrder order){
         this.pickUpOrder = order;
@@ -106,11 +112,11 @@ public class PickUpCardController implements Initializable {
             ActiveOrderDetailPickUpController detailController = loader.getController();
             
             detailController.setPickUpOrder(pickUpOrder);
-            
-            Stage stage = new Stage();
-            stage.setScene(new Scene(detail));
-            stage.showAndWait();
-            
+            detailController.setMainPageController(mainPageController);
+//            Stage stage = new Stage();
+//            stage.setScene(new Scene(detail));
+//            stage.showAndWait();
+            mainPageController.getBp().setCenter(detail);
             txtNombreCliente.setText(pickUpOrder.getCustomerName() + " - " + pickUpOrder.getCustomerPhone());
         
         } catch (IOException ex) {

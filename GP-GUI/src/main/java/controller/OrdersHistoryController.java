@@ -50,11 +50,14 @@ public class OrdersHistoryController implements Initializable {
     private VBox orderContainer;
 
     OrderBusiness oBusiness = new OrderBusiness();
-    
+    MainPageController mainPageController;
     List<DinerOrder> dinerOrders = oBusiness.getAllDinOrder();
     List<PickUpOrder> pickUpOrders = oBusiness.getAllPickUpOrder();
     List<DeliveryOrder> deliveryOrders = oBusiness.getAllDelOrder();
-    
+
+    public void setMainPageController(MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
+    }
     
     /**
      * Initializes the controller class.

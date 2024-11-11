@@ -10,24 +10,24 @@
 
 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ActiveOrdersController">
    <children>
-      <AnchorPane prefHeight="720.0" prefWidth="1160.0">
+      <AnchorPane prefHeight="720.0" prefWidth="1160.0" style="-fx-background-color: white;">
          <children>
             <Text layoutX="378.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pedidos Activos">
                <font>
                   <Font name="Inter 18pt Bold" size="45.0" />
                </font>
             </Text>
-            <Button id="btnFood" fx:id="btnDelivery" layoutX="143.0" layoutY="125.0" mnemonicParsing="false" onMouseClicked="#deliveryOption" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #000000; -fx-background-radius: 18; -fx-border-radius: 18;" text="A domicilio" textFill="WHITE">
+            <Button id="btnFood" fx:id="btnDelivery" layoutX="143.0" layoutY="125.0" mnemonicParsing="false" onMouseClicked="#deliveryOption" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="A domicilio" textFill="WHITE">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
             </Button>
-            <Button id="btnDrink" fx:id="btnDiner" layoutX="448.0" layoutY="125.0" mnemonicParsing="false" onMouseClicked="#dinerOption" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 18; -fx-border-radius: 18;" text="En Comedor">
+            <Button id="btnDrink" fx:id="btnDiner" layoutX="448.0" layoutY="125.0" mnemonicParsing="false" onMouseClicked="#dinerOption" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="En Comedor">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
             </Button>
-            <Button id="btnExtra" fx:id="btnPickUp" layoutX="752.0" layoutY="125.0" mnemonicParsing="false" onMouseClicked="#pickUpOption" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 18; -fx-border-radius: 18;" text="Para recoger">
+            <Button id="btnExtra" fx:id="btnPickUp" layoutX="752.0" layoutY="125.0" mnemonicParsing="false" onMouseClicked="#pickUpOption" prefHeight="48.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-background-radius: 50; -fx-border-radius: 50;" text="Para recoger">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
