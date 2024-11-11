@@ -68,6 +68,14 @@ public class CreateOrderController implements Initializable {
     private static DinerFieldsController dinerFieldsController;
 
     private static PickUpFieldsController pickUpFieldsController;
+    
+    MainPageController mainController;
+
+    public void setMainController(MainPageController mainController) {
+        this.mainController = mainController;
+    }
+
+  
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -167,6 +175,7 @@ public class CreateOrderController implements Initializable {
                     if (dfc.hasEnoughDigits()) {
                         saveForDelivery();
                         showOrderConfirmation();
+                        backToMainPage();
                     }else{
                         showError("No se pudo crear la orden. El número telefónico debe contener 10 digitos");
                     }
@@ -178,6 +187,7 @@ public class CreateOrderController implements Initializable {
                 if (!dinerFieldsController.hasEmptyFields()) {
                     saveForDiner();
                     showOrderConfirmation();
+                    backToMainPage();
                 } else {
                     showError("No se pudo crear la orden. Debe llenar los campos obligatorios");
                 }
@@ -185,8 +195,9 @@ public class CreateOrderController implements Initializable {
             case "Pick Up":
                 if (!pickUpFieldsController.hasEmptyFields()) {
                     if (pickUpFieldsController.hasEnoughDigits()) {
-                        saveForDelivery();
+                        saveForPickUp();
                         showOrderConfirmation();
+                        backToMainPage();
                     }else{
                         showError("No se pudo crear la orden. El número telefónico debe contener 10 digitos");
                     }
@@ -327,5 +338,10 @@ public class CreateOrderController implements Initializable {
                 button.setStyle("-fx-background-color: transparent; -fx-text-fill: black; -fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: black;");
             }
         }
+    }
+    
+    private void backToMainPage(){
+        mainController.cleanSummary();
+        mainController.getBp().setCenter(mainController.getAp());
     }
 }

@@ -144,6 +144,16 @@ public class MainPageController implements Initializable {
         this.productAddedController = productAddedController;
     }
 
+    public AnchorPane getAp() {
+        return ap;
+    }
+
+    public BorderPane getBp() {
+        return bp;
+    }
+    
+    
+
     /**
      * Initializes the controller class.
      */
@@ -194,7 +204,7 @@ public class MainPageController implements Initializable {
     private void logOut(MouseEvent event) {
     }
 
-    private void loadPage(String namePage) {
+    public void loadPage(String namePage) {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml/" + namePage + ".fxml"));
@@ -218,6 +228,7 @@ public class MainPageController implements Initializable {
             Parent root = loader.load();
             CreateOrderController controller = loader.getController();
             controller.setOrder(order);
+            controller.setMainController(this);
             bp.setCenter(root);
         } catch (IOException ex) {
             Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
