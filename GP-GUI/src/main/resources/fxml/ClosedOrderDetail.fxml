@@ -2,8 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -11,75 +9,70 @@
 
 <AnchorPane id="AnchorPane" prefHeight="829.0" prefWidth="1160.0" style="-fx-background-color: cffe93;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClosedOrderDetailController">
    <children>
-      <Text layoutX="106.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apertura de Orden:">
+      <Text layoutX="106.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apertura de Orden:">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text fx:id="txtOpenDate" layoutX="331.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de Apertura" wrappingWidth="403.13671875">
+      <Text fx:id="txtOpenDate" layoutX="331.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de Apertura" wrappingWidth="403.13671875">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text layoutX="106.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pedido:">
+      <Text layoutX="106.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pedido:">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text fx:id="txtIdOrder" layoutX="199.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IdPedido" wrappingWidth="204.640625">
+      <Text fx:id="txtIdOrder" layoutX="199.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IdPedido" wrappingWidth="204.640625">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text layoutX="109.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Productos">
+      <Text layoutX="109.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Productos">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <ScrollPane layoutX="106.0" layoutY="220.0" prefHeight="313.0" prefWidth="578.0">
+      <ScrollPane layoutX="106.0" layoutY="200.0" prefHeight="313.0" prefWidth="578.0">
          <content>
             <VBox fx:id="orderContainer" prefHeight="311.0" prefWidth="574.0" />
          </content>
       </ScrollPane>
-      <Text layoutX="109.0" layoutY="590.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total">
+      <Text layoutX="104.0" layoutY="636.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text fx:id="txtTotalPrice" layoutX="109.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad Total">
+      <Text fx:id="txtTotalPrice" layoutX="104.0" layoutY="671.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad Total">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text layoutX="109.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo">
+      <Text layoutX="360.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo:">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text layoutX="109.0" layoutY="707.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Comedor">
+      <Text layoutX="422.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Comedor">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text layoutX="109.0" layoutY="746.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mesa">
+      <Text layoutX="104.0" layoutY="548.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mesa">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text fx:id="txtOrderName" layoutX="109.0" layoutY="779.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Mesa">
+      <Text fx:id="txtOrderName" layoutX="104.0" layoutY="581.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Mesa">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Button fx:id="btnReopen" layoutX="863.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#OptionReopenOrder" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: ffc605; -fx-background-radius: 20;" text="Reabrir" textFill="WHITE">
+      <Button fx:id="btnReopen" layoutX="863.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#OptionReopenOrder" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: ffc605; -fx-background-radius: 20;" text="Reabrir" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Button>
-      <ImageView fx:id="btnBack" fitHeight="65.0" fitWidth="67.0" layoutX="24.0" layoutY="24.0" onMouseClicked="#OptionBack" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/left-arrow.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

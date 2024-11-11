@@ -43,6 +43,11 @@ public class PickUpHistoryCardController implements Initializable {
     List<PickUpOrder> orderList = oBusiness.getAllPickUpOrder();
     private PickUpOrder pickUpOrder;
 
+    MainPageController mainController;
+
+    public void setMainController(MainPageController mainController) {
+        this.mainController = mainController;
+    }
     /**
      * Initializes the controller class.
      */
@@ -122,10 +127,8 @@ public class PickUpHistoryCardController implements Initializable {
             ClosedOrderDetailPickUpController detailController = loader.getController();
             
             detailController.setPickUpOrder(pickUpOrder);
-            
-            Stage stage = new Stage();
-            stage.setScene(new Scene(detail));
-            stage.show();
+            detailController.setMainPageController(mainController);
+            mainController.getBp().setCenter(detail);
         
         } catch (IOException ex) {
             Logger.getLogger(PickUpHistoryCardController.class.getName()).log(Level.SEVERE, null, ex);

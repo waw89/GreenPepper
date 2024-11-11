@@ -43,6 +43,11 @@ public class DeliveryHistoryCardController implements Initializable {
     List<DeliveryOrder> orderList = oBusiness.getAllDelOrder();
     private DeliveryOrder deliveryOrder;
 
+    MainPageController mainController;
+
+    public void setMainController(MainPageController mainController) {
+        this.mainController = mainController;
+    }
     /**
      * Initializes the controller class.
      */
@@ -98,12 +103,10 @@ public class DeliveryHistoryCardController implements Initializable {
             Parent detail = loader.load();
             
             ClosedOrderDetailDeliveryController detailController = loader.getController();
-            
+            detailController.setMainPageController(mainController);
             detailController.setDeliveryOrder(deliveryOrder);
             
-            Stage stage = new Stage();
-            stage.setScene(new Scene(detail));
-            stage.show();
+            mainController.getBp().setCenter(detail);
             
         }catch (IOException ex) {
             Logger.getLogger(PickUpHistoryCardController.class.getName()).log(Level.SEVERE, null, ex);

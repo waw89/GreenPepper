@@ -67,8 +67,10 @@ public class OrdersHistoryController implements Initializable {
         dinerOrders = oBusiness.getAllDinOrder();
         pickUpOrders = oBusiness.getAllPickUpOrder();
         deliveryOrders = oBusiness.getAllDelOrder();
-        
-        loadDinerOrders();
+        setButtonUnselected(btnComedor);
+        setButtonUnselected(btnDomicilio);
+        setButtonUnselected(btnRecoger);
+//        loadDinerOrders();
         
     }    
     
@@ -82,7 +84,7 @@ public class OrdersHistoryController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/OrdHistoryCard.fxml"));
                     AnchorPane orderCard = loader.load();
                     OrdHistoryCardController cardController = loader.getController();
-                    
+                    cardController.setMainController(mainPageController);
                     cardController.setTxtIdPedido(dOrder.getOrderNumber().toString());
                     cardController.setTxtMesa(dOrder.getOrderName());
                     
@@ -112,7 +114,7 @@ public class OrdersHistoryController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/DeliveryHistoryCard.fxml"));
                     AnchorPane orderCard = loader.load();
                     DeliveryHistoryCardController cardController = loader.getController();
-                    
+                    cardController.setMainController(mainPageController);
                     cardController.setDeliveryOrder(delOrder);
                     cardController.setTxtNombreCliente(delOrder.getCustomerName());
                     cardController.setTxtDireccion(delOrder.getAddress());                       
@@ -142,7 +144,7 @@ public class OrdersHistoryController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PickUpHistoryCard.fxml"));
                     AnchorPane orderCard = loader.load();
                     PickUpHistoryCardController cardController = loader.getController();
-                    
+                    cardController.setMainController(mainPageController);
                     cardController.setPickUpOrder(pickOrder);
                     cardController.setTxtCliente(pickOrder.getCustomerName());
                     cardController.setTxtTelefono(pickOrder.getCustomerPhone());

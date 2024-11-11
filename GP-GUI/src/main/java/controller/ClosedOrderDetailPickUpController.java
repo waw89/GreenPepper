@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -54,6 +57,11 @@ public class ClosedOrderDetailPickUpController implements Initializable {
     @FXML
     private ImageView btnBack;
     
+     MainPageController mainPageController;
+
+    public void setMainPageController(MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
+    }
 
     /**
      * Initializes the controller class.
@@ -161,14 +169,18 @@ public class ClosedOrderDetailPickUpController implements Initializable {
 
     @FXML
     private void OptionReopenOrder(MouseEvent event) {
-    
-        pickUpOrder.setORDER_STATE(ORDER_STATE.ACTIVE);
-        
-        oBusiness.EditDataPickUp(pickUpOrder);
-        
-        Stage stage = (Stage) btnReopen.getScene().getWindow();
-        stage.close();
-    
+        try {
+            boolean openOrder = askForOpen();
+            if (openOrder) {
+                pickUpOrder.setORDER_STATE(ORDER_STATE.ACTIVE);
+                oBusiness.EditDataPickUp(pickUpOrder);
+                showOrderOpenedConfirmation();
+                mainPageController.loadPage("OrdersHistory");
+            }
+        } catch (Exception e) {
+            Logger.getLogger(OrderCardController.class.getName()).log(Level.SEVERE, null, e);
+        }
+
     }
 
     @FXML
@@ -179,6 +191,25 @@ public class ClosedOrderDetailPickUpController implements Initializable {
     
     }
 
+    
+        private void showOrderOpenedConfirmation() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Orden reabierta");
+        alert.setContentText("Se ha reabierto la orden correctamente");
+        alert.showAndWait();
+    }
+
+    private boolean askForOpen() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Reabrir la orden");
+        alert.setContentText("¿Desea volver a abrir la orden?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
     
     
 }

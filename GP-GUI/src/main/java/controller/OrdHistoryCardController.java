@@ -39,18 +39,23 @@ public class OrdHistoryCardController implements Initializable {
     private Button btnVerDetalles;
     @FXML
     private Text txtEstado;
-    
+
     Order order;
     OrderBusiness oBusiness = new OrderBusiness();
     List<DinerOrder> orderList = oBusiness.getAllDinOrder();
-    
+    MainPageController mainController;
+
+    public void setMainController(MainPageController mainController) {
+        this.mainController = mainController;
+    }
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         orderList = oBusiness.getAllDinOrder();
-    }    
+    }
 
     public Text getTxtMesa() {
         return txtMesa;
@@ -81,22 +86,22 @@ public class OrdHistoryCardController implements Initializable {
     }
 
     public void setTxtEstado(String txtEstado) {
-        if("CANCELADO".equals(txtEstado)){
+        if ("CANCELADO".equals(txtEstado)) {
             this.txtEstado.setFill(Color.RED);
-        }else if("PAGADO".equals(txtEstado)){
+        } else if ("PAGADO".equals(txtEstado)) {
             this.txtEstado.setFill(Color.GREEN);
         }
-        
+
         this.txtEstado.setText(txtEstado);
     }
-     
-    private DinerOrder findOrder(String idPedido){
-        
+
+    private DinerOrder findOrder(String idPedido) {
+
         Long orderId;
         orderId = Long.valueOf(idPedido);
-        
-        for(DinerOrder orderFind : orderList){
-            if(orderFind.getOrderNumber().equals(orderId)){
+
+        for (DinerOrder orderFind : orderList) {
+            if (orderFind.getOrderNumber().equals(orderId)) {
                 return orderFind;
             }
         }
@@ -105,36 +110,24 @@ public class OrdHistoryCardController implements Initializable {
 
     @FXML
     private void detailOption(MouseEvent event) {
-    
-        
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ClosedOrderDetail.fxml"));
             Parent detail = loader.load();
-            
+
             ClosedOrderDetailController detailController = loader.getController();
             
             String idPedido = txtIdPedido.getText();
             DinerOrder order = findOrder(idPedido);
-            
             detailController.setOrderDetails(order);
-            
+            detailController.setMainPageController(mainController);
             //detailController.setTxtIdOrder(new Text(txtIdPedido.getText()));
-            
-            Stage stage = new Stage();
-            stage.setScene(new Scene(detail));
-            stage.show();
-            
+            mainController.getBp().setCenter(detail);
+
         } catch (IOException ex) {
             Logger.getLogger(OrdHistoryCardController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-    
+
     }
-    
-    
-    
-    
-    
-    
-    
+
 }
