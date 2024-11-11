@@ -28,17 +28,16 @@ public class PickUpFieldsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-          customerNameTxt.textProperty().addListener((observable, oldValue, newValue) -> {
-           
-            String cleaned = newValue.replaceAll("[^a-zA-Z]", "");
+        customerNameTxt.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            String cleaned = newValue.replaceAll("[^\\p{L} ]", "");
             customerNameTxt.setText(cleaned);
         });
 
-        
         phoneNumberTxt.textProperty().addListener((observable, oldValue, newValue) -> {
-          
+
             String cleaned = newValue.replaceAll("[^\\d]", "");
-            
+
             if (cleaned.length() > 10) {
                 cleaned = cleaned.substring(0, 10);
             }
@@ -86,5 +85,15 @@ public class PickUpFieldsController implements Initializable {
         }
 
         return hasEmpty;
+    }
+
+    public boolean hasEnoughDigits() {
+        if (phoneNumberTxt.getText().length() != 10) {
+            phoneNumberTxt.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Tooltip tooltip = new Tooltip("Debe contener 10 dígitos");
+            phoneNumberTxt.setTooltip(tooltip);
+            return false;
+        }
+        return true;
     }
 }

@@ -33,7 +33,7 @@ public class DeliveryFieldsController implements Initializable {
            
         txtCustomerName.textProperty().addListener((observable, oldValue, newValue) -> {
            
-            String cleaned = newValue.replaceAll("[^a-zA-Z]", "");
+            String cleaned = newValue.replaceAll("[^\\p{L} ]", "");
             txtCustomerName.setText(cleaned);
         });
 
@@ -107,6 +107,16 @@ public class DeliveryFieldsController implements Initializable {
         }
 
         return hasEmpty;
+    }
+    
+    public boolean hasEnoughDigits() {
+        if (txtCustomerPhone.getText().length() != 10) {
+            txtCustomerPhone.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Tooltip tooltip = new Tooltip("Debe contener 10 dígitos");
+            txtCustomerPhone.setTooltip(tooltip);
+            return false;
+        }
+        return true;
     }
 
 }

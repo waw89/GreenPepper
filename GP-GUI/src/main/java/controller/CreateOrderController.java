@@ -91,6 +91,7 @@ public class CreateOrderController implements Initializable {
 
     @FXML
     private void deliveryOption(MouseEvent event) {
+        setSelectedButtonStyle(btnDelivery);
         if (type != "Delivery") {
             try {
                 txtFieldContainer.getChildren().removeAll(this.currentNode);
@@ -111,6 +112,7 @@ public class CreateOrderController implements Initializable {
 
     @FXML
     private void dinerOption(MouseEvent event) {
+        setSelectedButtonStyle(btnDiner);
         if (type != "Diner") {
             try {
                 txtFieldContainer.getChildren().removeAll(this.currentNode);
@@ -131,7 +133,7 @@ public class CreateOrderController implements Initializable {
 
     @FXML
     private void pickUpOption(MouseEvent event) {
-
+        setSelectedButtonStyle(btnPickUp);
         if (type != "Pick Up") {
             try {
                 txtFieldContainer.getChildren().removeAll(this.currentNode);
@@ -162,26 +164,34 @@ public class CreateOrderController implements Initializable {
         switch (type) {
             case "Delivery":
                 if (!dfc.hasEmptyFields()) {
-                    saveForDelivery();
-                    showOrderConfirmation();
-                }else{
-                    showEmptyFieldsError();
+                    if (dfc.hasEnoughDigits()) {
+                        saveForDelivery();
+                        showOrderConfirmation();
+                    }else{
+                        showError("No se pudo crear la orden. El número telefónico debe contener 10 digitos");
+                    }
+                } else {
+                    showError("No se pudo crear la orden. Debe llenar los campos obligatorios");
                 }
                 break;
             case "Diner":
                 if (!dinerFieldsController.hasEmptyFields()) {
                     saveForDiner();
                     showOrderConfirmation();
-                }else{
-                    showEmptyFieldsError();
+                } else {
+                    showError("No se pudo crear la orden. Debe llenar los campos obligatorios");
                 }
                 break;
             case "Pick Up":
                 if (!pickUpFieldsController.hasEmptyFields()) {
-                    saveForPickUp();
-                    showOrderConfirmation();
-                }else{
-                    showEmptyFieldsError();
+                    if (pickUpFieldsController.hasEnoughDigits()) {
+                        saveForDelivery();
+                        showOrderConfirmation();
+                    }else{
+                        showError("No se pudo crear la orden. El número telefónico debe contener 10 digitos");
+                    }
+                } else {
+                    showError("No se pudo crear la orden. Debe llenar los campos obligatorios");
                 }
                 break;
             default:
@@ -287,19 +297,35 @@ public class CreateOrderController implements Initializable {
         return pickUpOrder;
     }
 
-    private void showOrderConfirmation(){
+    private void showOrderConfirmation() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
         alert.setTitle("Orden creada");
         alert.setContentText("Se ha creado la orden correctamente");
         alert.showAndWait();
     }
-    
-     private void showEmptyFieldsError(){
+
+    private void showError(String error) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
         alert.setTitle("Error al crear la orden");
-        alert.setContentText("No se pudo crear la orden. Debe llenar los campos obligatorios");
+        alert.setContentText(error);
         alert.showAndWait();
+    }
+    
+
+    private void setSelectedButtonStyle(Button selectedButton) {
+
+        List<Button> buttons = List.of(btnDelivery, btnDiner, btnPickUp);
+
+        for (Button button : buttons) {
+            if (button.equals(selectedButton)) {
+
+                button.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 50; -fx-border-radius: 50;");
+            } else {
+
+                button.setStyle("-fx-background-color: transparent; -fx-text-fill: black; -fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: black;");
+            }
+        }
     }
 }
