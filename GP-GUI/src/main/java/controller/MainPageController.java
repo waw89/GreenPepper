@@ -174,9 +174,8 @@ public class MainPageController implements Initializable {
                 cardController.setMainController(this);
 
                 cardController.setTxtProductName(product.getName());
-                cardController.setTxtPrice("$" + product.getPrice());
                 productContainer.getChildren().add(productCard);
-                productContainer.setSpacing(10);
+                productContainer.setSpacing(1);
 
             } catch (IOException ex) {
                 Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -391,9 +390,8 @@ public class MainPageController implements Initializable {
                 cardController.setMainController(this);
 
                 cardController.setTxtProductName(product.getName());
-                cardController.setTxtPrice("$" + product.getPrice());
                 productContainer.getChildren().add(productCard);
-                productContainer.setSpacing(10);
+                productContainer.setSpacing(1);
 
             } catch (IOException ex) {
                 Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -420,9 +418,8 @@ public class MainPageController implements Initializable {
                 cardController.setMainController(this);
 
                 cardController.setTxtProductName(product.getName());
-                cardController.setTxtPrice("$" + product.getPrice());
                 productContainer.getChildren().add(productCard);
-                productContainer.setSpacing(10);
+                productContainer.setSpacing(1);
 
             } catch (IOException ex) {
                 Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -448,9 +445,8 @@ public class MainPageController implements Initializable {
                 cardController.setMainController(this);
 
                 cardController.setTxtProductName(product.getName());
-                cardController.setTxtPrice("$" + product.getPrice());
                 productContainer.getChildren().add(productCard);
-                productContainer.setSpacing(10);
+                productContainer.setSpacing(1);
 
             } catch (IOException ex) {
                 Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -509,7 +505,7 @@ public class MainPageController implements Initializable {
                 // Configurar los detalles del producto
                 cardController.setMainController(this);
                 cardController.setTxtProductName(product.getName());
-                cardController.setTxtPrice("$" + product.getPrice());
+                
 
                 productContainer.getChildren().add(productCard); // Añadir el producto filtrado al contenedor
                 productContainer.setSpacing(10);

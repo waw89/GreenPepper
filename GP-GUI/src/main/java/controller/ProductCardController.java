@@ -34,10 +34,7 @@ public class ProductCardController implements Initializable {
 
     @FXML
     private Text txtProductName;
-    @FXML
-    private Text txtPrice;
-    @FXML
-    private ComboBox<?> cmbSize;
+   
     @FXML
     private Button btnIncreaseAmount;
     @FXML
@@ -109,13 +106,7 @@ public class ProductCardController implements Initializable {
         this.txtProductName.setText(txtProductName);
     }
 
-    public Text getTxtPrice() {
-        return txtPrice;
-    }
-
-    public void setTxtPrice(String txtPrice) {
-        this.txtPrice.setText(txtPrice);
-    }
+   
 
     public Text getTxtAmount() {
         return txtAmount;
