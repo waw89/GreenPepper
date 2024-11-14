@@ -228,13 +228,21 @@ public class MainPageController implements Initializable {
      * @param namePage name of the FXML file for the Create Order
      * @param order
      */
-    private void loadPage(String namePage, Order order) {
+    public void loadPage(String namePage, Order order) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + namePage + ".fxml"));
             Parent root = loader.load();
-            CreateOrderController controller = loader.getController();
-            controller.setOrder(order);
-            controller.setMainController(this);
+            if (namePage.equals("CreateOrder")) {
+                CreateOrderController controller = loader.getController();
+                controller.setOrder(order);
+                controller.setMainController(this);
+            }else if(namePage.equals("EditOrderProducts")){
+                EditOrderProductsController eopController = loader.getController();
+                eopController.setMainPageController(this);
+                eopController.setOrder(order);
+                
+                
+            }
             bp.setCenter(root);
         } catch (IOException ex) {
             Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);

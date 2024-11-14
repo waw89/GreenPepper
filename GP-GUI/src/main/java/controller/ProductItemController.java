@@ -187,6 +187,32 @@ public class ProductItemController implements Initializable {
             }
         }
     }
+    
+    public void setSelectedButtonStyle(String size) {
+
+       
+        switch (size) {
+            case "CH":
+                btnCH.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+                btnM.setStyle("-fx-background-color:  #D9D9D9; -fx-text-fill: black;");
+                btnG.setStyle("-fx-background-color:  #D9D9D9; -fx-text-fill: black;");
+                break;
+            case "M":
+                btnM.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+                btnCH.setStyle("-fx-background-color:  #D9D9D9; -fx-text-fill: black;");
+                btnG.setStyle("-fx-background-color:  #D9D9D9; -fx-text-fill: black;");
+                break;
+            case "G":
+                btnG.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+                btnCH.setStyle("-fx-background-color:  #D9D9D9; -fx-text-fill: black;");
+                btnM.setStyle("-fx-background-color:  #D9D9D9; -fx-text-fill: black;");
+                break;
+            default:
+                break;
+        }
+        
+        }
+   
 
     public ProductOrder getProductDetails(ProductItemController piController) {
 

@@ -87,6 +87,9 @@ public class ProductAddedController implements Initializable {
 
     List<ProductItemController> productItemNodes = new ArrayList<>();
 
+    private Node node;
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         productListContainer.setVisible(false);
@@ -164,6 +167,16 @@ public class ProductAddedController implements Initializable {
         return productListContainer;
     }
 
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
+    
+    
+
     @FXML
     private void chSizeClicked(MouseEvent event) {
 
@@ -233,6 +246,63 @@ public class ProductAddedController implements Initializable {
         }
 
     }
+    
+     public void addExistentProductToListContainer(float price, String number, String details, PRODUCT_SIZE size) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductItem.fxml"));
+        try {
+            AnchorPane productItem = loader.load();
+            ProductItemController itemController = loader.getController();
+            itemController.setMainController(mainController);
+            itemController.setPaController(this);
+            mainController.setProductItemController(itemController);
+            mainController.setProductAddedController(this);
+            itemController.setNode(productItem);
+            itemController.setProductOrder(productOrder);
+            itemController.setNumberOfProduct(number);
+            itemController.setTxtIndividualPrice(String.valueOf(price));
+            itemController.setTxtDetailProduct(details);
+            
+            switch (size) {
+                case SMALL:
+                    itemController.setTxtSize("CH");
+                    itemController.setSelectedButtonStyle("CH");
+                    break;
+                case MEDIUM:
+                    itemController.setTxtSize("M");
+                    itemController.setSelectedButtonStyle("M");
+                    break;
+                case LARGE:
+                    itemController.setTxtSize("G");
+                    itemController.setSelectedButtonStyle("G");
+                    break;
+                default:
+                    break;
+            }
+            
+            productItem.setUserData(itemController);
+
+            if (productOrder.getProduct().getPRODUCT_SIZE() == PRODUCT_SIZE.STUDENT) {
+                disableButtons(itemController);
+                productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.STUDENT);
+            } else if (productOrder.getProduct().getPRODUCT_SIZE() == PRODUCT_SIZE.UNDEFINED) {
+                disableButtons(itemController);
+                productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.UNDEFINED);
+            } else if (productOrder.getProduct() instanceof IndividualProduct) {
+                IndividualProduct individualProduct = (IndividualProduct) productOrder.getProduct();
+                if (individualProduct.getType() == PRODUCT_TYPE.DRINK) {
+                    itemController.getBtnM().setDisable(true);
+                    productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.SMALL);
+                }
+            }
+
+            productListContainer.getChildren().add(productItem);
+            productItemNodes.add(itemController);
+        } catch (IOException ex) {
+            Logger.getLogger(ProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
 
     public void disableButtons(ProductItemController itemController) {
         itemController.getBtnCH().setDisable(true);
