@@ -49,6 +49,8 @@ public class ProductCardController implements Initializable {
     BusinessProduct businessProduct = new BusinessProduct();
 
     MainPageController mainController;
+    
+    EditOrderProductsController eopController;
 
     public void setMainController(MainPageController mainController) {
         this.mainController = mainController;
@@ -123,6 +125,15 @@ public class ProductCardController implements Initializable {
     public void setSelectedAmmountOfProduct(int selectedAmmountOfProduct) {
         this.selectedAmmountOfProduct = selectedAmmountOfProduct;
     }
+
+    public EditOrderProductsController getEopController() {
+        return eopController;
+    }
+
+    public void setEopController(EditOrderProductsController eopController) {
+        this.eopController = eopController;
+    }
+    
 
     @FXML
     private void increaseAmount(MouseEvent event) {

@@ -81,6 +81,8 @@ public class ProductAddedController implements Initializable {
     private float oldProductPrice = 0;
 
     private boolean isListVisible = false;
+    
+    EditOrderProductsController eopController;
 
     private Image arrowUp = new Image("/images/Arrow-inverted.png");
     private Image arrowDown = new Image("/images/Group 6.png");
@@ -174,6 +176,14 @@ public class ProductAddedController implements Initializable {
     public void setNode(Node node) {
         this.node = node;
     }
+
+    public EditOrderProductsController getEopController() {
+        return eopController;
+    }
+
+    public void setEopController(EditOrderProductsController eopController) {
+        this.eopController = eopController;
+    }
     
     
 
@@ -252,10 +262,10 @@ public class ProductAddedController implements Initializable {
         try {
             AnchorPane productItem = loader.load();
             ProductItemController itemController = loader.getController();
-            itemController.setMainController(mainController);
+            itemController.setEopController(eopController);
             itemController.setPaController(this);
-            mainController.setProductItemController(itemController);
-            mainController.setProductAddedController(this);
+            eopController.setProductItemController(itemController);
+            eopController.setProductAddedController(this);
             itemController.setNode(productItem);
             itemController.setProductOrder(productOrder);
             itemController.setNumberOfProduct(number);

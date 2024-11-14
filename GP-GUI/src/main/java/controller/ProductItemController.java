@@ -50,6 +50,7 @@ public class ProductItemController implements Initializable {
 
     private ProductAddedController paController;
 
+    private EditOrderProductsController eopController;
   
     private Node node;
 
@@ -131,6 +132,17 @@ public class ProductItemController implements Initializable {
     public Button getBtnG() {
         return btnG;
     }
+
+    public EditOrderProductsController getEopController() {
+        return eopController;
+    }
+
+    public void setEopController(EditOrderProductsController eopController) {
+        this.eopController = eopController;
+    }
+
+    
+    
 
     @FXML
     private void chSizeClicked(MouseEvent event) {
