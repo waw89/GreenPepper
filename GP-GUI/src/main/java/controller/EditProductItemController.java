@@ -23,7 +23,7 @@ import javafx.scene.text.Text;
  *
  * @author Raul
  */
-public class ProductItemController implements Initializable {
+public class EditProductItemController implements Initializable {
 
     @FXML
     private AnchorPane productListItem;
@@ -48,11 +48,13 @@ public class ProductItemController implements Initializable {
 
     private ProductOrder productOrder;
 
-    private ProductAddedController paController;
+    private EditProductAddedController paController;
 
     private EditOrderProductsController eopController;
   
     private Node node;
+    @FXML
+    private Text txtIndividualPrice1;
 
     public void setNode(Node node) {
         this.node = node;
@@ -117,9 +119,7 @@ public class ProductItemController implements Initializable {
         return productOrder;
     }
 
-    public void setPaController(ProductAddedController paController) {
-        this.paController = paController;
-    }
+    
 
     public Button getBtnCH() {
         return btnCH;
@@ -139,6 +139,14 @@ public class ProductItemController implements Initializable {
 
     public void setEopController(EditOrderProductsController eopController) {
         this.eopController = eopController;
+    }
+
+    public EditProductAddedController getPaController() {
+        return paController;
+    }
+
+    public void setPaController(EditProductAddedController paController) {
+        this.paController = paController;
     }
 
     
@@ -227,7 +235,7 @@ public class ProductItemController implements Initializable {
         }
    
 
-    public ProductOrder getProductDetails(ProductItemController piController) {
+    public ProductOrder getProductDetails(EditProductItemController piController) {
 
         return paController.getProductDetails(piController);
     }

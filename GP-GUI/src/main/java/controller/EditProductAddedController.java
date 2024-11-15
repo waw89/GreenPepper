@@ -36,7 +36,7 @@ import javafx.scene.text.Text;
  *
  * @author Raul
  */
-public class ProductAddedController implements Initializable {
+public class EditProductAddedController implements Initializable {
 
     @FXML
     private Text txtSummaryProductName;
@@ -56,27 +56,7 @@ public class ProductAddedController implements Initializable {
     @FXML
     private Text txtAmount;
     @FXML
-    private Text numberOfProduct;
-    @FXML
-    private Text txtSize;
-    @FXML
-    private Button btnCH;
-    @FXML
-    private Button btnM;
-    @FXML
-    private Button btnG;
-    @FXML
-    private Button btnE;
-    @FXML
-    private ImageView imgTrashIndividual;
-    @FXML
-    private Text txtIndividualPrice;
-    @FXML
-    private TextArea txtDetailProduct;
-    @FXML
     private VBox productListContainer;
-    @FXML
-    private AnchorPane productListItem;
 
     private float oldProductPrice = 0;
 
@@ -87,9 +67,13 @@ public class ProductAddedController implements Initializable {
     private Image arrowUp = new Image("/images/Arrow-inverted.png");
     private Image arrowDown = new Image("/images/Group 6.png");
 
-    List<ProductItemController> productItemNodes = new ArrayList<>();
+    List<EditProductItemController> productItemNodes = new ArrayList<>();
 
     private Node node;
+    @FXML
+    private Text txtAmount1;
+    @FXML
+    private Text txtProductSummaryPrice1;
     
     
     @Override
@@ -110,19 +94,21 @@ public class ProductAddedController implements Initializable {
         this.mainController = mainController;
     }
 
-    public List<ProductItemController> getProductItemNodes() {
+    public List<EditProductItemController> getProductItemNodes() {
         return productItemNodes;
     }
 
-    public void setProductItemNodes(List<ProductItemController> productItemNodes) {
+    public void setProductItemNodes(List<EditProductItemController> productItemNodes) {
         this.productItemNodes = productItemNodes;
     }
+
+    
 
     @FXML
     private void deleteProductFromSummary(MouseEvent event) {
         Node productNode = imgTrashGeneral.getParent().getParent();
         imgTrashGeneral.setDisable(true);
-        mainController.removeProductFromSummary(productNode, productOrder);
+        eopController.removeProductFromSummary(productNode, productOrder);
     }
 
     public Text getTxtSummaryProductName() {
@@ -187,25 +173,6 @@ public class ProductAddedController implements Initializable {
     
     
 
-    @FXML
-    private void chSizeClicked(MouseEvent event) {
-
-    }
-
-    @FXML
-    private void mSizeClicked(MouseEvent event) {
-
-    }
-
-    @FXML
-    private void gSizeClicked(MouseEvent event) {
-
-    }
-
-    @FXML
-    private void eSizeClicked(MouseEvent event) {
-
-    }
 
     @FXML
     private void toggleProductList(MouseEvent event) {
@@ -221,14 +188,14 @@ public class ProductAddedController implements Initializable {
     }
 
     public void addProductToListContainer(float price, String number) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductItem.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProductItem.fxml"));
         try {
             AnchorPane productItem = loader.load();
-            ProductItemController itemController = loader.getController();
+            EditProductItemController itemController = loader.getController();
             itemController.setMainController(mainController);
             itemController.setPaController(this);
-            mainController.setProductItemController(itemController);
-            mainController.setProductAddedController(this);
+            eopController.setEditProductItemController(itemController);
+            eopController.setEditProductAddedController(this);
             itemController.setNode(productItem);
             itemController.setProductOrder(productOrder);
             itemController.setNumberOfProduct(number);
@@ -252,12 +219,69 @@ public class ProductAddedController implements Initializable {
             productListContainer.getChildren().add(productItem);
             productItemNodes.add(itemController);
         } catch (IOException ex) {
-            Logger.getLogger(ProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
     
-    public void disableButtons(ProductItemController itemController) {
+     public void addExistentProductToListContainer(float price, String number, String details, PRODUCT_SIZE size) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProductItem.fxml"));
+        try {
+            AnchorPane productItem = loader.load();
+            EditProductItemController itemController = loader.getController();
+            itemController.setEopController(eopController);
+            itemController.setPaController(this);
+            eopController.setEditProductItemController(itemController);
+            eopController.setEditProductAddedController(this);
+            itemController.setNode(productItem);
+            itemController.setProductOrder(productOrder);
+            itemController.setNumberOfProduct(number);
+            itemController.setTxtIndividualPrice(String.valueOf(price));
+            itemController.setTxtDetailProduct(details);
+            
+            switch (size) {
+                case SMALL:
+                    itemController.setTxtSize("CH");
+                    itemController.setSelectedButtonStyle("CH");
+                    break;
+                case MEDIUM:
+                    itemController.setTxtSize("M");
+                    itemController.setSelectedButtonStyle("M");
+                    break;
+                case LARGE:
+                    itemController.setTxtSize("G");
+                    itemController.setSelectedButtonStyle("G");
+                    break;
+                default:
+                    break;
+            }
+            
+            productItem.setUserData(itemController);
+
+            if (productOrder.getProduct().getPRODUCT_SIZE() == PRODUCT_SIZE.STUDENT) {
+                disableButtons(itemController);
+                productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.STUDENT);
+            } else if (productOrder.getProduct().getPRODUCT_SIZE() == PRODUCT_SIZE.UNDEFINED) {
+                disableButtons(itemController);
+                productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.UNDEFINED);
+            } else if (productOrder.getProduct() instanceof IndividualProduct) {
+                IndividualProduct individualProduct = (IndividualProduct) productOrder.getProduct();
+                if (individualProduct.getType() == PRODUCT_TYPE.DRINK) {
+                    itemController.getBtnM().setDisable(true);
+                    productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.SMALL);
+                }
+            }
+
+            productListContainer.getChildren().add(productItem);
+            productItemNodes.add(itemController);
+        } catch (IOException ex) {
+            Logger.getLogger(EditProductAddedController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+
+    public void disableButtons(EditProductItemController itemController) {
         itemController.getBtnCH().setDisable(true);
         itemController.getBtnM().setDisable(true);
         itemController.getBtnG().setDisable(true);
@@ -266,10 +290,9 @@ public class ProductAddedController implements Initializable {
     public void deleteProductFromListContainer(Node productNode) {
         // Remueve el nodo del contenedor visual
         productListContainer.getChildren().remove(productNode);
-
         // Busca y remueve el controlador correspondiente del nodo en la lista de controladores
-        ProductItemController itemControllerToRemove = null;
-        for (ProductItemController itemController : productItemNodes) {
+        EditProductItemController itemControllerToRemove = null;
+        for (EditProductItemController itemController : productItemNodes) {
             if (itemController.getNode() == productNode) {
                 itemControllerToRemove = itemController;
                 break;
@@ -282,13 +305,13 @@ public class ProductAddedController implements Initializable {
 
         // Actualiza la cantidad total de productos y realiza otras operaciones necesarias
         int newAmount = productListContainer.getChildren().size();
-        mainController.removeProductFromProductList(productOrder, ProductSummaryContainer, newAmount);
+        eopController.removeProductFromProductList(productOrder, ProductSummaryContainer, newAmount);
         updateProductNumbers();
     }
 
     public void checkIfEmptyAndRemove() {
         if (productListContainer.getChildren().isEmpty()) {
-            mainController.removeProductFromSummary(ProductSummaryContainer, productOrder);
+            eopController.removeProductFromSummary(ProductSummaryContainer, productOrder);
         }
 
     }
@@ -296,13 +319,13 @@ public class ProductAddedController implements Initializable {
     private void updateProductNumbers() {
         int count = 1;
         for (Node node : productListContainer.getChildren()) {
-            ProductItemController itemController = (ProductItemController) node.getUserData();
+            EditProductItemController itemController = (EditProductItemController) node.getUserData();
             itemController.updateItemNumber("#" + count);
             count++;
         }
     }
 
-    public ProductOrder getProductDetails(ProductItemController itemController) {
+    public ProductOrder getProductDetails(EditProductItemController itemController) {
         ProductOrder originalPo = itemController.getProductOrder();
 
         ProductOrder newPo = new ProductOrder();
@@ -313,14 +336,14 @@ public class ProductAddedController implements Initializable {
         newPo.setPRODUCT_SIZE(originalPo.getProduct().getPRODUCT_SIZE());
         itemController.setProductOrder(newPo);
 
-        mainController.removeItemFromPoList(originalPo);
+        eopController.removeItemFromPoList(originalPo);
         itemController.setProductOrder(newPo);
-        mainController.addItemToPoList(newPo);
+        eopController.addItemToPoList(newPo);
 
         return newPo;
     }
 
-    public ProductOrder updateProductOrder(ProductItemController itemController, String size) {
+    public ProductOrder updateProductOrder(EditProductItemController itemController, String size) {
         BusinessProduct bp = new BusinessProduct();
         ProductOrder originalPo = itemController.getProductOrder();
 
@@ -334,9 +357,9 @@ public class ProductAddedController implements Initializable {
         newPo.setPrice(product.getPrice());
         newPo.setPRODUCT_SIZE(product.getPRODUCT_SIZE());
 
-        mainController.removeItemFromPoList(originalPo);
+        eopController.removeItemFromPoList(originalPo);
         itemController.setProductOrder(newPo);
-        mainController.addItemToPoList(newPo);
+        eopController.addItemToPoList(newPo);
 
         return newPo;
     }
@@ -344,11 +367,11 @@ public class ProductAddedController implements Initializable {
     public void updateTotalPrice() {
         float total = 0;
         for (Node node : productListContainer.getChildren()) {
-            ProductItemController itemController = (ProductItemController) node.getUserData();
+            EditProductItemController itemController = (EditProductItemController) node.getUserData();
             total += Float.parseFloat(itemController.getTxtIndividualPrice());
         }
         txtProductSummaryPrice.setText(String.valueOf(total));
-        mainController.updateTotalPrice();
+        eopController.updateTotalPrice();
 
     }
 

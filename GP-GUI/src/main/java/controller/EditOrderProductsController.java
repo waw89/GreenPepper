@@ -27,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -81,15 +82,17 @@ public class EditOrderProductsController implements Initializable {
 
     List<ProductOrder> poList = new ArrayList<>();
 
-    List<ProductAddedController> productAddedNodes = new ArrayList<>();
+    List<EditProductAddedController> productAddedNodes = new ArrayList<>();
 
-    ProductAddedController productAddedController;
+    EditProductAddedController editProductAddedController;
 
     OrderBusiness oBusiness = new OrderBusiness();
 
     List<ProductOrder> productsAddedToSummary = new ArrayList<>();
 
     int productRepeatedAmount = 0;
+    
+    float priceRepeatedProduct = 0;
 
     BusinessProduct prodBusiness = new BusinessProduct();
 
@@ -101,7 +104,9 @@ public class EditOrderProductsController implements Initializable {
 
     FilteredList<IndividualProduct> filter;
 
-    ProductItemController productItemController;
+    EditProductItemController editProductItemController;
+    @FXML
+    private Label orderNumber;
 
     /*
     * Getters & Setters
@@ -126,20 +131,20 @@ public class EditOrderProductsController implements Initializable {
         this.mainPageController = mainPageController;
     }
 
-    public ProductAddedController getProductAddedController() {
-        return productAddedController;
+    public EditProductAddedController getEditProductAddedController() {
+        return editProductAddedController;
     }
 
-    public void setProductAddedController(ProductAddedController productAddedController) {
-        this.productAddedController = productAddedController;
+    public void setEditProductAddedController(EditProductAddedController editProductAddedController) {
+        this.editProductAddedController = editProductAddedController;
     }
 
-    public ProductItemController getProductItemController() {
-        return productItemController;
+    public EditProductItemController getEditProductItemController() {
+        return editProductItemController;
     }
 
-    public void setProductItemController(ProductItemController productItemController) {
-        this.productItemController = productItemController;
+    public void setEditProductItemController(EditProductItemController editProductItemController) {
+        this.editProductItemController = editProductItemController;
     }
 
     /**
@@ -154,9 +159,9 @@ public class EditOrderProductsController implements Initializable {
         filter = new FilteredList(foodList, p -> true);
         for (Product product : foodList) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProductCard.fxml"));
                 AnchorPane productCard = loader.load();
-                ProductCardController cardController = loader.getController();
+                EditProductCardController cardController = loader.getController();
                 cardController.setEopController(this);
                 cardController.setTxtProductName(product.getName());
                 productContainer.getChildren().add(productCard);
@@ -174,12 +179,33 @@ public class EditOrderProductsController implements Initializable {
     }
 
     @FXML
-    private void save(MouseEvent event) {
+    private void save(MouseEvent event) throws Exception {
+        if(!poList.isEmpty()){
+             for (EditProductAddedController paController : productAddedNodes) {
+                for (EditProductItemController piController : paController.getProductItemNodes()) {
+                    editProductItemController.getProductDetails(piController);
+                }
+            }
+            Iterator<ProductOrder> iterator = poList.iterator();
+            while (iterator.hasNext()) {
+                ProductOrder po = iterator.next();
+                if (po.getPRODUCT_SIZE() == null || po.getDetails() == null) {
+                    iterator.remove(); // Elimina de forma segura el elemento actual.
+                }
+            }
+            oBusiness.deleteAllProductsFromOrder(order);
+            this.order.setProducts(poList);
+            oBusiness.editOrder(this.order);
+            showOrderEditedConfirmation();
+            mainPageController.getBp().setCenter(mainPageController.getAp());
+        }else{
+            showEmptyPoListError();
+        }
     }
 
     private void loadProductSummary() {
         poList.addAll(this.order.getProducts());
-
+        this.orderNumber.setText(String.valueOf(this.order.getOrderNumber()));
         // Ordenar la lista alfabéticamente por el nombre del producto
         Collections.sort(poList, new Comparator<ProductOrder>() {
             @Override
@@ -207,16 +233,18 @@ public class EditOrderProductsController implements Initializable {
 
         if (!productExists) {
             productRepeatedAmount = 0;
+            priceRepeatedProduct = 0;
             int productAmount = 1;
             int j = 0;
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductAdded.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProductAdded.fxml"));
                 AnchorPane productCell = loader.load();
-                ProductAddedController cellController = loader.getController();
+                EditProductAddedController cellController = loader.getController();
                 cellController.setEopController(this);
                 cellController.setProductOrder(po);
                 cellController.setTxtSummaryProductName(po.getProduct().getName());
                 cellController.setTxtProductSummaryPrice(String.valueOf(po.getPrice()));
+                priceRepeatedProduct = po.getPrice();
                 cellController.setTxtAmount(String.valueOf(productAmount));
                 productCell.setUserData(cellController);
                 summaryContainer.getChildren().add(productCell);
@@ -230,21 +258,22 @@ public class EditOrderProductsController implements Initializable {
         } else {
             for (Node node : summaryContainer.getChildren()) {
 
-                ProductAddedController cellController = (ProductAddedController) node.getUserData();
+                EditProductAddedController cellController = (EditProductAddedController) node.getUserData();
                 if (cellController.getProductOrder().getProduct().getName().equals(po.getProduct().getName())) {
                     productRepeatedAmount++;
+                    priceRepeatedProduct += po.getPrice();
                     int j = productRepeatedAmount;
                     cellController.setTxtAmount(String.valueOf(productRepeatedAmount + 1));
-                    cellController.setTxtProductSummaryPrice(String.valueOf(po.getPrice() * productRepeatedAmount));
+                    cellController.setTxtProductSummaryPrice(String.valueOf(priceRepeatedProduct));
 
                     cellController.addExistentProductToListContainer(po.getPrice(), "#" + (j + 1), po.getDetails(), po.getPRODUCT_SIZE());
 
                 }
 
             }
-            lblSubtotal.setText("$" + oBusiness.calculateCost(order));
+            lblSubtotal.setText("$" + this.order.getPrice());
             lblTotal.setText(lblSubtotal.getText());
-            order.setPrice(oBusiness.calculateCost(order));
+            
         }
 
     }
@@ -260,9 +289,9 @@ public class EditOrderProductsController implements Initializable {
 
         for (Product product : foodList) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProductCard.fxml"));
                 AnchorPane productCard = loader.load();
-                ProductCardController cardController = loader.getController();
+                EditProductCardController cardController = loader.getController();
 
                 cardController.setEopController(this);
 
@@ -287,9 +316,9 @@ public class EditOrderProductsController implements Initializable {
 
         for (Product product : drinkList) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProductCard.fxml"));
                 AnchorPane productCard = loader.load();
-                ProductCardController cardController = loader.getController();
+                EditProductCardController cardController = loader.getController();
 
                 cardController.setEopController(this);
 
@@ -313,9 +342,9 @@ public class EditOrderProductsController implements Initializable {
         filter = new FilteredList(extrasList, p -> true);
         for (Product product : extrasList) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProductCard.fxml"));
                 AnchorPane productCard = loader.load();
-                ProductCardController cardController = loader.getController();
+                EditProductCardController cardController = loader.getController();
 
                 cardController.setEopController(this);
 
@@ -373,9 +402,9 @@ public class EditOrderProductsController implements Initializable {
 
         for (IndividualProduct product : filteredList) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProductCard.fxml"));
                 AnchorPane productCard = loader.load();
-                ProductCardController cardController = loader.getController();
+                EditProductCardController cardController = loader.getController();
 
                 // Configurar los detalles del producto
                 cardController.setEopController(this);
@@ -392,6 +421,123 @@ public class EditOrderProductsController implements Initializable {
     @FXML
     private void cleanSearchBar(MouseEvent event) {
         this.txtSearchProduct.clear();
+    }
+
+    public void updateSummaryWithNewSelectedProduct(ProductOrder productSelected, int selectedAmmountOfProduct) throws IOException {
+        boolean productExists = false;
+
+        for (Node node : summaryContainer.getChildren()) {
+            EditProductAddedController cellController = (EditProductAddedController) node.getUserData(); // get the information of the node and cast it to a Controller
+            if (cellController.getProductOrder().getProduct().getName().equals(productSelected.getProduct().getName())) { // verify if the selectedProduct is equal to the node in turn in the iteration
+                int currentAmount = Integer.parseInt(cellController.getTxtAmount());
+                int newAmount = currentAmount + selectedAmmountOfProduct;
+                cellController.setTxtAmount(String.valueOf(newAmount));
+                cellController.setTxtProductSummaryPrice(String.valueOf(productSelected.getProduct().getPrice() * newAmount)); // QUIZAS SEA CONVENIENTE HACER UN METODO SOLO PARA CALCULAR EL NUEVO PRECIO
+                productExists = true;
+
+                int j = currentAmount + 1;
+                for (int i = 0; i < selectedAmmountOfProduct; i++) {
+                    cellController.addProductToListContainer(productSelected.getPrice(), "#" + j);
+                    j++;
+                    productSelected.setOrder(order);
+                    poList.add(productSelected);
+                }
+                break;
+            }
+        }
+
+        if (!productExists) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProductAdded.fxml"));
+            AnchorPane productCell = loader.load();
+            EditProductAddedController cellController = loader.getController();
+            cellController.setEopController(this);
+            cellController.setProductOrder(productSelected);
+            cellController.setTxtSummaryProductName(productSelected.getProduct().getName());
+            cellController.setTxtProductSummaryPrice(String.valueOf(productSelected.getProduct().getPrice() * selectedAmmountOfProduct));
+            cellController.setTxtAmount(String.valueOf(selectedAmmountOfProduct));
+            productCell.setUserData(cellController);
+            summaryContainer.getChildren().add(productCell);
+            productAddedNodes.add(cellController);
+            int j = 1;
+            for (int i = 0; i < selectedAmmountOfProduct; i++) {
+                cellController.addProductToListContainer(productSelected.getPrice(), "#" + j);
+                j++;
+                productSelected.setOrder(order);
+                poList.add(productSelected);
+            }
+        }
+
+        order.setProducts(poList);
+        lblSubtotal.setText("$" + oBusiness.calculateCost(order));
+        lblTotal.setText(lblSubtotal.getText());
+        order.setPrice(oBusiness.calculateCost(order));
+    }
+
+    public void removeItemFromPoList(ProductOrder productOrder) {
+        this.order.getProducts().remove(productOrder);
+    }
+
+    public void addItemToPoList(ProductOrder productOrder) {
+        this.order.getProducts().add(productOrder);
+    }
+    
+      public void updateTotalPrice() {
+        float total = 0;
+        for (Node node : summaryContainer.getChildren()) {
+            EditProductAddedController paController = (EditProductAddedController) node.getUserData();
+            total += Float.parseFloat(paController.getTxtProductSummaryPrice());
+        }
+
+        lblSubtotal.setText("$" + oBusiness.calculateCost(order));
+        lblTotal.setText(lblSubtotal.getText());
+        order.setPrice(oBusiness.calculateCost(order));
+    }
+      
+       public void removeProductFromSummary(Node productNode, ProductOrder productOrder) {
+        summaryContainer.getChildren().remove(productNode);
+        Iterator<EditProductAddedController> nodeIterator = productAddedNodes.iterator();
+        Iterator<ProductOrder> iterator = poList.iterator();
+        while (iterator.hasNext()) {
+            ProductOrder product = iterator.next();
+            if (product.getProduct().getName().equalsIgnoreCase(productOrder.getProduct().getName())) {
+                iterator.remove();
+            }
+        }
+
+        while (nodeIterator.hasNext()) {
+            EditProductAddedController pa = nodeIterator.next();
+            if (pa.getProductOrder().getProduct().getName().equalsIgnoreCase(productOrder.getProduct().getName())) {
+                nodeIterator.remove();
+            }
+        }
+
+        lblSubtotal.setText("$" + oBusiness.calculateCost(order));
+        lblTotal.setText(lblSubtotal.getText());
+    }
+
+    public void removeProductFromProductList(ProductOrder productOrder, Node node, int newAmount) {
+        poList.remove(productOrder);
+        EditProductAddedController cellController = (EditProductAddedController) node.getUserData();
+        cellController.setTxtAmount(String.valueOf(newAmount));
+        cellController.setTxtProductSummaryPrice(String.valueOf(cellController.getProductOrder().getPrice() * newAmount));
+        lblSubtotal.setText("$" + oBusiness.calculateCost(order));
+        lblTotal.setText(lblSubtotal.getText());
+    }
+
+    private void showEmptyPoListError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setTitle("Lista de productos vacía");
+        alert.setContentText("No se puede crear la orden. Agregue al menos un producto");
+        alert.showAndWait();
+    }
+    
+     private void showOrderEditedConfirmation() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Orden editada");
+        alert.setContentText("Se ha editado la orden correctamente");
+        alert.showAndWait();
     }
 
 }

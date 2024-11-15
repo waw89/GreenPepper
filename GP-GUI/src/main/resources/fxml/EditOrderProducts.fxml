@@ -22,12 +22,17 @@
       </Pane>
       <Pane layoutX="24.0" layoutY="19.0" prefHeight="48.0" prefWidth="360.0" style="-fx-background-color: #000000;">
          <children>
-            <Label layoutX="86.0" layoutY="13.0" text="Desglose de Orden" textFill="WHITE">
+            <Label layoutX="36.0" layoutY="13.0" text="Desglose de Orden" textFill="WHITE">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="255.0" layoutY="13.0" prefHeight="23.0" prefWidth="103.0" text="#1" textFill="WHITE">
+            <Label layoutX="240.0" layoutY="13.0" prefHeight="23.0" prefWidth="12.0" text="#" textFill="WHITE">
+               <font>
+                  <Font name="Inter 18pt SemiBold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="orderNumber" layoutX="254.0" layoutY="13.0" prefHeight="23.0" prefWidth="105.0" text="Numero" textFill="WHITE">
                <font>
                   <Font name="Inter 18pt SemiBold" size="18.0" />
                </font>

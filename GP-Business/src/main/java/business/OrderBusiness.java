@@ -115,6 +115,15 @@ public class OrderBusiness {
         return odao.findOrder(orderNumber);
     }
     
+    public Order EditOrder(Order order){
+        try {
+            return odao.edit(order);
+        } catch (Exception e) {
+         Logger.getLogger(OrderBusiness.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return order;
+    }
+    
     public DinerOrder EditDataDiner(DinerOrder dinerOrder){
         try {
             return dinerdao.edit(dinerOrder);
@@ -140,6 +149,10 @@ public class OrderBusiness {
             Logger.getLogger(OrderBusiness.class.getName()).log(Level.SEVERE, null, ex);
         }
         return pickUpOrder;
+    }
+    
+    public void deleteAllProductsFromOrder(Order order){
+        this.podao.deleteAllProductsByOrder(order);
     }
       
 }

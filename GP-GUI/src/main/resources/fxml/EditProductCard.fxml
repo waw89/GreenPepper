@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="132.0" prefWidth="670.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditProductCardController">
+    <stylesheets>
+        <URL value="@/styles/productcard.css" />
+    </stylesheets>
+   <children>
+      <Text fx:id="txtProductName" layoutX="14.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Producto" wrappingWidth="281.298828125">
+         <font>
+            <Font name="Inter 24pt SemiBold" size="27.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnIncreaseAmount" layoutX="432.0" layoutY="44.0" mnemonicParsing="false" onMouseClicked="#increaseAmount" style="-fx-background-color: transparent;" text="+">
+         <font>
+            <Font name="Inter 24pt Regular" size="25.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnDicreaseAmount" disable="true" layoutX="311.0" layoutY="46.0" mnemonicParsing="false" onMousePressed="#dicreaseAmount" style="-fx-background-color: transparent;" text="-">
+         <font>
+            <Font name="Inter 24pt Regular" size="25.0" />
+         </font>
+      </Button>
+      <Text fx:id="txtAmount" layoutX="384.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="46.0">
+         <font>
+            <Font name="Inter 24pt Regular" size="25.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnAddProduct" alignment="CENTER_RIGHT" layoutX="548.0" layoutY="44.0" mnemonicParsing="false" onMouseClicked="#addProduct" style="-fx-background-color: #005ACF; -fx-border-radius: 50; -fx-background-radius: 10;" text="+" textFill="WHITE">
+         <font>
+            <Font name="Inter 24pt Regular" size="25.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

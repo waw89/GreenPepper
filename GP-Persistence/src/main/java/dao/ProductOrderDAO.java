@@ -4,6 +4,7 @@
  */
 package dao;
 
+import com.mycompany.gp.domain.ORDER_STATE;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -15,6 +16,7 @@ import dao.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -161,5 +163,17 @@ public class ProductOrderDAO implements Serializable {
             em.close();
         }
     }
+    
+   public void deleteAllProductsByOrder(Order order) {
+    EntityManager em = getEntityManager();
+    em.getTransaction().begin();
+    String jpql = "DELETE FROM ProductOrder o WHERE o.order = :order";
+    Query query = em.createQuery(jpql);
+    query.setParameter("order", order);
+    query.executeUpdate();
+    em.getTransaction().commit();
+    em.close();
+}
+
     
 }
