@@ -114,6 +114,10 @@ public class MainPageController implements Initializable {
     List<ProductAddedController> productAddedNodes = new ArrayList<>();
 
     ProductAddedController productAddedController;
+    
+    float cummulativeProductPrice = 0; 
+    
+    float priceRepeatedProducts = 0;
 
     /**
      * Gets the order of the controller
@@ -297,10 +301,11 @@ public class MainPageController implements Initializable {
         for (Node node : summaryContainer.getChildren()) {
             ProductAddedController cellController = (ProductAddedController) node.getUserData(); // get the information of the node and cast it to a Controller
             if (cellController.getProductOrder().getProduct().getName().equals(productSelected.getProduct().getName())) { // verify if the selectedProduct is equal to the node in turn in the iteration
+                priceRepeatedProducts += productSelected.getPrice();
                 int currentAmount = Integer.parseInt(cellController.getTxtAmount());
                 int newAmount = currentAmount + selectedAmmountOfProduct;
                 cellController.setTxtAmount(String.valueOf(newAmount));
-                cellController.setTxtProductSummaryPrice(String.valueOf(productSelected.getProduct().getPrice() * newAmount)); // QUIZAS SEA CONVENIENTE HACER UN METODO SOLO PARA CALCULAR EL NUEVO PRECIO
+                cellController.setTxtProductSummaryPrice(String.valueOf(String.valueOf(priceRepeatedProducts + oBusiness.calculateCost(order)))); // QUIZAS SEA CONVENIENTE HACER UN METODO SOLO PARA CALCULAR EL NUEVO PRECIO
                 productExists = true;
 
                 int j = currentAmount + 1;
@@ -315,6 +320,7 @@ public class MainPageController implements Initializable {
         }
 
         if (!productExists) {
+            priceRepeatedProducts = 0;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductAdded.fxml"));
             AnchorPane productCell = loader.load();
             ProductAddedController cellController = loader.getController();
@@ -364,10 +370,21 @@ public class MainPageController implements Initializable {
     }
 
     public void removeProductFromProductList(ProductOrder productOrder, Node node, int newAmount) {
+        cummulativeProductPrice = 0;
         poList.remove(productOrder);
         ProductAddedController cellController = (ProductAddedController) node.getUserData();
         cellController.setTxtAmount(String.valueOf(newAmount));
         cellController.setTxtProductSummaryPrice(String.valueOf(cellController.getProductOrder().getPrice() * newAmount));
+        
+        for (ProductAddedController paController : productAddedNodes) {
+                for (ProductItemController piController : paController.getProductItemNodes()) {
+                    if(piController.getProductOrder().getProduct().getName().equals(productOrder.getProduct().getName())){
+                      cummulativeProductPrice += piController.getProductOrder().getPrice();
+                    }
+                }
+            }
+        
+        cellController.setTxtProductSummaryPrice(String.valueOf(cummulativeProductPrice));
         lblSubtotal.setText("$" + oBusiness.calculateCost(order));
         lblTotal.setText(lblSubtotal.getText());
     }
@@ -547,11 +564,13 @@ public class MainPageController implements Initializable {
     }
 
     public void removeItemFromPoList(ProductOrder productOrder) {
-        this.order.getProducts().remove(productOrder);
+        poList.remove(productOrder);
+        this.order.setProducts(poList);
     }
 
     public void addItemToPoList(ProductOrder productOrder) {
-        this.order.getProducts().add(productOrder);
+         poList.add(productOrder);
+        this.order.setProducts(poList);
     }
 
     private void showEmptyPoListError() {
