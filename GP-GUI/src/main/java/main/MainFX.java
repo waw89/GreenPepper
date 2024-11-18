@@ -5,6 +5,8 @@
 package main;
 
 import business.BusinessProduct;
+import core.ModelFactory;
+import core.ViewHandler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,28 +18,13 @@ import javafx.stage.Stage;
  * @author Raul
  */
 public class MainFX extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainPage.fxml"));
-        
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+        ModelFactory mf = new ModelFactory(); 
+        ViewHandler vh = new ViewHandler(mf); //Create a model factory instance and pass it as argument to the view handler.
+        vh.start(); // tell the view handler to show the first visual.
 
-        stage.setMaximized(true); // Cambiar a True cuando el sistema sea responsivo
-//    stage.setResizable(false);
-        stage.show();
-    }
-
-    public static void main(String[] args) {
-        chargeProducts();
-        launch(args);
-    }
-    
-    
-     public static void chargeProducts() {
-        BusinessProduct bp = new BusinessProduct();
-        bp.chargerProducts();
     }
 
 }

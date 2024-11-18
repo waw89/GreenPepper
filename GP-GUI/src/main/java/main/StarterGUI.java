@@ -4,15 +4,20 @@
  */
 package main;
 
-import com.mycompany.gp.gui.Main;
+import javafx.application.Application;
+
 
 /**
  *
  * @author Raul
  */
+
+/*
+    This is the entry point for the application. Everything starts here.
+*/
 public class StarterGUI {
     public static void main(String[] args) {
-        MainFX.main(args);
+        Application.launch(MainFX.class);
     }
 }
     
