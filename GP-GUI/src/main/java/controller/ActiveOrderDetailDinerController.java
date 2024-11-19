@@ -208,6 +208,8 @@ public class ActiveOrderDetailDinerController implements Initializable {
 
     @FXML
     private void OptionAddProduct(MouseEvent event) {
+        Order order = oBusiness.findOrderById(dinerOrder.getOrderNumber());
+        mainPageController.loadPage("EditOrderProducts", order);
     }
 
     @FXML

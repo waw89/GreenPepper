@@ -318,7 +318,7 @@ public class MainPageController implements Initializable {
                 break;
             }
         }
-
+ 
         if (!productExists) {
             priceRepeatedProducts = 0;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductAdded.fxml"));

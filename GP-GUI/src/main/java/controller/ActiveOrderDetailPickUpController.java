@@ -189,6 +189,8 @@ public class ActiveOrderDetailPickUpController implements Initializable {
 
     @FXML
     private void OptionAddProduct(MouseEvent event) {
+        Order order = oBusiness.findOrderById(pickUpOrder.getOrderNumber());
+        mainPageController.loadPage("EditOrderProducts", order);
     }
 
     @FXML
