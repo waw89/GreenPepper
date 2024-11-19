@@ -5,14 +5,16 @@
 package core;
 
 import controllers.MainPageController;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
- * @author waw
+ * @author Luis Enrique Contreras Peraza 
+ * @author Jesús Raúl Luna Bringas
+ * @author Brayan D. García Picos 
  */
 public class ViewHandler {
 
@@ -44,7 +46,7 @@ public class ViewHandler {
                 loader.setLocation(getClass().getResource("/fxml/MainPage.fxml"));
                 Parent root = loader.load();
                 mainPageController = loader.getController();
-                mainPageController.init(this, modelFactory.getOrderModel());
+                mainPageController.init(this, modelFactory.getMainPageModel());
                 mainPageScene = new Scene(root);
 
             } catch (Exception e) {
@@ -56,4 +58,13 @@ public class ViewHandler {
         stage.setScene(mainPageScene);
         stage.setTitle("Green Pepper");
     }
+    
+    
+    
+    
+    
+  
+    
+    
+    
 }

@@ -4,21 +4,30 @@
  */
 package core;
 
-import model.OrderModel;
+import model.MainPageModel;
+import model.ProductCardModel;
 
 /**
- *
- * @author waw
+ * @author Luis Enrique Contreras Peraza
+ * @author Jesús Raúl Luna Bringas
+ * @author Brayan D. García Picos
  */
 public class ModelFactory {
-    
-    private OrderModel orderModel;
-    
-    public OrderModel getOrderModel(){
-        if (this.orderModel == null){
-            this.orderModel = new OrderModel();
+
+    public MainPageModel getMainPageModel() {
+        if (this.mainPageModel == null) {
+            this.mainPageModel = new MainPageModel();
         }
-        
-        return orderModel; 
+
+        return mainPageModel;
     }
+    
+    public ProductCardModel getProductCardModel(){
+        return new ProductCardModel(); 
+    }
+    
+    
+    private MainPageModel mainPageModel;
+    private ProductCardModel productCardModel;
+
 }

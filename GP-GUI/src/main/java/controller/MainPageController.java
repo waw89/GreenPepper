@@ -327,7 +327,7 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void showFoods(MouseEvent event) {
-        setSelectedButtonStyle(btnFood);
+        setSelectedButtonStyle(btnFood); // cambia el estilo del boton de comida para que aparezca que ese es el seleccionado
         cleanProductsList();
         foodList = FXCollections.observableArrayList();
         List<IndividualProduct> products = prodBusiness.getAllFoods();

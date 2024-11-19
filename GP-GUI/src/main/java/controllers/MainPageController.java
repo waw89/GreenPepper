@@ -4,11 +4,12 @@
  */
 package controllers;
 
+import com.mycompany.gp.domain.IndividualProduct;
 import core.ViewHandler;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -19,67 +20,22 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import model.OrderModel;
+import model.MainPageModel;
 
 /**
+ * Controller for the main page. This controller is the first to be initialized
+ * in the application. It handles all the actions of the user in the
+ * MainPage.fxml
  *
- * @author waw
+ * @author Luis Enrique Contreras Peraza
+ * @author Jesús Raúl Luna Bringas
+ * @author Brayan D. García Picos
  */
 public class MainPageController {
 
-    @FXML
-    private BorderPane bp;
-    @FXML
-    private ImageView homeImg;
-    @FXML
-    private Button btnInicio;
-    @FXML
-    private Button btnActiveOrders;
-    @FXML
-    private Button btnOrdersHistory;
-    @FXML
-    private Button btnLogOut;
-    @FXML
-    private ImageView orderImg;
-    @FXML
-    private ImageView historyImg;
-    @FXML
-    private ImageView logOutImg;
-    @FXML
-    private AnchorPane ap;
-    @FXML
-    private VBox summaryContainer;
-    @FXML
-    private Label lblSubtotal;
-    @FXML
-    private Label lblDiscount;
-    @FXML
-    private Label lblTotal;
-    @FXML
-    private Button btnCancel;
-    @FXML
-    private Button btnSave;
-    @FXML
-    private Button btnFood;
-    @FXML
-    private Button btnDrink;
-    @FXML
-    private Button btnExtra;
-    @FXML
-    private TextField txtSearchProduct;
-    @FXML
-    private Button btnClean;
-    @FXML
-    private ScrollPane scrollPane;
-    @FXML
-    private VBox productContainer;
-
-    public void init(ViewHandler viewHandler, OrderModel orderModel) {
-        this.viewHandler = viewHandler;
-        this.orderModel = orderModel;
-    }
-
-    @FXML
+    /*
+        JavaFX Methods
+     */
     private void homeImgClick(MouseEvent event) {
     }
 
@@ -139,12 +95,116 @@ public class MainPageController {
     @FXML
     private void cleanSearchBar(MouseEvent event) {
     }
+
+    /*
+        Class methods
+     */
+ /*
+        This method initializes the controller with the view handler and an order model instance.
+     */
+    public void init(ViewHandler viewHandler, MainPageModel orderModel) {
+        this.viewHandler = viewHandler;
+        this.orderModel = orderModel;
+        doSetup();
+
+    }
+
+    /*
+        Performs confgurations before starting the flow of the program.
+     */
+    public void doSetup() {
+        chargeProductsToDatabase();
+        loadFoodProducts();
+    }
+
+    /*
+        Calls the method to charge products to the database
+     */
+    public void chargeProductsToDatabase() {
+        orderModel.chargeProductsToDatabase();
+    }
+
+    public void loadFoodProducts() {
+        this.orderModel.initializaListOfProductCard();
+        try {
+            for (IndividualProduct foodProduct : orderModel.getProductsFromDatabase()) {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml")); // create a loader for the fxml file
+                AnchorPane productCard = loader.load(); // load the productCard
+                ProductCardController cardController = loader.getController(); // get a controller
+                cardController.setProductCardAnchorPaneElement(productCard);
+                cardController.customControllerWithProductData(foodProduct);
+                productContainer.getChildren().add(productCard);
+                this.orderModel.addProductCardToList(cardController);
+                cardController.setupBinding();
+            }
+            productContainer.setSpacing(10);
+        } catch (Exception e) {
+            // Manejo centralizado de excepciones
+            Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, "Error loading product cards", e);
+        }
+
+        System.out.println(this.orderModel.getListOfProductCardElements());
+    }
     
     
-    /*    
-        Variables
+ 
+    /*
+        JavaFX variables
+    
     */
+
+    @FXML
+    private BorderPane borderPane;
+    @FXML
+    private ImageView homeImg;
+    @FXML
+    private Button btnInicio;
+    @FXML
+    private Button btnActiveOrders;
+    @FXML
+    private Button btnOrdersHistory;
+    @FXML
+    private Button btnLogOut;
+    @FXML
+    private ImageView orderImg;
+    @FXML
+    private ImageView historyImg;
+    @FXML
+    private ImageView logOutImg;
+    @FXML
+    private AnchorPane ap;
+    @FXML
+    private VBox summaryContainer;
+    @FXML
+    private Label lblSubtotal;
+    @FXML
+    private Label lblDiscount;
+    @FXML
+    private Label lblTotal;
+    @FXML
+    private Button btnCancel;
+    @FXML
+    private Button btnSave;
+    @FXML
+    private Button btnFood;
+    @FXML
+    private Button btnDrink;
+    @FXML
+    private Button btnExtra;
+    @FXML
+    private TextField txtSearchProduct;
+    @FXML
+    private Button btnClean;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private VBox productContainer;
+
+    /*    
+        Class variables
+     */
     private ViewHandler viewHandler;
-    private OrderModel orderModel;
+    private MainPageModel orderModel;
 
 }
