@@ -24,7 +24,7 @@
             <Font name="Inter 24pt Regular" size="25.0" />
          </font>
       </Button>
-      <Button fx:id="btnDicreaseAmount" disable="true" layoutX="261.0" layoutY="39.0" mnemonicParsing="false" onMousePressed="#dicreaseAmount" style="-fx-background-color: transparent;" text="-">
+      <Button fx:id="btnDecreaseAmount" disable="true" layoutX="261.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#decreaseAmmountActionPerformed" style="-fx-background-color: transparent;" text="-">
          <font>
             <Font name="Inter 24pt Regular" size="25.0" />
          </font>

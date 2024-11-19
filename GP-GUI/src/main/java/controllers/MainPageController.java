@@ -5,6 +5,7 @@
 package controllers;
 
 import com.mycompany.gp.domain.IndividualProduct;
+import com.mycompany.gp.domain.PRODUCT_TYPE;
 import core.ViewHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,9 +34,11 @@ import model.MainPageModel;
  */
 public class MainPageController {
 
+
     /*
         JavaFX Methods
      */
+    @FXML
     private void homeImgClick(MouseEvent event) {
     }
 
@@ -128,76 +131,92 @@ public class MainPageController {
         this.orderModel.initializaListOfProductCard();
         try {
             for (IndividualProduct foodProduct : orderModel.getProductsFromDatabase()) {
+                if (foodProduct.getType().equals(PRODUCT_TYPE.FOOD)) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml")); // create a loader for the fxml file
+                    AnchorPane productCard = loader.load(); // load the productCard
+                    ProductCardController cardController = loader.getController(); // get a controller
+                    cardController.setProductCardAnchorPaneElement(productCard);
+                    cardController.customControllerWithProductData(foodProduct);
+                    productContainer.getChildren().add(productCard);
+                    this.orderModel.addProductCardToList(cardController);
+                    cardController.setupBinding();
+                
+                }
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml")); // create a loader for the fxml file
-                AnchorPane productCard = loader.load(); // load the productCard
-                ProductCardController cardController = loader.getController(); // get a controller
-                cardController.setProductCardAnchorPaneElement(productCard);
-                cardController.customControllerWithProductData(foodProduct);
-                productContainer.getChildren().add(productCard);
-                this.orderModel.addProductCardToList(cardController);
-                cardController.setupBinding();
             }
-            productContainer.setSpacing(10);
+
         } catch (Exception e) {
-            // Manejo centralizado de excepciones
-            Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, "Error loading product cards", e);
+ 
+            System.err.println(e);
         }
 
-        System.out.println(this.orderModel.getListOfProductCardElements());
     }
-    
-    
- 
-    /*
-        JavaFX variables
-    
-    */
 
     @FXML
-    private BorderPane borderPane;
+    private BorderPane bp;
+    
     @FXML
     private ImageView homeImg;
     @FXML
     private Button btnInicio;
+    
     @FXML
     private Button btnActiveOrders;
+    
     @FXML
     private Button btnOrdersHistory;
+    
     @FXML
     private Button btnLogOut;
+    
     @FXML
     private ImageView orderImg;
+    
     @FXML
     private ImageView historyImg;
+    
     @FXML
     private ImageView logOutImg;
+    
     @FXML
     private AnchorPane ap;
+    
     @FXML
     private VBox summaryContainer;
+    
     @FXML
     private Label lblSubtotal;
+    
     @FXML
     private Label lblDiscount;
+    
     @FXML
     private Label lblTotal;
+    
     @FXML
     private Button btnCancel;
+    
     @FXML
     private Button btnSave;
+    
     @FXML
     private Button btnFood;
+    
     @FXML
     private Button btnDrink;
+    
     @FXML
     private Button btnExtra;
+    
     @FXML
     private TextField txtSearchProduct;
+    
     @FXML
     private Button btnClean;
+    
     @FXML
     private ScrollPane scrollPane;
+    
     @FXML
     private VBox productContainer;
 
@@ -205,6 +224,7 @@ public class MainPageController {
         Class variables
      */
     private ViewHandler viewHandler;
+    
     private MainPageModel orderModel;
 
 }

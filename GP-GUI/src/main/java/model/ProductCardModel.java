@@ -5,22 +5,19 @@
 package model;
 
 import com.mycompany.gp.domain.IndividualProduct;
+import com.mycompany.gp.domain.Product;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- * @author waw 
+ * @author waw
  */
-
 public class ProductCardModel {
-
-    private SimpleStringProperty productName;
-    private SimpleStringProperty price;
-    private SimpleStringProperty ammount;
 
     public void customControllerWithProductData(IndividualProduct foodProduct) {
         this.productName = new SimpleStringProperty(foodProduct.getName());
-        this.price = new SimpleStringProperty(String.valueOf(foodProduct.getPrice()));
+        this.productPriceAccumulated = new SimpleStringProperty(String.valueOf(foodProduct.getPrice()));
         this.ammount = new SimpleStringProperty("1");
+        this.product = foodProduct;
     }
 
     public SimpleStringProperty getProductName() {
@@ -31,12 +28,12 @@ public class ProductCardModel {
         this.productName = productName;
     }
 
-    public SimpleStringProperty getPrice() {
-        return price;
+    public SimpleStringProperty getAccumulatedPrice() {
+        return productPriceAccumulated;
     }
 
-    public void setPrice(SimpleStringProperty price) {
-        this.price = price;
+    public void setAccumulatedPrice(SimpleStringProperty price) {
+        this.productPriceAccumulated = price;
     }
 
     public SimpleStringProperty getAmmount() {
@@ -47,5 +44,54 @@ public class ProductCardModel {
         this.ammount = ammount;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    /*
+        Increase ammount 
+     */
+    public void increaseAmmount() {
+
+        int currentAmmount = Integer.parseInt(this.ammount.get());
+        int newAmmount = currentAmmount + 1;
+        this.ammount.set(String.valueOf(newAmmount));
+        updatePriceWhenIncreased();
+
+    }
+
+    public void decreaseAmmountActionPerformed() {
+
+        if (!(Integer.parseInt(this.ammount.get()) == 1)) {
+            int currentAmmount = Integer.valueOf(ammount.get());
+            int newDecreasedAmmount = currentAmmount - 1;
+            this.ammount.set(String.valueOf(newDecreasedAmmount));
+            updatePriceWhenDecreased();
+        }
+
+    }
+
+    public void updatePriceWhenIncreased() {
+        float currentPrice = Float.parseFloat(this.productPriceAccumulated.get());
+        float newPrice = product.getPrice() + currentPrice;
+        this.productPriceAccumulated.set(String.valueOf(newPrice));
+    }
+
+    public void updatePriceWhenDecreased() {
+
+        float currentPrice = Float.parseFloat(this.productPriceAccumulated.get());
+        float newPrice = currentPrice - product.getPrice();
+        this.productPriceAccumulated.set(String.valueOf(newPrice));
+
+    }
+
+    private Product product;
+    private SimpleStringProperty productName;
+    private SimpleStringProperty productPriceAccumulated;
+    private SimpleStringProperty ammount;
 
 }

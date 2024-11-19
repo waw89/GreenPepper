@@ -27,6 +27,7 @@ public class MainPageModel {
         Note: For next versions, it would be nice to validate if the products are already in the 
         database, so we dont load this again and save time.
     */
+    
     public List<IndividualProduct> chargeProductsToDatabase() {
         listOfProductsInDatabase = accessPointToBusinessProduct.chargerProducts();
         return listOfProductsInDatabase; 
@@ -40,15 +41,23 @@ public class MainPageModel {
         return listOfProductsInDatabase; 
     }
     
-    
+    /*
+        Assigns an observable array list to the list of productCardController
+    */
     public void initializaListOfProductCard(){
         listOfProductCardElements = FXCollections.observableArrayList();
     }
     
+    /*
+        Adds a ProductCardController toi the list
+    */
     public void addProductCardToList(ProductCardController productCard){
         listOfProductCardElements.add(productCard); 
     }
-
+    
+    /*
+        Gets the list of product card
+    */
     public ObservableList<ProductCardController> getListOfProductCardElements() {
         return listOfProductCardElements;
     }    
