@@ -136,87 +136,106 @@ public class MainPageController {
                     AnchorPane productCard = loader.load(); // load the productCard
                     ProductCardController cardController = loader.getController(); // get a controller
                     cardController.setProductCardAnchorPaneElement(productCard);
-                    cardController.customControllerWithProductData(foodProduct);
+                    cardController.customControllerWithProductData(foodProduct, this);
                     productContainer.getChildren().add(productCard);
                     this.orderModel.addProductCardToList(cardController);
                     cardController.setupBinding();
-                
+
                 }
 
             }
 
         } catch (Exception e) {
- 
+
             System.err.println(e);
+        }
+
+    }
+
+    public void addProductToSummaryContainer(ProductCardController productCardController) {
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductAdded.fxml"));
+            AnchorPane productAddedCard = loader.load();
+            ProductAddedController productAddedController = loader.getController();
+
+            FXMLLoader secondLoader = new FXMLLoader(getClass().getResource("/fxml/ProductItem.fxml"));
+            AnchorPane productNested = secondLoader.load();
+            ProductItemController productNestedController = secondLoader.getController();
+            summaryContainer.getChildren().add(productNested);
+
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
     }
 
     @FXML
     private BorderPane bp;
-    
+
     @FXML
     private ImageView homeImg;
     @FXML
     private Button btnInicio;
-    
+
     @FXML
     private Button btnActiveOrders;
-    
+
     @FXML
     private Button btnOrdersHistory;
-    
+
     @FXML
     private Button btnLogOut;
-    
+
     @FXML
     private ImageView orderImg;
-    
+
     @FXML
     private ImageView historyImg;
-    
+
     @FXML
     private ImageView logOutImg;
-    
+
     @FXML
     private AnchorPane ap;
-    
+
     @FXML
     private VBox summaryContainer;
-    
+
     @FXML
     private Label lblSubtotal;
-    
+
     @FXML
     private Label lblDiscount;
-    
+
     @FXML
     private Label lblTotal;
-    
+
     @FXML
     private Button btnCancel;
-    
+
     @FXML
     private Button btnSave;
-    
+
     @FXML
     private Button btnFood;
-    
+
     @FXML
     private Button btnDrink;
-    
+
     @FXML
     private Button btnExtra;
-    
+
     @FXML
     private TextField txtSearchProduct;
-    
+
     @FXML
     private Button btnClean;
-    
+
     @FXML
     private ScrollPane scrollPane;
-    
+
     @FXML
     private VBox productContainer;
 
@@ -224,7 +243,7 @@ public class MainPageController {
         Class variables
      */
     private ViewHandler viewHandler;
-    
+
     private MainPageModel orderModel;
 
 }

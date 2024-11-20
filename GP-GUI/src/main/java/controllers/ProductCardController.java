@@ -25,7 +25,6 @@ public class ProductCardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.productCardModel = new ProductCardModel();
-
     }
 
     @FXML
@@ -42,7 +41,7 @@ public class ProductCardController implements Initializable {
 
     @FXML
     private void addProduct(MouseEvent event) {
-
+        this.mainPageControllerAccessPoint.addProductToSummaryContainer(this);
     }
 
     /*
@@ -59,13 +58,14 @@ public class ProductCardController implements Initializable {
         return productCardAnchorPaneElement;
     }
 
-    public void customControllerWithProductData(IndividualProduct foodProduct) {
+    public void customControllerWithProductData(IndividualProduct foodProduct, MainPageController mainPageController) {
         // initialize the values of the variables for each product 
         this.txtProductName.setText(foodProduct.getName());
         this.txtPrice.setText(String.valueOf(foodProduct.getPrice()));
         this.txtAmount.setText("1");
         this.productCardModel.customControllerWithProductData(foodProduct); // initialize the model variables with the same values the view has.
-        
+        this.mainPageControllerAccessPoint = mainPageController;  
+
     }
 
     /*
@@ -73,7 +73,7 @@ public class ProductCardController implements Initializable {
      */
     public void setupBinding() {
         this.txtProductName.textProperty().bindBidirectional(this.productCardModel.getProductName());
-        this.txtPrice.textProperty().bind(this.productCardModel.getAccumulatedPrice());
+        this.txtPrice.textProperty().bindBidirectional(this.productCardModel.getAccumulatedPrice());
         this.txtAmount.textProperty().bindBidirectional(this.productCardModel.getAmmount());
 
     }
@@ -106,4 +106,5 @@ public class ProductCardController implements Initializable {
 
     private ProductCardModel productCardModel;
 
+    private static MainPageController mainPageControllerAccessPoint;
 }
