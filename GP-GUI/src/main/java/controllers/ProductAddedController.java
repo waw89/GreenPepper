@@ -7,6 +7,7 @@ package controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -42,7 +43,16 @@ public class ProductAddedController implements Initializable{
         this.anchorPaneElement = anchorPaneElement;
     }
     
-    
+    public ProductAddedController addProductItemToProductAdded(ProductAddedController productAddedController) throws Exception
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/ProductItem.fxml"));
+        AnchorPane productItemAnchorPaneElement = loader.load(); 
+        ProductItemController productItemController = loader.getController(); 
+        productListContainer.getChildren().add(productItemAnchorPaneElement); 
+            
+        return productAddedController;
+    }
     
     
     @FXML

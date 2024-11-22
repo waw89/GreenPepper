@@ -167,25 +167,21 @@ public class MainPageController {
         loader.setLocation(getClass().getResource("/fxml/ProductAdded.fxml")); // set the location to the FXML
         AnchorPane productAddedAnchorPane = loader.load(); // get the anchor pane
         ProductAddedController productAddedController = loader.getController(); // get the controller from the product added
-        
+
         addProductAddedToListOfModel(productAddedController);
         productAddedController.setAnchorPaneElement(productAddedAnchorPane);
         addNewProductItemToProductAdded(productAddedController);
         summaryContainer.getChildren().add(productAddedAnchorPane);
-        
-        
+
         return productAddedController;
     }
 
     public ProductItemController addNewProductItemToProductAdded(ProductAddedController productAddedController) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/ProductItem.fxml"));
-        AnchorPane productItemAnchorPane = loader.load();
-        ProductItemController productItemController = loader.getController();
-        productAddedController.getAnchorPaneElement().getChildren().add(productItemAnchorPane);
+        productAddedController.addProductItemToProductAdded(productAddedController);
+        productAddedController.addProductItemToProductAdded(productAddedController);
 
-        return productItemController;
+        return null;
     }
 
     public ProductAddedController addProductAddedToListOfModel(ProductAddedController productAddedController) {
