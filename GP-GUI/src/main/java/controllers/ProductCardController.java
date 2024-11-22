@@ -41,7 +41,8 @@ public class ProductCardController implements Initializable {
 
     @FXML
     private void addProduct(MouseEvent event) {
-        this.mainPageControllerAccessPoint.addProductToSummaryContainer(this);
+        this.mainPageControllerAccessPoint.addProductToSummary();
+
     }
 
     /*

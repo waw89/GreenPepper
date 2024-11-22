@@ -33,6 +33,16 @@ public class ProductAddedController implements Initializable{
     @FXML
     private void deleteProductFromSummary(MouseEvent event) {
     }
+
+    public AnchorPane getAnchorPaneElement() {
+        return anchorPaneElement;
+    }
+
+    public void setAnchorPaneElement(AnchorPane anchorPaneElement) {
+        this.anchorPaneElement = anchorPaneElement;
+    }
+    
+    
     
     
     @FXML
@@ -55,5 +65,6 @@ public class ProductAddedController implements Initializable{
     private VBox productListContainer;
 
     private ProductAddedModel productAddedModel; 
-    
+
+    private AnchorPane anchorPaneElement; 
 }

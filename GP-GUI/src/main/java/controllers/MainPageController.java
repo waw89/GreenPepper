@@ -7,8 +7,6 @@ package controllers;
 import com.mycompany.gp.domain.IndividualProduct;
 import com.mycompany.gp.domain.PRODUCT_TYPE;
 import core.ViewHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -97,6 +95,7 @@ public class MainPageController {
 
     @FXML
     private void cleanSearchBar(MouseEvent event) {
+
     }
 
     /*
@@ -107,7 +106,7 @@ public class MainPageController {
      */
     public void init(ViewHandler viewHandler, MainPageModel orderModel) {
         this.viewHandler = viewHandler;
-        this.orderModel = orderModel;
+        this.mainPageModel = orderModel;
         doSetup();
 
     }
@@ -124,13 +123,13 @@ public class MainPageController {
         Calls the method to charge products to the database
      */
     public void chargeProductsToDatabase() {
-        orderModel.chargeProductsToDatabase();
+        mainPageModel.chargeProductsToDatabase();
     }
 
     public void loadFoodProducts() {
-        this.orderModel.initializaListOfProductCard();
+        this.mainPageModel.initializaListOfProductCard();
         try {
-            for (IndividualProduct foodProduct : orderModel.getProductsFromDatabase()) {
+            for (IndividualProduct foodProduct : mainPageModel.getProductsFromDatabase()) {
                 if (foodProduct.getType().equals(PRODUCT_TYPE.FOOD)) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductCard.fxml")); // create a loader for the fxml file
                     AnchorPane productCard = loader.load(); // load the productCard
@@ -138,7 +137,7 @@ public class MainPageController {
                     cardController.setProductCardAnchorPaneElement(productCard);
                     cardController.customControllerWithProductData(foodProduct, this);
                     productContainer.getChildren().add(productCard);
-                    this.orderModel.addProductCardToList(cardController);
+                    this.mainPageModel.addProductCardToList(cardController);
                     cardController.setupBinding();
 
                 }
@@ -152,23 +151,49 @@ public class MainPageController {
 
     }
 
-    public void addProductToSummaryContainer(ProductCardController productCardController) {
-
+    public void addProductToSummary() {
+        // create the loader
         try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProductAdded.fxml"));
-            AnchorPane productAddedCard = loader.load();
-            ProductAddedController productAddedController = loader.getController();
-
-            FXMLLoader secondLoader = new FXMLLoader(getClass().getResource("/fxml/ProductItem.fxml"));
-            AnchorPane productNested = secondLoader.load();
-            ProductItemController productNestedController = secondLoader.getController();
-            summaryContainer.getChildren().add(productNested);
+            generateNewProductAdded();
 
         } catch (Exception e) {
             System.out.println(e);
         }
 
+    }
+
+    public ProductAddedController generateNewProductAdded() throws Exception {
+        FXMLLoader loader = new FXMLLoader(); // create an empty loader
+        loader.setLocation(getClass().getResource("/fxml/ProductAdded.fxml")); // set the location to the FXML
+        AnchorPane productAddedAnchorPane = loader.load(); // get the anchor pane
+        ProductAddedController productAddedController = loader.getController(); // get the controller from the product added
+        
+        addProductAddedToListOfModel(productAddedController);
+        productAddedController.setAnchorPaneElement(productAddedAnchorPane);
+        addNewProductItemToProductAdded(productAddedController);
+        summaryContainer.getChildren().add(productAddedAnchorPane);
+        
+        
+        return productAddedController;
+    }
+
+    public ProductItemController addNewProductItemToProductAdded(ProductAddedController productAddedController) throws Exception {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/ProductItem.fxml"));
+        AnchorPane productItemAnchorPane = loader.load();
+        ProductItemController productItemController = loader.getController();
+        productAddedController.getAnchorPaneElement().getChildren().add(productItemAnchorPane);
+
+        return productItemController;
+    }
+
+    public ProductAddedController addProductAddedToListOfModel(ProductAddedController productAddedController) {
+        if (mainPageModel.getListOfProductAddedElements() == null) {
+            mainPageModel.initializesListOfProductAdded(); // initializes the list from the model  
+        }
+        mainPageModel.addProductAddedToList(productAddedController);
+        return productAddedController;
     }
 
     @FXML
@@ -244,6 +269,6 @@ public class MainPageController {
      */
     private ViewHandler viewHandler;
 
-    private MainPageModel orderModel;
+    private MainPageModel mainPageModel;
 
 }
