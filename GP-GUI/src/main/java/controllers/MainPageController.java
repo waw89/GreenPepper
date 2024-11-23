@@ -5,8 +5,11 @@
 package controllers;
 
 import com.mycompany.gp.domain.IndividualProduct;
+import com.mycompany.gp.domain.PRODUCT_SIZE;
 import com.mycompany.gp.domain.PRODUCT_TYPE;
 import core.ViewHandler;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -19,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import model.MainPageModel;
 
 /**
@@ -74,7 +78,7 @@ public class MainPageController {
 
     @FXML
     private void save(MouseEvent event) {
-        System.out.println("Saving stuff");
+
     }
 
     @FXML
@@ -101,8 +105,9 @@ public class MainPageController {
     /*
         Class methods
      */
- /*
-        This method initializes the controller with the view handler and an order model instance.
+    /**
+     * This method initializes the controller with the view handler and an order
+     * model instance.
      */
     public void init(ViewHandler viewHandler, MainPageModel orderModel) {
         this.viewHandler = viewHandler;
@@ -111,21 +116,39 @@ public class MainPageController {
 
     }
 
-    /*
-        Performs confgurations before starting the flow of the program.
+    /**
+     * Performs confgurations before starting the flow of the program.
      */
     public void doSetup() {
         chargeProductsToDatabase();
         loadFoodProducts();
     }
 
-    /*
-        Calls the method to charge products to the database
+    /**
+     * Calls the method to charge products to the database
      */
     public void chargeProductsToDatabase() {
         mainPageModel.chargeProductsToDatabase();
     }
 
+    /**
+     * Handles the request of adding a new selected product.
+     */
+    public void addProductToSummary(ProductCardController productCardController) {
+        // create the loader
+        try {
+            generateNewProductAdded(productCardController);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    /**
+     * Iterates the products of the database and creates a Product card for each
+     * of them, then it adds the product card to the product container
+     */
     public void loadFoodProducts() {
         this.mainPageModel.initializaListOfProductCard();
         try {
@@ -139,7 +162,6 @@ public class MainPageController {
                     productContainer.getChildren().add(productCard);
                     this.mainPageModel.addProductCardToList(cardController);
                     cardController.setupBinding();
-
                 }
 
             }
@@ -151,39 +173,53 @@ public class MainPageController {
 
     }
 
-    public void addProductToSummary() {
-        // create the loader
-        try {
-            generateNewProductAdded();
+    /**
+     * Loads a new ProductAddedController and then adds it to the list of the
+     * summary.
+     *
+     * @return The ProductAddedController that was generated
+     * @throws Exception
+     */
+    public ProductAddedController generateNewProductAdded(ProductCardController productCardController) throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/ProductAdded.fxml"));
+        AnchorPane productAddedAnchorPane = loader.load();
 
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
-
-    public ProductAddedController generateNewProductAdded() throws Exception {
-        FXMLLoader loader = new FXMLLoader(); // create an empty loader
-        loader.setLocation(getClass().getResource("/fxml/ProductAdded.fxml")); // set the location to the FXML
-        AnchorPane productAddedAnchorPane = loader.load(); // get the anchor pane
-        ProductAddedController productAddedController = loader.getController(); // get the controller from the product added
-
+        ProductAddedController productAddedController = loader.getController();
+        
+        
+        productAddedController.customControllerWithProductCardData(productCardController.getProductCardModel());
+        productAddedController.setupBinding();
+        configureProductAddedWithProductCard(productCardController, productAddedController);
         addProductAddedToListOfModel(productAddedController);
         productAddedController.setAnchorPaneElement(productAddedAnchorPane);
         addNewProductItemToProductAdded(productAddedController);
+
         summaryContainer.getChildren().add(productAddedAnchorPane);
 
         return productAddedController;
     }
 
-    public ProductItemController addNewProductItemToProductAdded(ProductAddedController productAddedController) throws Exception {
+    public ProductAddedController configureProductAddedWithProductCard(ProductCardController productCardController, ProductAddedController productAddedController) {
 
-        productAddedController.addProductItemToProductAdded(productAddedController);
-        productAddedController.addProductItemToProductAdded(productAddedController);
 
-        return null;
+        return productAddedController;
+
     }
 
+    public ProductAddedController addNewProductItemToProductAdded(ProductAddedController productAddedController) throws Exception {
+
+        productAddedController.addProductItemToProductAdded(productAddedController);
+
+        return productAddedController;
+    }
+
+    /**
+     * Update the list of the ProductAddedController from the
+     *
+     * @param productAddedController
+     * @return
+     */
     public ProductAddedController addProductAddedToListOfModel(ProductAddedController productAddedController) {
         if (mainPageModel.getListOfProductAddedElements() == null) {
             mainPageModel.initializesListOfProductAdded(); // initializes the list from the model  

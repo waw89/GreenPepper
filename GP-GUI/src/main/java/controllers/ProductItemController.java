@@ -67,6 +67,7 @@ public class ProductItemController implements Initializable {
     private void deleteIndividualProduct(MouseEvent event) {
     }
     
+
     
     
 }

@@ -5,6 +5,7 @@
 package model;
 
 import controller.ProductItemController;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,22 +15,62 @@ import javafx.collections.ObservableList;
  */
 public class ProductAddedModel {
 
-    public ObservableList<ProductItemController> getListOfProductItems() 
-    {
+    private ObservableList<ProductItemController> listOfProductItems;
+    private SimpleStringProperty txtSummaryProductName;
+    private SimpleStringProperty txtProductSummaryPrice;
+    private SimpleStringProperty txtAmount;
+
+    /**
+     * Returns the list of product items.
+     *
+     */
+    public ObservableList<ProductItemController> getListOfProductItems() {
         return listOfProductItems;
     }
-    
-    public void addProductItemToList(ProductItemController productItem)
-    {
+
+    /**
+     * Takes a ProductItemController and adds it to the list.
+     */
+    public void addProductItemToList(ProductItemController productItem) {
         listOfProductItems.add(productItem);
     }
-    
-    public void initializeListOfProductItems()
-    {
-       listOfProductItems = FXCollections.observableArrayList(); 
+
+    /**
+     * This method must be called before working with the list of product items.
+     */
+    public void initializeListOfProductItems() {
+        listOfProductItems = FXCollections.observableArrayList();
+    }
+
+    public SimpleStringProperty getTxtSummaryProductName() {
+        return txtSummaryProductName;
+    }
+
+    public void setTxtSummaryProductName(SimpleStringProperty txtSummaryProductName) {
+        this.txtSummaryProductName = txtSummaryProductName;
+    }
+
+    public SimpleStringProperty getTxtProductSummaryPrice() {
+        return txtProductSummaryPrice;
+    }
+
+    public void setTxtProductSummaryPrice(SimpleStringProperty txtProductSummaryPrice) {
+        this.txtProductSummaryPrice = txtProductSummaryPrice;
+    }
+
+    public SimpleStringProperty getTxtAmount() {
+        return txtAmount;
+    }
+
+    public void setTxtAmount(SimpleStringProperty txtAmount) {
+        this.txtAmount = txtAmount;
     }
     
-    
-    private ObservableList<ProductItemController> listOfProductItems;
-    
+    public void customModelWithSameData(ProductCardModel productCardModel) {
+       this.txtSummaryProductName = new SimpleStringProperty(String.valueOf(productCardModel.getProductName().getValue()));
+       this.txtProductSummaryPrice = new SimpleStringProperty(String.valueOf(productCardModel.getAccumulatedPrice().getValue()));
+       this.txtAmount = new SimpleStringProperty(String.valueOf(productCardModel.getAmmount().getValue()));
+       
+    }
+
 }

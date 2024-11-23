@@ -12,8 +12,13 @@ import javafx.beans.property.SimpleStringProperty;
  * @author waw
  */
 public class ProductCardModel {
-
-    public void customControllerWithProductData(IndividualProduct foodProduct) {
+    private Product product;
+    private SimpleStringProperty productName;
+    private SimpleStringProperty productPriceAccumulated;
+    private SimpleStringProperty ammount;
+    
+    
+    public void customModelWithSameData(IndividualProduct foodProduct) {
         this.productName = new SimpleStringProperty(foodProduct.getName());
         this.productPriceAccumulated = new SimpleStringProperty(String.valueOf(foodProduct.getPrice()));
         this.ammount = new SimpleStringProperty("1");
@@ -52,6 +57,10 @@ public class ProductCardModel {
         this.product = product;
     }
 
+    public String getProductNameStringPropertyContent(){
+        return this.getProductName().getValue(); 
+    }
+    
     /*
         Increase ammount 
      */
@@ -89,9 +98,6 @@ public class ProductCardModel {
 
     }
 
-    private Product product;
-    private SimpleStringProperty productName;
-    private SimpleStringProperty productPriceAccumulated;
-    private SimpleStringProperty ammount;
+
 
 }
