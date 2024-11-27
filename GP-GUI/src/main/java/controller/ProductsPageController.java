@@ -57,13 +57,22 @@ public class ProductsPageController implements Initializable {
     FilteredList<IndividualProduct> filter;
 
     BusinessProduct prodBusiness = new BusinessProduct();
+    
+    AdminMainPageController adminMainController;
+
+    
+    /**
+     * Getters & Setters
+     */
+    public void setAdminMainController(AdminMainPageController adminMainController) {
+        this.adminMainController = adminMainController;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         foodList = FXCollections.observableArrayList();
         List<IndividualProduct> products = prodBusiness.getAllFoods();
         foodList.addAll(products);
@@ -179,6 +188,7 @@ public class ProductsPageController implements Initializable {
 
     @FXML
     private void addProduct(MouseEvent event) {
+        this.adminMainController.loadPage("AddProductPage");
     }
 
         /**

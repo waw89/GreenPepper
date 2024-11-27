@@ -110,7 +110,10 @@ public class AdminMainPageController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + namePage + ".fxml"));
             Parent root = loader.load();
-            
+            if (namePage.equals("ProductsPage")) {
+                ProductsPageController controller = loader.getController();
+                controller.setAdminMainController(this);
+            }
             bp.setCenter(root);  // Establece el contenido en el centro del BorderPane
         } catch (IOException ex) {
             Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
