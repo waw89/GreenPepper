@@ -46,22 +46,22 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text layoutX="117.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad Recibida:">
+      <Text layoutX="117.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad Recibida:">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <TextField fx:id="txtAmountReceived" layoutX="338.0" layoutY="279.0">
+      <TextField fx:id="txtAmountReceived" layoutX="338.0" layoutY="286.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </TextField>
-      <Text layoutX="117.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad Cambio:">
+      <Text layoutX="117.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad Cambio:">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text fx:id="txtCambio" layoutX="322.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0" wrappingWidth="332.640625">
+      <Text fx:id="txtCambio" layoutX="322.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$0" wrappingWidth="332.640625">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -76,7 +76,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="btnCalcular" layoutX="593.0" layoutY="279.0" mnemonicParsing="false" onMouseClicked="#OptionCalculate" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: ffc605; -fx-background-radius: 20;" text="Calcular" textFill="WHITE">
+      <Button fx:id="btnCalcular" layoutX="593.0" layoutY="286.0" mnemonicParsing="false" onMouseClicked="#OptionCalculate" prefHeight="51.0" prefWidth="167.0" style="-fx-background-color: ffc605; -fx-background-radius: 20;" text="Calcular" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -86,6 +86,6 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <ComboBox fx:id="cmbPaymentMethod" layoutX="325.0" layoutY="241.0" prefHeight="25.0" prefWidth="194.0" />
+      <ComboBox fx:id="cmbPaymentMethod" layoutX="325.0" layoutY="241.0" prefHeight="25.0" prefWidth="194.0" style="-fx-font-family: 'System'; -fx-font-size: 18px; -fx-font-weight: bold;" />
    </children>
 </AnchorPane>
