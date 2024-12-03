@@ -55,6 +55,7 @@ public class PayOrderController implements Initializable {
     private DeliveryOrder deliveryOrder;
     private PickUpOrder pickUpOrder;
     OrderBusiness oBusines = new OrderBusiness();
+    MainPageController mainPageController;
     
     
 
@@ -77,6 +78,10 @@ public class PayOrderController implements Initializable {
         
         btnAccept.setDisable(true);
         
+    }
+    
+    public void setMainPageController(MainPageController mainPageController){
+        this.mainPageController = mainPageController;
     }
 
     public ImageView getBtnBack() {
@@ -282,13 +287,25 @@ public class PayOrderController implements Initializable {
     private void OptionAccept(MouseEvent event) {
     
         if(dinerOrder instanceof DinerOrder){
+            
             dinerOrder.setORDER_STATE(ORDER_STATE.PAID);
             oBusines.EditDataDiner(dinerOrder);
+            
+        } else if(deliveryOrder instanceof DeliveryOrder){
+            
+            deliveryOrder.setOrderState(ORDER_STATE.PAID);
+            oBusines.EditDataDelivery(deliveryOrder);
+            
+        } else if(pickUpOrder instanceof PickUpOrder){
+            
+            pickUpOrder.setORDER_STATE(ORDER_STATE.PAID);
+            oBusines.EditDataPickUp(pickUpOrder);
+            
         }
         
-        
-        Stage stage = (Stage) btnAccept.getScene().getWindow();
+        Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
+        mainPageController.loadPage("ActiveOrders");
     
     }
 
