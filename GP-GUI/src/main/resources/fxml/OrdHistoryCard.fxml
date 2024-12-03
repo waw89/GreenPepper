@@ -32,7 +32,7 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Text fx:id="txtEstado" fill="#71b50a" layoutX="518.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estado" wrappingWidth="159.1171875">
+      <Text fx:id="txtEstado" fill="#71b50a" layoutX="504.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estado" wrappingWidth="299.1171875">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>

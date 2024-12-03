@@ -11,6 +11,7 @@ import com.mycompany.gp.domain.DinerOrder;
 import com.mycompany.gp.domain.Employee;
 import com.mycompany.gp.domain.ORDER_STATE;
 import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.PAYMENT_METHOD;
 import com.mycompany.gp.domain.PickUpOrder;
 import com.mycompany.gp.domain.ProductOrder;
 import java.io.IOException;
@@ -237,6 +238,8 @@ public class CreateOrderController implements Initializable {
         deliveryOrder.setCreationDate(LocalDateTime.now());
 
         deliveryOrder.setCashier((Employee) us.findUser(2L));
+        
+        deliveryOrder.setPaymentMethod(PAYMENT_METHOD.PAGO_PENDIENTE);
 
         ob.createDeliveryOrder(deliveryOrder);
 
@@ -267,6 +270,8 @@ public class CreateOrderController implements Initializable {
         dinerOrder.setCreationDate(LocalDateTime.now());
 
         dinerOrder.setCashier((Employee) us.findUser(2L));
+        
+        dinerOrder.setPaymentMethod(PAYMENT_METHOD.PAGO_PENDIENTE);
 
         ob.createDinerOrder(dinerOrder);
 
@@ -300,6 +305,8 @@ public class CreateOrderController implements Initializable {
         pickUpOrder.setCreationDate(LocalDateTime.now());
 
         pickUpOrder.setCashier((Employee) us.findUser(2L));
+        
+        pickUpOrder.setPaymentMethod(PAYMENT_METHOD.PAGO_PENDIENTE);
 
         ob.createPickUpOrder(pickUpOrder);
 

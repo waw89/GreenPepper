@@ -39,7 +39,13 @@ public class PickUpOrder extends Order implements Serializable{
         this.customerPhone = customerPhone;
     }
 
-   
+    public PickUpOrder(String customerName, String customerPhone, Long orderNumber, LocalDateTime creationDate, com.mycompany.gp.domain.ORDER_STATE ORDER_STATE, PAYMENT_METHOD paymentMethod, List<ProductOrder> products, Float price, String details, Employee cashier) {
+        super(orderNumber, creationDate, ORDER_STATE, paymentMethod, products, price, details, cashier);
+        this.customerName = customerName;
+        this.customerPhone = customerPhone;
+    }
+
+
     // Getters & Setters
  
     public String getCustomerName() {
@@ -113,7 +119,13 @@ public class PickUpOrder extends Order implements Serializable{
     public void setCashier(Employee cashier) {
         this.cashier = cashier;
     }
-    
-    
+
+    public PAYMENT_METHOD getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PAYMENT_METHOD paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    } 
     
 }

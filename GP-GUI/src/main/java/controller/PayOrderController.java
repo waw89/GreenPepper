@@ -9,13 +9,16 @@ import com.mycompany.gp.domain.DeliveryOrder;
 import com.mycompany.gp.domain.DinerOrder;
 import com.mycompany.gp.domain.ORDER_STATE;
 import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.PAYMENT_METHOD;
 import com.mycompany.gp.domain.PickUpOrder;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -49,6 +52,8 @@ public class PayOrderController implements Initializable {
     private TextField txtAmountReceived;
     @FXML
     private Button btnCalcular;
+    @FXML
+    private ComboBox<String> cmbPaymentMethod;
     
     private Order order;
     private DinerOrder dinerOrder;    
@@ -57,8 +62,6 @@ public class PayOrderController implements Initializable {
     OrderBusiness oBusines = new OrderBusiness();
     MainPageController mainPageController;
     
-    
-
     /**
      * Initializes the controller class.
      */
@@ -77,6 +80,17 @@ public class PayOrderController implements Initializable {
         }
         
         btnAccept.setDisable(true);
+        
+        cmbPaymentMethod.getItems().addAll("-----","Efectivo", "Tarjeta", "Transferencia");
+        cmbPaymentMethod.setValue("-----");
+        
+         cmbPaymentMethod.setOnAction(event -> {
+        if ("-----".equals(cmbPaymentMethod.getValue()) || "Efectivo".equals(cmbPaymentMethod.getValue())) {
+            btnAccept.setDisable(true); 
+        } else {
+            btnAccept.setDisable(false); 
+        }
+    });
         
     }
     
@@ -285,18 +299,74 @@ public class PayOrderController implements Initializable {
 
     @FXML
     private void OptionAccept(MouseEvent event) {
-    
+        String selected = cmbPaymentMethod.getValue();
+        
+        if ("-----".equals(selected)) {
+        showError("Selecciona un Método de Pago válido antes de continuar.");
+        return;
+        }
+        
         if(dinerOrder instanceof DinerOrder){
+            
+            
+           
+            //cmbPaymentMethod.setOnAction(e -> {
+                
+                if ("Efectivo".equals(selected)) {
+                    
+                    dinerOrder.setPaymentMethod(PAYMENT_METHOD.EFECTIVO);
+                    
+                } else if ("Tarjeta".equals(selected)) {
+                    
+                    dinerOrder.setPaymentMethod(PAYMENT_METHOD.TARJETA);
+                    
+                } else if ("Transferencia".equals(selected)) {
+                    
+                    dinerOrder.setPaymentMethod(PAYMENT_METHOD.TRANSFERENCIA);
+                    
+                }
+                
+            //});
+            
+            
             
             dinerOrder.setORDER_STATE(ORDER_STATE.PAID);
             oBusines.EditDataDiner(dinerOrder);
             
         } else if(deliveryOrder instanceof DeliveryOrder){
             
+            if ("Efectivo".equals(selected)) {
+                    
+                deliveryOrder.setPaymentMethod(PAYMENT_METHOD.EFECTIVO);
+
+            } else if ("Tarjeta".equals(selected)) {
+
+                deliveryOrder.setPaymentMethod(PAYMENT_METHOD.TARJETA);
+
+            } else if ("Transferencia".equals(selected)) {
+
+                deliveryOrder.setPaymentMethod(PAYMENT_METHOD.TRANSFERENCIA);
+
+            }
+            
             deliveryOrder.setOrderState(ORDER_STATE.PAID);
             oBusines.EditDataDelivery(deliveryOrder);
             
         } else if(pickUpOrder instanceof PickUpOrder){
+            
+            if ("Efectivo".equals(selected)) {
+                    
+                pickUpOrder.setPaymentMethod(PAYMENT_METHOD.EFECTIVO);
+
+            } else if ("Tarjeta".equals(selected)) {
+
+                pickUpOrder.setPaymentMethod(PAYMENT_METHOD.TARJETA);
+
+            } else if ("Transferencia".equals(selected)) {
+
+                pickUpOrder.setPaymentMethod(PAYMENT_METHOD.TRANSFERENCIA);
+
+            }
             
             pickUpOrder.setORDER_STATE(ORDER_STATE.PAID);
             oBusines.EditDataPickUp(pickUpOrder);
@@ -315,6 +385,14 @@ public class PayOrderController implements Initializable {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
     
+    }
+    
+    private void showError(String error) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setTitle("Método de Pago Incorrecto");
+        alert.setContentText(error);
+        alert.showAndWait();
     }
     
 }
