@@ -138,10 +138,14 @@ public class Order implements Serializable, Cloneable {
 
     public void setCashier(Employee cashier) {
         this.cashier = cashier;
+    }   
+    
+    public PAYMENT_METHOD getPaymentMethod() {
+        return paymentMethod;
     }
-    
-    // Code for the prototype
-    
-  
-        
+
+    public void setPaymentMethod(PAYMENT_METHOD paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+           
 }

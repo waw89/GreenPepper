@@ -111,6 +111,13 @@ public class AdminMainPageController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + namePage + ".fxml"));
             Parent root = loader.load();
             
+            if(namePage.equals("ReportsPage")){
+                ReportsPageController reportsController = loader.getController();
+                reportsController.setAdminController(this);
+            }
+            
+            
+            
             bp.setCenter(root);  // Establece el contenido en el centro del BorderPane
         } catch (IOException ex) {
             Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
