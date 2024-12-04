@@ -17,6 +17,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import com.mycompany.gp.domain.Order;
+import com.mycompany.gp.domain.PAYMENT_METHOD;
+import java.util.ArrayList;
 
 /**
  * FXML Controller class
@@ -45,7 +47,7 @@ public class SalesController implements Initializable {
     private CheckBox chBoxSemanal;
     
     OrderBusiness oBussines = new OrderBusiness();
-    List<Order> orders = oBussines.getAllOrder();
+    //List<Order> orders = oBussines.getAllOrder();
 
     /**
      * Initializes the controller class.
@@ -180,16 +182,38 @@ public class SalesController implements Initializable {
         }
     }
     
+    public void loadVisualize(){
+        List<Order> orders = oBussines.getAllOrder();
+
+        List<Order> cashOrders = new ArrayList<>();
+        List<Order> cardOrders = new ArrayList<>();
+        List<Order> transferOrders = new ArrayList<>();
+        
+        float totalCash = 0;
+        float totalCard = 0;
+        float totalTransfer = 0;
+
+        for (Order order : orders) {
+            
+            if (order.getPaymentMethod() == PAYMENT_METHOD.EFECTIVO) {
+                cashOrders.add(order);
+                totalCash += order.getPrice();
+            } else if (order.getPaymentMethod() == PAYMENT_METHOD.TARJETA) {
+                cardOrders.add(order);
+                totalCard += order.getPrice();
+            } else if (order.getPaymentMethod() == PAYMENT_METHOD.TRANSFERENCIA) {
+                transferOrders.add(order);
+                totalCard += order.getPrice();
+            }
+        }
+        
+        
+    }
+    
 
     @FXML
     private void visualizarOption(MouseEvent event) {
-    
-        
-    
-    
-    
-    
-    
+        loadVisualize();
     }
 
     @FXML
