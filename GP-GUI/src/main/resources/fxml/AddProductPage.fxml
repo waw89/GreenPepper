@@ -112,7 +112,7 @@
                         </TextField>
                      </children>
                   </HBox>
-                  <HBox fx:id="containerH" prefHeight="100.0" prefWidth="200.0">
+                  <HBox fx:id="containerG" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" G">
                            <font>

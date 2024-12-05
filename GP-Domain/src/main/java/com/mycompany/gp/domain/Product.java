@@ -41,7 +41,7 @@ public class Product implements Serializable {
     protected String name;
     
     @Column (name = "price")
-    protected List<int> price;
+    protected int price;
     
     @Column (name = "productState")
     protected boolean productState;
@@ -52,9 +52,7 @@ public class Product implements Serializable {
     
     @Column (name = "PRODUCT_SIZE")
     protected PRODUCT_SIZE PRODUCT_SIZE;
-    
-    
-
+   
 
     public Product() {
     }

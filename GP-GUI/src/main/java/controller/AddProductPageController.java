@@ -13,10 +13,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -47,22 +52,34 @@ public class AddProductPageController implements Initializable {
     private TextField priceG;
     @FXML
     private Button btnAddProduct;
-    
+    @FXML
+    private VBox priceContainer;
+    @FXML
+    private TextField priceGeneral;
+    @FXML
+    private HBox containerCH;
+    @FXML
+    private HBox containerM;
+    @FXML
+    private HBox containerG;
+
     IndividualProduct newProduct = new IndividualProduct();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-
+        hideContainer(containerCH);
+        hideContainer(containerM);
+        hideContainer(containerG);
+    }
 
     @FXML
     private void selectFood(MouseEvent event) {
         setSelectedTypeButtonStyle(btnFood);
         newProduct.setType(PRODUCT_TYPE.FOOD);
-        
+
     }
 
     @FXML
@@ -79,38 +96,63 @@ public class AddProductPageController implements Initializable {
 
     @FXML
     private void btnCHSelected(MouseEvent event) {
-        if(btnCH.isSelected()){
+        hideContainer(priceGeneral);
+        if (btnCH.isSelected()) {
             setSelectedSizeButtonStyle(btnCH);
-            newProduct.setPRODUCT_SIZE(PRODUCT_SIZE.SMALL);
-        }else if(!btnCH.isSelected()){
+            showContainer(containerCH);
+
+        } else if (!btnCH.isSelected()) {
             setUnselectedSizeButtonStyle(btnCH);
+            hideContainer(containerCH);
+            verifyPriceContainer();
         }
     }
 
     @FXML
     private void btnMSelected(MouseEvent event) {
-         if(btnM.isSelected()){
+        hideContainer(priceGeneral);
+        if (btnM.isSelected()) {
             setSelectedSizeButtonStyle(btnM);
-        }else if(!btnM.isSelected()){
+            showContainer(containerM);
+        } else if (!btnM.isSelected()) {
             setUnselectedSizeButtonStyle(btnM);
+            hideContainer(containerM);
+            verifyPriceContainer();
         }
     }
 
     @FXML
     private void btnGSelected(MouseEvent event) {
-         if(btnG.isSelected()){
+        hideContainer(priceGeneral);
+        if (btnG.isSelected()) {
             setSelectedSizeButtonStyle(btnG);
-        }else if(!btnG.isSelected()){
+            showContainer(containerG);
+        } else if (!btnG.isSelected()) {
             setUnselectedSizeButtonStyle(btnG);
+            hideContainer(containerG);
+            verifyPriceContainer();
         }
     }
 
     @FXML
     private void addProduct(MouseEvent event) {
-        
+        if (validateProductType()) {
+            if (validateEmptyNameField()) {
+                if (!validatePriceFields()) {
+                    
+                }else{
+                    showErrorAlert("Debe especificar el precio de su producto.");
+                }
+            } else {
+                showErrorAlert("Debe especificar un nombre para su producto.");
+            }
+        } else {
+            showErrorAlert("Debe seleccionar un tipo de producto.");
+        }
+
     }
-    
-     private void setSelectedTypeButtonStyle(ToggleButton selectedButton) {
+
+    private void setSelectedTypeButtonStyle(ToggleButton selectedButton) {
 
         List<ToggleButton> buttons = List.of(btnFood, btnDrink, btnExtra);
 
@@ -122,13 +164,112 @@ public class AddProductPageController implements Initializable {
             }
         }
     }
-     
-    private void setSelectedSizeButtonStyle(ToggleButton toggleButton){
+
+    private void setSelectedSizeButtonStyle(ToggleButton toggleButton) {
         toggleButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 10; -fx-border-radius: 10;");
-    } 
-    
-    private void setUnselectedSizeButtonStyle(ToggleButton toggleButton){
+    }
+
+    private void setUnselectedSizeButtonStyle(ToggleButton toggleButton) {
         toggleButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: black;");
     }
-    
+
+    private void showContainer(Node container) {
+        container.setVisible(true);
+        container.setManaged(true);
+    }
+
+    private void hideContainer(Node container) {
+        container.setVisible(false);
+        container.setManaged(false);
+    }
+
+    private void verifyPriceContainer() {
+        if (!containerCH.isVisible() && !containerM.isVisible() && !containerG.isVisible()) {
+            showContainer(priceGeneral);
+        }
+    }
+
+    private boolean validateProductType() {
+        if (!btnFood.isSelected() && !btnDrink.isSelected() && !btnExtra.isSelected()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean validateEmptyNameField() {
+        if (txtProductName.getText().isBlank() || txtProductName.getText().isEmpty()) {
+            txtProductName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+            txtProductName.setTooltip(tooltip);
+            return false;
+        } else {
+            priceCH.setStyle("");
+            txtProductName.setTooltip(null);
+            return true;
+        }
+
+    }
+
+    private boolean validatePriceFields() {
+        if (priceGeneral.isVisible()) {
+            if (priceGeneral.getText().isBlank() || priceGeneral.getText().isEmpty()) {
+                priceGeneral.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+                priceGeneral.setTooltip(tooltip);
+                return true;
+            } else {
+                priceGeneral.setStyle("");
+                priceGeneral.setTooltip(null);
+                return false;
+            }
+        } else {
+            return validateIndividualPrices();
+        }
+    }
+
+    private boolean validateIndividualPrices() {
+        boolean hasEmptyFields = false;
+        if (priceCH.isVisible()) {
+            if (priceCH.getText().isBlank() || priceCH.getText().isEmpty()) {
+                priceCH.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+                priceCH.setTooltip(tooltip);
+                hasEmptyFields = true;
+            } else {
+                priceCH.setStyle("");
+                priceM.setTooltip(null);
+            }
+        } else if (priceM.isVisible()) {
+            if (priceM.getText().isBlank() || priceM.getText().isEmpty()) {
+                priceM.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+                priceM.setTooltip(tooltip);
+                hasEmptyFields = true;
+            } else {
+                priceM.setStyle("");
+                priceM.setTooltip(null);
+            }
+        } else if (priceG.isVisible()) {
+            if (priceG.getText().isBlank() || priceG.getText().isEmpty()) {
+                priceG.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
+                priceG.setTooltip(tooltip);
+                hasEmptyFields = true;
+            } else {
+                priceG.setStyle("");
+                priceG.setTooltip(null);
+            }
+        }
+        return hasEmptyFields;
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setTitle("Error al crear producto");
+        alert.setContentText("No se puede crear el producto. " + message);
+        alert.showAndWait();
+    }
+
 }
