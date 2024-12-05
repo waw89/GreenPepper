@@ -19,8 +19,8 @@ public class MainFX extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-       // Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainPage.fxml")); // Pantalla de Empleados
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/AdminMainPage.fxml")); // Pantalla de Administrador
+       Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainPage.fxml")); // Pantalla de Empleados
+        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/AdminMainPage.fxml")); // Pantalla de Administrador
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
