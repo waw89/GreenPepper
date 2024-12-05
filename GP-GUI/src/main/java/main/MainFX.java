@@ -38,7 +38,7 @@ public class MainFX extends Application {
     
      public static void chargeProducts() {
         BusinessProduct bp = new BusinessProduct();
-        bp.chargerProducts();
+
     }
 
 }

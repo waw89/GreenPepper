@@ -4,11 +4,13 @@
  */
 package controller;
 
+import business.BusinessProduct;
 import com.mycompany.gp.domain.IndividualProduct;
 import com.mycompany.gp.domain.PRODUCT_SIZE;
 import com.mycompany.gp.domain.PRODUCT_TYPE;
 import com.mycompany.gp.domain.Product;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -64,6 +66,8 @@ public class AddProductPageController implements Initializable {
     private HBox containerG;
 
     IndividualProduct newProduct = new IndividualProduct();
+    List<IndividualProduct> productsPerPrice = new ArrayList<>();
+    BusinessProduct productBusiness = new BusinessProduct();
 
     /**
      * Initializes the controller class.
@@ -139,8 +143,16 @@ public class AddProductPageController implements Initializable {
         if (validateProductType()) {
             if (validateEmptyNameField()) {
                 if (!validatePriceFields()) {
-                    
-                }else{
+                    if (priceGeneral.isVisible()) {
+                        createProduct();
+                        
+                        showConfirmation();
+                        
+                    } else {
+                        createManyProducts();
+                        showConfirmation();
+                    }
+                } else {
                     showErrorAlert("Debe especificar el precio de su producto.");
                 }
             } else {
@@ -150,6 +162,55 @@ public class AddProductPageController implements Initializable {
             showErrorAlert("Debe seleccionar un tipo de producto.");
         }
 
+    }
+
+    private IndividualProduct createProduct() {
+        newProduct.setName(txtProductName.getText());
+        newProduct.setState(true);
+        newProduct.setPrice(Integer.parseInt(priceGeneral.getText()));
+        newProduct.setActiveOffer(null);
+        newProduct.setStateProduct(true);
+        newProduct.setPRODUCT_SIZE(PRODUCT_SIZE.UNDEFINED);
+        productBusiness.createSingleProduct(newProduct);
+        return newProduct;
+    }
+
+    private List<IndividualProduct> createManyProducts() {
+        if (containerCH.isVisible()) {
+            IndividualProduct smallProduct = new IndividualProduct();
+            smallProduct.setName(txtProductName.getText());
+            smallProduct.setState(true);
+            smallProduct.setPrice(Integer.parseInt(priceCH.getText()));
+            smallProduct.setActiveOffer(null);
+            smallProduct.setStateProduct(true);
+            smallProduct.setPRODUCT_SIZE(PRODUCT_SIZE.SMALL);
+            smallProduct.setType(newProduct.getType());
+            productsPerPrice.add(smallProduct);
+        }
+        if (containerM.isVisible()) {
+            IndividualProduct mediumProduct = new IndividualProduct();
+            mediumProduct.setName(txtProductName.getText());
+            mediumProduct.setState(true);
+            mediumProduct.setPrice(Integer.parseInt(priceM.getText()));
+            mediumProduct.setActiveOffer(null);
+            mediumProduct.setStateProduct(true);
+            mediumProduct.setPRODUCT_SIZE(PRODUCT_SIZE.MEDIUM);
+            mediumProduct.setType(newProduct.getType());
+            productsPerPrice.add(mediumProduct);
+        }
+        if (containerG.isVisible()) {
+            IndividualProduct largeProduct = new IndividualProduct();
+            largeProduct.setName(txtProductName.getText());
+            largeProduct.setState(true);
+            largeProduct.setPrice(Integer.parseInt(priceG.getText()));
+            largeProduct.setActiveOffer(null);
+            largeProduct.setStateProduct(true);
+            largeProduct.setPRODUCT_SIZE(PRODUCT_SIZE.LARGE);
+            largeProduct.setType(newProduct.getType());
+            productsPerPrice.add(largeProduct);
+        }
+        productBusiness.createManyProducts(productsPerPrice);
+        return productsPerPrice;
     }
 
     private void setSelectedTypeButtonStyle(ToggleButton selectedButton) {
@@ -230,7 +291,7 @@ public class AddProductPageController implements Initializable {
 
     private boolean validateIndividualPrices() {
         boolean hasEmptyFields = false;
-        if (priceCH.isVisible()) {
+        if (containerCH.isVisible()) {
             if (priceCH.getText().isBlank() || priceCH.getText().isEmpty()) {
                 priceCH.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
@@ -238,9 +299,9 @@ public class AddProductPageController implements Initializable {
                 hasEmptyFields = true;
             } else {
                 priceCH.setStyle("");
-                priceM.setTooltip(null);
+                priceCH.setTooltip(null);
             }
-        } else if (priceM.isVisible()) {
+        } else if (containerM.isVisible()) {
             if (priceM.getText().isBlank() || priceM.getText().isEmpty()) {
                 priceM.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
@@ -250,7 +311,7 @@ public class AddProductPageController implements Initializable {
                 priceM.setStyle("");
                 priceM.setTooltip(null);
             }
-        } else if (priceG.isVisible()) {
+        } else if (containerG.isVisible()) {
             if (priceG.getText().isBlank() || priceG.getText().isEmpty()) {
                 priceG.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 Tooltip tooltip = new Tooltip("Este campo es obligatorio.");
@@ -264,6 +325,13 @@ public class AddProductPageController implements Initializable {
         return hasEmptyFields;
     }
 
+    private void showConfirmation() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Producto creada");
+        alert.setContentText("Se ha creado el producto correctamente");
+        alert.showAndWait();
+    }
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
