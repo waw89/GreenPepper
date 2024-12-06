@@ -163,7 +163,7 @@ public class MainPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         foodList = FXCollections.observableArrayList();
-        List<IndividualProduct> products = prodBusiness.getAllFoods();
+        List<IndividualProduct> products = prodBusiness.getMenuFoods();
         foodList.addAll(products);
         filter = new FilteredList(foodList, p -> true);
         for (Product product : foodList) {
@@ -408,7 +408,7 @@ public class MainPageController implements Initializable {
         setSelectedButtonStyle(btnFood);
         cleanProductsList();
         foodList = FXCollections.observableArrayList();
-        List<IndividualProduct> products = prodBusiness.getAllFoods();
+        List<IndividualProduct> products = prodBusiness.getMenuFoods();
         foodList.addAll(products);
         filter = new FilteredList(foodList, p -> true);
 
@@ -436,7 +436,7 @@ public class MainPageController implements Initializable {
         setSelectedButtonStyle(btnDrink);
         cleanProductsList();
         drinkList = FXCollections.observableArrayList();
-        List<IndividualProduct> products = prodBusiness.getAllDrinks();
+        List<IndividualProduct> products = prodBusiness.getMenuDrinks();
         drinkList.addAll(products);
         filter = new FilteredList(drinkList, p -> true);
 
@@ -464,7 +464,7 @@ public class MainPageController implements Initializable {
         setSelectedButtonStyle(btnExtra);
         cleanProductsList();
         extrasList = FXCollections.observableArrayList();
-        List<IndividualProduct> products = prodBusiness.getAllExtras();
+        List<IndividualProduct> products = prodBusiness.getMenuExtras();
         extrasList.addAll(products);
         filter = new FilteredList(extrasList, p -> true);
         for (Product product : extrasList) {

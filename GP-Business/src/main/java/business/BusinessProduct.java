@@ -93,6 +93,7 @@ public class BusinessProduct {
 
         return prodDao.findProductByName(name);
     }
+    
 
     public Product findProductBySize(String name, String size) {
         Product product = new Product();
@@ -121,9 +122,61 @@ public class BusinessProduct {
         product.setState(false);
         this.prodDao.edit(product);
     }
-    
-    public void editProduct(Product product) throws Exception{
+
+    public void editProduct(Product product) throws Exception {
         this.prodDao.edit(product);
     }
+
+    /**
+     * Menu
+     */
+    public List<IndividualProduct> getMenuFoods() {
+        List<IndividualProduct> products = findProducts();
+        List<IndividualProduct> foodProducts = new ArrayList<>();
+        Set<String> uniqueProductNames = new HashSet<>(); 
+
+        for (IndividualProduct product : products) {
+            if (product.getType() == PRODUCT_TYPE.FOOD) {
+                if (uniqueProductNames.add(product.getName())) {
+                    foodProducts.add(product);
+                }
+            }
+        }
+
+        return foodProducts;
+    }
+    
+     public List<IndividualProduct> getMenuDrinks() {
+        List<IndividualProduct> products = findProducts();
+        List<IndividualProduct> drinkProducts = new ArrayList<>();
+        Set<String> uniqueProductNames = new HashSet<>(); 
+
+        for (IndividualProduct product : products) {
+            if (product.getType() == PRODUCT_TYPE.DRINK) {
+                if (uniqueProductNames.add(product.getName())) {
+                    drinkProducts.add(product);
+                }
+            }
+        }
+
+        return drinkProducts;
+    }
+     
+      public List<IndividualProduct> getMenuExtras() {
+        List<IndividualProduct> products = findProducts();
+        List<IndividualProduct> extraProducts = new ArrayList<>();
+        Set<String> uniqueProductNames = new HashSet<>(); 
+
+        for (IndividualProduct product : products) {
+            if (product.getType() == PRODUCT_TYPE.EXTRA) {
+                if (uniqueProductNames.add(product.getName())) {
+                    extraProducts.add(product);
+                }
+            }
+        }
+
+        return extraProducts;
+    }
+    
 
 }
