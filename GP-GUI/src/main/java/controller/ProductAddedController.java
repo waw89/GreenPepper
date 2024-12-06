@@ -235,7 +235,19 @@ public class ProductAddedController implements Initializable {
             itemController.setTxtIndividualPrice(String.valueOf(price));
             productItem.setUserData(itemController);
 
-            
+            if (productOrder.getProduct().getPRODUCT_SIZE() == PRODUCT_SIZE.STUDENT) {
+                disableButtons(itemController);
+                productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.STUDENT);
+            } else if (productOrder.getProduct().getPRODUCT_SIZE() == PRODUCT_SIZE.UNDEFINED) {
+                disableButtons(itemController);
+                productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.UNDEFINED);
+            } else if (productOrder.getProduct() instanceof IndividualProduct) {
+                IndividualProduct individualProduct = (IndividualProduct) productOrder.getProduct();
+                if (individualProduct.getType() == PRODUCT_TYPE.DRINK) {
+                    itemController.getBtnM().setDisable(true);
+                    productOrder.setPRODUCT_SIZE(PRODUCT_SIZE.SMALL);
+                }
+            }
 
             productListContainer.getChildren().add(productItem);
             productItemNodes.add(itemController);
