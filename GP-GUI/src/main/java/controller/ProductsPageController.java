@@ -6,6 +6,7 @@ package controller;
 
 import business.BusinessProduct;
 import com.mycompany.gp.domain.IndividualProduct;
+import com.mycompany.gp.domain.PRODUCT_SIZE;
 import com.mycompany.gp.domain.Product;
 import java.io.IOException;
 import java.net.URL;
@@ -57,10 +58,9 @@ public class ProductsPageController implements Initializable {
     FilteredList<IndividualProduct> filter;
 
     BusinessProduct prodBusiness = new BusinessProduct();
-    
+
     AdminMainPageController adminMainController;
 
-    
     /**
      * Getters & Setters
      */
@@ -85,6 +85,8 @@ public class ProductsPageController implements Initializable {
                 cardController.setProduct(product);
                 cardController.setProductsPageController(this);
                 cardController.setTxtProductName(product.getName());
+                cardController.setTxtSize(setSizeText(product.getPRODUCT_SIZE()));
+                cardController.setTxtPrice(String.valueOf(product.getPrice()));
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(3);
 
@@ -110,6 +112,8 @@ public class ProductsPageController implements Initializable {
                 cardController.setProduct(product);
                 cardController.setProductsPageController(this);
                 cardController.setTxtProductName(product.getName());
+                cardController.setTxtSize(setSizeText(product.getPRODUCT_SIZE()));
+                cardController.setTxtPrice(String.valueOf(product.getPrice()));
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(3);
 
@@ -135,6 +139,8 @@ public class ProductsPageController implements Initializable {
                 cardController.setProduct(product);
                 cardController.setProductsPageController(this);
                 cardController.setTxtProductName(product.getName());
+                cardController.setTxtSize(setSizeText(product.getPRODUCT_SIZE()));
+                cardController.setTxtPrice(String.valueOf(product.getPrice()));
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(3);
 
@@ -160,6 +166,8 @@ public class ProductsPageController implements Initializable {
                 cardController.setProduct(product);
                 cardController.setProductsPageController(this);
                 cardController.setTxtProductName(product.getName());
+                cardController.setTxtSize(setSizeText(product.getPRODUCT_SIZE()));
+                cardController.setTxtPrice(String.valueOf(product.getPrice()));
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(3);
 
@@ -169,7 +177,7 @@ public class ProductsPageController implements Initializable {
         }
     }
 
-     @FXML
+    @FXML
     private void search(KeyEvent event) {
         txtSearchProduct.textProperty().addListener((observable, oldValue, newValue) -> {
             filter.setPredicate(product -> {
@@ -195,11 +203,11 @@ public class ProductsPageController implements Initializable {
         this.adminMainController.loadPage("AddProductPage");
     }
 
-        /**
+    /**
      * Método para actualizar el contenedor de productos basado en la lista
      * filtrada
      */
-    private void updateProductContainer(FilteredList<IndividualProduct> filteredList) {
+    public void updateProductContainer(FilteredList<IndividualProduct> filteredList) {
         productContainer.getChildren().clear(); // Limpia los productos actualesS
 
         for (IndividualProduct product : filteredList) {
@@ -209,6 +217,8 @@ public class ProductsPageController implements Initializable {
                 AdminProductCardController cardController = loader.getController();
 
                 cardController.setTxtProductName(product.getName());
+                cardController.setTxtSize(setSizeText(product.getPRODUCT_SIZE()));
+                cardController.setTxtPrice(String.valueOf(product.getPrice()));
 
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(10);
@@ -217,8 +227,22 @@ public class ProductsPageController implements Initializable {
             }
         }
     }
-    
-      private void setSelectedButtonStyle(Button selectedButton) {
+
+    private String setSizeText(PRODUCT_SIZE size) {
+        switch (size) {
+            case SMALL:
+                return "CH";
+            case MEDIUM:
+                return "M";
+            case LARGE:
+                return "G";
+            default:
+                return "Indefinido";
+        }
+
+    }
+
+    private void setSelectedButtonStyle(Button selectedButton) {
 
         List<Button> buttons = List.of(btnFood, btnDrink, btnExtra);
 
@@ -232,8 +256,8 @@ public class ProductsPageController implements Initializable {
             }
         }
     }
-      
+
     private void cleanProductsList() {
         productContainer.getChildren().clear();
-    }   
+    }
 }

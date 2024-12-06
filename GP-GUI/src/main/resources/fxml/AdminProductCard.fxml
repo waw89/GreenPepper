@@ -15,12 +15,12 @@
             <Font name="Inter 24pt SemiBold" size="27.0" />
          </font>
       </Text>
-      <Text fx:id="lblSizes" layoutX="21.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tamaños Disponibles:" wrappingWidth="146.298828125">
+      <Text fx:id="lblSizes" layoutX="21.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tamaño:" wrappingWidth="58.298828125">
          <font>
             <Font name="Inter 24pt SemiBold" size="14.0" />
          </font>
       </Text>
-      <Text fx:id="lblPrice" layoutX="22.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio:" wrappingWidth="47.298828125">
+      <Text fx:id="lblPrice" layoutX="24.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio:" wrappingWidth="55.798828125">
          <font>
             <Font name="Inter 24pt SemiBold" size="14.0" />
          </font>
@@ -49,5 +49,20 @@
             </ImageView>
          </graphic>
       </ToggleButton>
+      <Text fill="#00000080" layoutX="82.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$" wrappingWidth="12.298828125">
+         <font>
+            <Font name="Inter 28pt Medium" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtPrice" fill="#00000080" layoutX="92.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$" wrappingWidth="55.798828125">
+         <font>
+            <Font name="Inter 28pt Medium" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtSize" fill="#00000080" layoutX="83.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$" wrappingWidth="87.798828125">
+         <font>
+            <Font name="Inter 28pt Medium" size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

@@ -49,10 +49,7 @@ public class BusinessProduct {
 
         for (IndividualProduct product : products) {
             if (product.getType() == PRODUCT_TYPE.FOOD) {
-
-                if (uniqueProductNames.add(product.getName())) {
-                    foodProducts.add(product);
-                }
+                foodProducts.add(product);
             }
         }
 
@@ -66,10 +63,7 @@ public class BusinessProduct {
 
         for (IndividualProduct product : products) {
             if (product.getType() == PRODUCT_TYPE.DRINK) {
-
-                if (uniqueProductNames.add(product.getName())) {
-                    drinkProducts.add(product);
-                }
+                drinkProducts.add(product);
             }
         }
 
@@ -83,10 +77,7 @@ public class BusinessProduct {
 
         for (IndividualProduct product : products) {
             if (product.getType() == PRODUCT_TYPE.EXTRA) {
-
-                if (uniqueProductNames.add(product.getName())) {
-                    extraProducts.add(product);
-                }
+                extraProducts.add(product);
             }
         }
 
@@ -128,6 +119,10 @@ public class BusinessProduct {
 
     public void disableProduct(Product product) throws Exception {
         product.setState(false);
+        this.prodDao.edit(product);
+    }
+    
+    public void editProduct(Product product) throws Exception{
         this.prodDao.edit(product);
     }
 
