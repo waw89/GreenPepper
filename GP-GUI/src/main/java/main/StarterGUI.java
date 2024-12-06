@@ -14,5 +14,5 @@ public class StarterGUI {
     public static void main(String[] args) {
         MainFX.main(args);
     }
-}
+} 
     

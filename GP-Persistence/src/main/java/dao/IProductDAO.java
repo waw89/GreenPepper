@@ -5,6 +5,7 @@
 package dao;
 
 import com.mycompany.gp.domain.Product;
+import dao.exceptions.NonexistentEntityException;
 import java.util.List;
 
 /**
@@ -12,7 +13,8 @@ import java.util.List;
  * @author Raul
  */
 public interface IProductDAO {
-
+    
+    public void edit(Product product) throws NonexistentEntityException, Exception;
     public List<Product> findProductEntities();
     public Product findProductByName(String name);
     public Product findSmallProduct(String name);
