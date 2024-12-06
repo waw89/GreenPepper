@@ -114,6 +114,11 @@ public class AdminMainPageController implements Initializable {
                 ProductsPageController controller = loader.getController();
                 controller.setAdminMainController(this);
             }
+            
+            if(namePage.equals("AddProductPage")){
+                AddProductPageController controller = loader.getController();
+                controller.setAdminMainPage(this);
+            }
             bp.setCenter(root);  // Establece el contenido en el centro del BorderPane
         } catch (IOException ex) {
             Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);

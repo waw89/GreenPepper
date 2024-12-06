@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -64,11 +65,20 @@ public class AddProductPageController implements Initializable {
     private HBox containerM;
     @FXML
     private HBox containerG;
-
+    @FXML
+    private ImageView btnBack;
+    
+    
     IndividualProduct newProduct = new IndividualProduct();
     List<IndividualProduct> productsPerPrice = new ArrayList<>();
     BusinessProduct productBusiness = new BusinessProduct();
+    AdminMainPageController adminMainPage;
+    
 
+    public void setAdminMainPage(AdminMainPageController adminMainPage) {
+        this.adminMainPage = adminMainPage;
+    }
+    
     /**
      * Initializes the controller class.
      */
@@ -144,13 +154,14 @@ public class AddProductPageController implements Initializable {
             if (validateEmptyNameField()) {
                 if (!validatePriceFields()) {
                     if (priceGeneral.isVisible()) {
-                        createProduct();
-                        
+                        createProduct();    
                         showConfirmation();
+                        adminMainPage.loadPage("ProductsPage");
                         
                     } else {
                         createManyProducts();
                         showConfirmation();
+                        adminMainPage.loadPage("ProductsPage");
                     }
                 } else {
                     showErrorAlert("Debe especificar el precio de su producto.");
@@ -338,6 +349,11 @@ public class AddProductPageController implements Initializable {
         alert.setTitle("Error al crear producto");
         alert.setContentText("No se puede crear el producto. " + message);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void goBack(MouseEvent event) {
+        adminMainPage.loadPage("ProductsPage");
     }
 
 }

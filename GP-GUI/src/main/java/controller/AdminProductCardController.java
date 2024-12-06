@@ -4,6 +4,8 @@
  */
 package controller;
 
+import business.BusinessProduct;
+import com.mycompany.gp.domain.Product;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 /**
@@ -34,7 +37,15 @@ public class AdminProductCardController implements Initializable {
     @FXML
     private ImageView imgEye;
     @FXML
-    private ToggleButton activateProduct;
+    private Text lblSizes;
+    @FXML
+    private Text lblPrice;
+    
+    Product product;
+    
+    ProductsPageController productsPageController;
+    
+    BusinessProduct bp = new BusinessProduct();
 
     /**
      * Getters & Setters
@@ -46,6 +57,24 @@ public class AdminProductCardController implements Initializable {
     public Text getTxtProductName() {
         return txtProductName;
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public ProductsPageController getProductsPageController() {
+        return productsPageController;
+    }
+
+    public void setProductsPageController(ProductsPageController productsPageController) {
+        this.productsPageController = productsPageController;
+    }
+   
+    
 
     /**
      * Initializes the controller class.
@@ -60,21 +89,42 @@ public class AdminProductCardController implements Initializable {
     }
 
     @FXML
-    private void hideProduct(MouseEvent event) {
+    private void hideProduct(MouseEvent event) throws Exception {
         if (this.hideButton.isSelected()) {
-            this.card.setDisable(true);
-            this.hideButton.setStyle("-fx-background-color:  #8EFF8B; -fx-border-radius: 10");
+            this.card.setStyle("-fx-background-color: whitesmoke");
+            this.txtProductName.setFill(Paint.valueOf( "#8D8D8D"));
+            this.lblSizes.setFill(Paint.valueOf("#8D8D8D"));
+            this.lblPrice.setFill(Paint.valueOf("#8D8D8D"));
+            this.hideButton.setStyle("-fx-background-color:  #8EFF8B;");
             this.hideButton.setText("Activar Producto");
-            this.hideButton.setDisable(false);
+            this.hideButton.setTextFill(Paint.valueOf("white"));
             this.imgEye.setImage(new Image(getClass().getResource("/images/eye-fill-1.png").toExternalForm()));
+            disableProduct();
+            
         } else {
-            this.card.setDisable(false);
-            this.hideButton.setStyle("-fx-background-color:  #ECECEC; -fx-border-radius: 10");
+            this.card.setStyle("-fx-background-color: white");
+            this.txtProductName.setFill(Paint.valueOf("black"));
+            this.lblSizes.setFill(Paint.valueOf("black"));
+            this.lblPrice.setFill(Paint.valueOf("black"));
+            this.hideButton.setStyle("-fx-background-color: #ECECEC;");
+            this.hideButton.setTextFill(Paint.valueOf("#595858"));
             this.hideButton.setText("Ocultar Producto");
             this.imgEye.setImage(new Image(getClass().getResource("/images/hideButton.png").toExternalForm()));
-
+            enableProduct();
         }
 
     }
+    
+    private void enableProduct() throws Exception{
+        bp.enableProduct(product);
+        System.out.println("Se activó el producto: " + product.getName());
+    }
+    
+    private void disableProduct() throws Exception{
+        bp.disableProduct(product);
+        System.out.println("Se desactivó el producto: " + product.getName());
+    }
+    
+    
 
 }

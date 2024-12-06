@@ -141,7 +141,7 @@
             <Font name="Inter 18pt SemiBold" size="18.0" />
          </font>
       </Button>
-      <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="47.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnBack" fitHeight="56.0" fitWidth="56.0" layoutX="47.0" layoutY="57.0" onMouseClicked="#goBack" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/arrow-back.png" />
          </image>

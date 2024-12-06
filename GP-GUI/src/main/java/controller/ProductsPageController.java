@@ -82,7 +82,8 @@ public class ProductsPageController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdminProductCard.fxml"));
                 AnchorPane productCard = loader.load();
                 AdminProductCardController cardController = loader.getController();
-
+                cardController.setProduct(product);
+                cardController.setProductsPageController(this);
                 cardController.setTxtProductName(product.getName());
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(3);
@@ -106,7 +107,8 @@ public class ProductsPageController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdminProductCard.fxml"));
                 AnchorPane productCard = loader.load();
                 AdminProductCardController cardController = loader.getController();
-
+                cardController.setProduct(product);
+                cardController.setProductsPageController(this);
                 cardController.setTxtProductName(product.getName());
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(3);
@@ -130,7 +132,8 @@ public class ProductsPageController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdminProductCard.fxml"));
                 AnchorPane productCard = loader.load();
                 AdminProductCardController cardController = loader.getController();
-
+                cardController.setProduct(product);
+                cardController.setProductsPageController(this);
                 cardController.setTxtProductName(product.getName());
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(3);
@@ -154,7 +157,8 @@ public class ProductsPageController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdminProductCard.fxml"));
                 AnchorPane productCard = loader.load();
                 AdminProductCardController cardController = loader.getController();
-
+                cardController.setProduct(product);
+                cardController.setProductsPageController(this);
                 cardController.setTxtProductName(product.getName());
                 productContainer.getChildren().add(productCard);
                 productContainer.setSpacing(3);
@@ -196,7 +200,7 @@ public class ProductsPageController implements Initializable {
      * filtrada
      */
     private void updateProductContainer(FilteredList<IndividualProduct> filteredList) {
-        productContainer.getChildren().clear(); // Limpia los productos actuales
+        productContainer.getChildren().clear(); // Limpia los productos actualesS
 
         for (IndividualProduct product : filteredList) {
             try {

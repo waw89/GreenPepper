@@ -12,7 +12,9 @@ import dao.IProductDAO;
 import dao.IndividualProductDAO;
 import dao.ProductDAO;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import util.Util;
 
 /**
@@ -26,86 +28,107 @@ public class BusinessProduct {
     List<IndividualProduct> products;
     IProductDAO prodDao = new ProductDAO();
 
-   
     public void createSingleProduct(IndividualProduct product) {
-      inProdDao.create(product);
-    }
-    
-    public void createManyProducts(List<IndividualProduct> products){
-      for(IndividualProduct product : products){
-          inProdDao.create(product);
-      }  
+        inProdDao.create(product);
     }
 
-    
+    public void createManyProducts(List<IndividualProduct> products) {
+        for (IndividualProduct product : products) {
+            inProdDao.create(product);
+        }
+    }
 
     public List<Product> getAllProducts() {
         return prodDao.findProductEntities();
     }
-    
+
     public List<IndividualProduct> getAllFoods() {
-    List<IndividualProduct> products = findProducts();
-    List<IndividualProduct> foodProducts = new ArrayList<>();
-    
-    for (IndividualProduct product : products) {
-       
-        if (product.getType() == PRODUCT_TYPE.FOOD && product.getPRODUCT_SIZE() == PRODUCT_SIZE.SMALL || product.getPRODUCT_SIZE() == PRODUCT_SIZE.UNDEFINED) {
-            foodProducts.add(product);
+        List<IndividualProduct> products = findProducts();
+        List<IndividualProduct> foodProducts = new ArrayList<>();
+        Set<String> uniqueProductNames = new HashSet<>();
+
+        for (IndividualProduct product : products) {
+            if (product.getType() == PRODUCT_TYPE.FOOD) {
+
+                if (uniqueProductNames.add(product.getName())) {
+                    foodProducts.add(product);
+                }
+            }
         }
+
+        return foodProducts;
     }
-    
-    return foodProducts;
-}
 
-
-    public List<IndividualProduct> getAllDrinks(){
+    public List<IndividualProduct> getAllDrinks() {
         List<IndividualProduct> products = findProducts();
         List<IndividualProduct> drinkProducts = new ArrayList<>();
-        for(IndividualProduct product : products){
-            if(product.getType() == PRODUCT_TYPE.DRINK){
-                drinkProducts.add(product);
+        Set<String> uniqueProductNames = new HashSet<>();
+
+        for (IndividualProduct product : products) {
+            if (product.getType() == PRODUCT_TYPE.DRINK) {
+
+                if (uniqueProductNames.add(product.getName())) {
+                    drinkProducts.add(product);
+                }
             }
         }
+
         return drinkProducts;
     }
-    
-    public List<IndividualProduct> getAllExtras(){
+
+    public List<IndividualProduct> getAllExtras() {
         List<IndividualProduct> products = findProducts();
         List<IndividualProduct> extraProducts = new ArrayList<>();
-        for(IndividualProduct product : products){
-            if(product.getType() == PRODUCT_TYPE.EXTRA){
-                extraProducts.add(product);
+        Set<String> uniqueProductNames = new HashSet<>();
+
+        for (IndividualProduct product : products) {
+            if (product.getType() == PRODUCT_TYPE.EXTRA) {
+
+                if (uniqueProductNames.add(product.getName())) {
+                    extraProducts.add(product);
+                }
             }
         }
+
         return extraProducts;
     }
-    
+
     public List<IndividualProduct> findProducts() {
-        products =  this.inProdDao.findIndividualProductEntities();
+        products = this.inProdDao.findIndividualProductEntities();
         return products;
     }
 
     public Product findProductByName(String name) {
-        
+
         return prodDao.findProductByName(name);
     }
-    
-    public Product findProductBySize(String name,String size){
-       Product product = new Product();
+
+    public Product findProductBySize(String name, String size) {
+        Product product = new Product();
         switch (size) {
             case "CH":
-              product = prodDao.findSmallProduct(name);
+                product = prodDao.findSmallProduct(name);
                 break;
             case "M":
-               product = prodDao.findMediumProduct(name);
+                product = prodDao.findMediumProduct(name);
                 break;
             case "G":
-               product = prodDao.findLargeProduct(name);
+                product = prodDao.findLargeProduct(name);
                 break;
             default:
                 break;
         }
         return product;
+    }
+
+    public void enableProduct(Product product) throws Exception {
+        product.setState(true);
+        this.prodDao.edit(product);
+    }
+
+    public void disableProduct(Product product) throws Exception {
+        product.setState(false);
+        this.prodDao.edit(product);
     }
 
 }
