@@ -5,6 +5,7 @@
 package controller;
 
 import business.OrderBusiness;
+import com.mycompany.gp.domain.ORDER_STATE;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -18,14 +19,32 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import com.mycompany.gp.domain.Order;
 import com.mycompany.gp.domain.PAYMENT_METHOD;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
  *
  * @author PC
  */
-public class SalesController implements Initializable {
+public class SalesController implements Initializable{
 
     @FXML
     private DatePicker fechaInicial;
@@ -47,13 +66,14 @@ public class SalesController implements Initializable {
     private CheckBox chBoxSemanal;
     
     OrderBusiness oBussines = new OrderBusiness();
-    //List<Order> orders = oBussines.getAllOrder();
+    List<Order> orders = oBussines.getAllOrder();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        orders = oBussines.getAllOrder();
         fechaInicial.setDisable(true);
         fechaFinal.setDisable(true);
     }
@@ -185,29 +205,65 @@ public class SalesController implements Initializable {
     public void loadVisualize(){
         List<Order> orders = oBussines.getAllOrder();
 
-        List<Order> cashOrders = new ArrayList<>();
-        List<Order> cardOrders = new ArrayList<>();
-        List<Order> transferOrders = new ArrayList<>();
-        
         float totalCash = 0;
         float totalCard = 0;
         float totalTransfer = 0;
+        float ventaTotal = 0;
+
+        List<Map<String, Object>> paidOrders = new ArrayList<>();
 
         for (Order order : orders) {
-            
-            if (order.getPaymentMethod() == PAYMENT_METHOD.EFECTIVO) {
-                cashOrders.add(order);
-                totalCash += order.getPrice();
-            } else if (order.getPaymentMethod() == PAYMENT_METHOD.TARJETA) {
-                cardOrders.add(order);
-                totalCard += order.getPrice();
-            } else if (order.getPaymentMethod() == PAYMENT_METHOD.TRANSFERENCIA) {
-                transferOrders.add(order);
-                totalCard += order.getPrice();
+            if (order.getOrderState() == ORDER_STATE.PAID) {
+                String paymentMethodString = "";
+
+                if (order.getPaymentMethod() == PAYMENT_METHOD.EFECTIVO) {
+                    paymentMethodString = "Efectivo";
+                    totalCash += order.getPrice();
+                } else if (order.getPaymentMethod() == PAYMENT_METHOD.TARJETA) {
+                    paymentMethodString = "Tarjeta";
+                    totalCard += order.getPrice();
+                } else if (order.getPaymentMethod() == PAYMENT_METHOD.TRANSFERENCIA) {
+                    paymentMethodString = "Transferencia";
+                    totalTransfer += order.getPrice();
+                }
+
+                Map<String, Object> orderData = new HashMap<>();
+                orderData.put("orderNumber", order.getOrderNumber());
+                
+                LocalDateTime creationDateTime = order.getCreationDate();
+                Date creationDate = Date.from(creationDateTime.atZone(ZoneId.systemDefault()).toInstant());
+                orderData.put("creationDate", creationDate);
+                
+                orderData.put("price", order.getPrice());
+                orderData.put("paymentMethod", paymentMethodString);
+
+                paidOrders.add(orderData);
             }
         }
         
+        ventaTotal = totalCash + totalCard + totalTransfer;
         
+        try{
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getResource("/jasperReport/VentasPeriodo.jasper"));
+            
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("Efectivo", totalCash);
+            parameters.put("Tarjeta", totalCard);
+            parameters.put("Transferencia", totalTransfer);
+            parameters.put("VentaTotal", ventaTotal);
+
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(paidOrders);
+            
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+            
+            JasperViewer.viewReport(jasperPrint, false);
+
+            
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+        
+
     }
     
 
@@ -219,5 +275,4 @@ public class SalesController implements Initializable {
     @FXML
     private void imprimirOption(MouseEvent event) {
     }
-    
 }

@@ -1,0 +1,137 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="VentasPeriodo" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50.0" bold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18.0"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12.0" bold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12.0"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle backcolor="#E6DAC3">
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<parameter name="orderNumber" class="java.lang.Integer"/>
+	<parameter name="creationDate" class="java.util.Date"/>
+	<parameter name="price" class="java.lang.Float"/>
+	<parameter name="paymentMethod" class="java.lang.String"/>
+	<parameter name="Efectivo" class="java.lang.Float"/>
+	<parameter name="Tarjeta" class="java.lang.Float"/>
+	<parameter name="Transferencia" class="java.lang.Float"/>
+	<parameter name="VentaTotal" class="java.lang.Float"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="orderNumber" class="java.lang.Long"/>
+	<field name="creationDate" class="java.util.Date"/>
+	<field name="price" class="java.lang.Float"/>
+	<field name="paymentMethod" class="java.lang.String"/>
+	<background splitType="Stretch"/>
+	<title height="136" splitType="Stretch">
+		<element kind="image" uuid="1c003177-754c-448f-8ce1-16868856f545" x="52" y="0" width="139" height="136" onErrorType="Blank">
+			<expression><![CDATA["src/main/resources/images/logoGP.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd" x="251" y="0" width="300" height="62" vTextAlign="Middle" style="Title">
+			<text><![CDATA[Green Pepper]]></text>
+		</element>
+		<element kind="staticText" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9" x="251" y="62" width="300" height="22" fontName="Times New Roman" hTextAlign="Center" style="SubTitle">
+			<text><![CDATA[Calle Veracruz 874, Colonia Centro
+]]></text>
+		</element>
+		<element kind="staticText" uuid="8849fd4b-374c-4bf6-a44a-1e629dcae5f6" x="251" y="84" width="300" height="22" fontName="Times New Roman" hTextAlign="Center" style="SubTitle">
+			<text><![CDATA[Cel: 6444517905]]></text>
+		</element>
+	</title>
+	<pageHeader splitType="Stretch"/>
+	<columnHeader height="76" splitType="Stretch">
+		<element kind="line" uuid="e9d2002a-c8ee-4649-a258-640dad29110c" positionType="FixRelativeToBottom" x="-1" y="40" width="802" height="1">
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</element>
+		<element kind="staticText" uuid="9bc7f331-9eac-4bf4-ae72-00b86614dd14" x="271" y="0" width="259" height="40" fontSize="32.0" vTextAlign="Middle" style="Title">
+			<text><![CDATA[Reporte de Ventas]]></text>
+		</element>
+		<element kind="staticText" uuid="1206643a-4cd3-4bc9-9931-2b592ef32372" x="61" y="41" width="120" height="30" forecolor="#736343" markup="none" fontSize="20.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[ID]]></text>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="staticText" uuid="7bf346f0-4f9f-40a0-a27f-6abd186bec9c" x="221" y="41" width="120" height="30" forecolor="#736343" markup="none" fontSize="20.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Fecha]]></text>
+		</element>
+		<element kind="staticText" uuid="2db75515-93ba-4b99-91b1-fb9b3c4ecce3" x="381" y="41" width="120" height="30" forecolor="#736343" markup="none" fontSize="20.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Total]]></text>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="staticText" uuid="a76fdbd7-5921-4417-965d-7c78a3a08c33" x="541" y="41" width="199" height="30" forecolor="#736343" markup="none" fontSize="20.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Metodo de Pago]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="42" splitType="Stretch">
+			<element kind="frame" uuid="fa7cec56-4ec1-48e6-a26e-7266a995d174" mode="Opaque" x="1" y="0" width="800" height="40" style="Row">
+				<element kind="textField" uuid="38cd65fb-e3b7-473c-bf32-bcea540c4b1a" x="61" y="5" width="118" height="30" fontSize="16.0" hTextAlign="Center">
+					<expression><![CDATA[$F{orderNumber}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="42a511d4-9b30-4a18-8963-343c695c067d"/>
+				</element>
+				<element kind="textField" uuid="e7d44f14-6dcb-47e9-8f3e-5d6e7aa40cbd" x="190" y="5" width="180" height="30" fontSize="16.0" textAdjust="StretchHeight" hTextAlign="Center">
+					<expression><![CDATA[$F{creationDate}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1a642e97-260a-40ff-b653-3815b544b5ff"/>
+				</element>
+				<element kind="textField" uuid="e32871b3-bfc5-4b6c-9c2e-3be8475c8b37" x="380" y="5" width="119" height="30" fontSize="16.0" hTextAlign="Center">
+					<expression><![CDATA[$F{price}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0326f639-5960-46ad-a809-865f96a5808a"/>
+				</element>
+				<element kind="textField" uuid="b51dd184-c389-481e-b4d3-590f22bcb091" x="541" y="5" width="198" height="30" fontSize="16.0" hTextAlign="Center">
+					<expression><![CDATA[$F{paymentMethod}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="efda4f37-e1f5-404b-b406-a3b86a9280ba"/>
+				</element>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="99" splitType="Stretch">
+		<element kind="line" uuid="fa5e88d5-a011-4e32-8f12-ce923f903111" positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1">
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</element>
+		<element kind="staticText" uuid="19504361-0be3-4449-997c-137412d92191" x="20" y="10" width="120" height="30" forecolor="#736343" markup="none" fontSize="16.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[Total Efectivo:]]></text>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="staticText" uuid="561d438a-60a0-48b4-a952-ef9820d402a5" x="520" y="10" width="160" height="30" forecolor="#736343" markup="none" fontSize="16.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[Total Transferencia:]]></text>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="staticText" uuid="04e918c7-a6f1-4f8b-98df-ca0e2c311eee" x="280" y="10" width="110" height="30" forecolor="#736343" markup="none" fontSize="16.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[Total Tarjeta:]]></text>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="textField" uuid="08330457-3497-4331-a6c5-b5d65fa7c3d6" x="140" y="10" width="115" height="30" fontSize="16.0">
+			<expression><![CDATA[$P{Efectivo}]]></expression>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="textField" uuid="4f3a4763-2d69-4dbc-a140-39f5fc8027d3" x="390" y="10" width="115" height="30" fontSize="16.0">
+			<expression><![CDATA[$P{Tarjeta}]]></expression>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="textField" uuid="03ca7605-19d6-48e5-9fe6-b04fd718e869" x="680" y="10" width="115" height="30" fontSize="16.0">
+			<expression><![CDATA[$P{Transferencia}]]></expression>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="staticText" uuid="dcc96939-1246-4314-b170-30d0d46dd4cf" x="290" y="50" width="100" height="30" forecolor="#736343" markup="none" fontSize="16.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[Venta Total: ]]></text>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+		</element>
+		<element kind="textField" uuid="39fc9749-10da-4938-b3cd-7c9cc40a3982" x="390" y="50" width="115" height="30" fontSize="16.0">
+			<expression><![CDATA[$P{VentaTotal}]]></expression>
+		</element>
+	</columnFooter>
+	<pageFooter height="25" splitType="Stretch">
+		<element kind="frame" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402" mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#D0B48E" backcolor="#F2EBDF">
+			<element kind="textField" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b" x="783" y="1" width="40" height="20" forecolor="#736343" fontSize="10.0" evaluationTime="Report" bold="false" vTextAlign="Middle" style="Column header">
+				<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+			</element>
+			<element kind="textField" uuid="18cfe1ca-f7d6-48b0-9827-28578b42a5e0" x="703" y="1" width="80" height="20" forecolor="#736343" fontSize="10.0" bold="false" hTextAlign="Right" vTextAlign="Middle" style="Column header">
+				<expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></expression>
+			</element>
+			<element kind="textField" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5" x="22" y="1" width="197" height="20" forecolor="#736343" fontSize="10.0" pattern="EEEEE dd MMMMM yyyy" bold="false" vTextAlign="Middle" style="Column header">
+				<expression><![CDATA[new java.util.Date()]]></expression>
+			</element>
+		</element>
+	</pageFooter>
+	<summary splitType="Stretch"/>
+</jasperReport>
