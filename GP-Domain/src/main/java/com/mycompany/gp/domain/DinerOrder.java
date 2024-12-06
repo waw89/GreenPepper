@@ -35,6 +35,13 @@ public class DinerOrder extends Order implements Serializable{
         this.orderName = orderName;
     }
 
+    public DinerOrder(String orderName, Long orderNumber, LocalDateTime creationDate, com.mycompany.gp.domain.ORDER_STATE ORDER_STATE, PAYMENT_METHOD paymentMethod, List<ProductOrder> products, Float price, String details, Employee cashier) {
+        super(orderNumber, creationDate, ORDER_STATE, paymentMethod, products, price, details, cashier);
+        this.orderName = orderName;
+    }
+
+    
+
     public Long getOrderNumber() {
         return orderNumber;
     }
@@ -91,15 +98,20 @@ public class DinerOrder extends Order implements Serializable{
         this.cashier = cashier;
     }
 
-    
-    
-
     public String getOrderName() {
         return orderName;
     }
 
     public void setOrderName(String orderName) {
         this.orderName = orderName;
+    }
+
+    public PAYMENT_METHOD getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PAYMENT_METHOD paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
 }

@@ -305,7 +305,7 @@ public class EditProductAddedController implements Initializable {
 
         // Actualiza la cantidad total de productos y realiza otras operaciones necesarias
         int newAmount = productListContainer.getChildren().size();
-        eopController.removeProductFromProductList(productOrder, ProductSummaryContainer, newAmount);
+        eopController.removeProductFromProductList(itemControllerToRemove.getProductOrder(), ProductSummaryContainer, newAmount);
         updateProductNumbers();
     }
 

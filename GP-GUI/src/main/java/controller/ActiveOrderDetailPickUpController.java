@@ -189,6 +189,8 @@ public class ActiveOrderDetailPickUpController implements Initializable {
 
     @FXML
     private void OptionAddProduct(MouseEvent event) {
+        Order order = oBusiness.findOrderById(pickUpOrder.getOrderNumber());
+        mainPageController.loadPage("EditOrderProducts", order);
     }
 
     @FXML
@@ -200,16 +202,12 @@ public class ActiveOrderDetailPickUpController implements Initializable {
             PayOrderController payController = loader.getController();
 
             payController.setPickUpOrder(pickUpOrder);
+            payController.setMainPageController(mainPageController);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(orderCard));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-
-            if (pickUpOrder.getORDER_STATE() == ORDER_STATE.CANCELLED || pickUpOrder.getORDER_STATE() == ORDER_STATE.PAID) {
-                Stage stageClose = (Stage) btnPayOrder.getScene().getWindow();
-                stageClose.close();
-            }
 
         } catch (IOException ex) {
             Logger.getLogger(ClosedOrderDetailController.class.getName()).log(Level.SEVERE, null, ex);

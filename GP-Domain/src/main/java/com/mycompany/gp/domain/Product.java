@@ -6,6 +6,7 @@ package com.mycompany.gp.domain;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -51,7 +52,7 @@ public class Product implements Serializable {
     
     @Column (name = "PRODUCT_SIZE")
     protected PRODUCT_SIZE PRODUCT_SIZE;
-
+   
 
     public Product() {
     }

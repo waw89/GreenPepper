@@ -90,7 +90,7 @@ public class ClosedOrderDetailController implements Initializable {
 
         txtOpenDate.setText(dinerOrder.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         txtIdOrder.setText("#" + dinerOrder.getOrderNumber());
-        txtTotalPrice.setText("$" + dinerOrder.getPrice());
+        txtTotalPrice.setText("$" + dinerOrder.getPrice() + " - " + dinerOrder.getPaymentMethod());
         txtOrderName.setText(dinerOrder.getOrderName());
 
         productOrderList = dinerOrder.getProducts();

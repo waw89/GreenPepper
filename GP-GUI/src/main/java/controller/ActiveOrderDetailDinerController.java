@@ -208,6 +208,8 @@ public class ActiveOrderDetailDinerController implements Initializable {
 
     @FXML
     private void OptionAddProduct(MouseEvent event) {
+        Order order = oBusiness.findOrderById(dinerOrder.getOrderNumber());
+        mainPageController.loadPage("EditOrderProducts", order);
     }
 
     @FXML
@@ -221,21 +223,13 @@ public class ActiveOrderDetailDinerController implements Initializable {
             order = oBusiness.findOrderById(dinerOrder.getOrderNumber());
             
             payController.setDinerOrder(dinerOrder);
+            payController.setMainPageController(mainPageController);
             
             Stage stage = new Stage();
             stage.setScene(new Scene(orderCard));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-            
-            if(dinerOrder.getORDER_STATE() == orderState.CANCELLED || dinerOrder.getORDER_STATE() == orderState.PAID){
-                Stage stageClose = (Stage) btnPayOrder.getScene().getWindow();
-                stageClose.close();
-            }
-            
-            
-            
-            
-                
+                    
         }catch (IOException ex) {
                 Logger.getLogger(ClosedOrderDetailController.class.getName()).log(Level.SEVERE, null, ex);
         }

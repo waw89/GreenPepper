@@ -93,6 +93,8 @@ public class EditOrderProductsController implements Initializable {
     int productRepeatedAmount = 0;
     
     float priceRepeatedProduct = 0;
+    
+    float cummulativeProductPrice = 0;
 
     BusinessProduct prodBusiness = new BusinessProduct();
 
@@ -426,13 +428,14 @@ public class EditOrderProductsController implements Initializable {
     public void updateSummaryWithNewSelectedProduct(ProductOrder productSelected, int selectedAmmountOfProduct) throws IOException {
         boolean productExists = false;
 
-        for (Node node : summaryContainer.getChildren()) {
+         for (Node node : summaryContainer.getChildren()) {
             EditProductAddedController cellController = (EditProductAddedController) node.getUserData(); // get the information of the node and cast it to a Controller
             if (cellController.getProductOrder().getProduct().getName().equals(productSelected.getProduct().getName())) { // verify if the selectedProduct is equal to the node in turn in the iteration
+                priceRepeatedProduct += productSelected.getPrice();
                 int currentAmount = Integer.parseInt(cellController.getTxtAmount());
                 int newAmount = currentAmount + selectedAmmountOfProduct;
                 cellController.setTxtAmount(String.valueOf(newAmount));
-                cellController.setTxtProductSummaryPrice(String.valueOf(productSelected.getProduct().getPrice() * newAmount)); // QUIZAS SEA CONVENIENTE HACER UN METODO SOLO PARA CALCULAR EL NUEVO PRECIO
+                cellController.setTxtProductSummaryPrice(String.valueOf(String.valueOf(priceRepeatedProduct + oBusiness.calculateCost(order)))); // QUIZAS SEA CONVENIENTE HACER UN METODO SOLO PARA CALCULAR EL NUEVO PRECIO
                 productExists = true;
 
                 int j = currentAmount + 1;
@@ -447,6 +450,7 @@ public class EditOrderProductsController implements Initializable {
         }
 
         if (!productExists) {
+            priceRepeatedProduct = 0;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProductAdded.fxml"));
             AnchorPane productCell = loader.load();
             EditProductAddedController cellController = loader.getController();
@@ -473,12 +477,14 @@ public class EditOrderProductsController implements Initializable {
         order.setPrice(oBusiness.calculateCost(order));
     }
 
-    public void removeItemFromPoList(ProductOrder productOrder) {
-        this.order.getProducts().remove(productOrder);
+   public void removeItemFromPoList(ProductOrder productOrder) {
+        poList.remove(productOrder);
+        this.order.setProducts(poList);
     }
 
     public void addItemToPoList(ProductOrder productOrder) {
-        this.order.getProducts().add(productOrder);
+         poList.add(productOrder);
+        this.order.setProducts(poList);
     }
     
       public void updateTotalPrice() {
@@ -516,10 +522,23 @@ public class EditOrderProductsController implements Initializable {
     }
 
     public void removeProductFromProductList(ProductOrder productOrder, Node node, int newAmount) {
+        cummulativeProductPrice = 0;
         poList.remove(productOrder);
         EditProductAddedController cellController = (EditProductAddedController) node.getUserData();
         cellController.setTxtAmount(String.valueOf(newAmount));
-        cellController.setTxtProductSummaryPrice(String.valueOf(cellController.getProductOrder().getPrice() * newAmount));
+        
+        for (EditProductAddedController paController : productAddedNodes) {
+                for (EditProductItemController piController : paController.getProductItemNodes()) {
+                    if(piController.getProductOrder().getProduct().getName().equals(productOrder.getProduct().getName())){
+                      cummulativeProductPrice += piController.getProductOrder().getPrice();
+                    }
+                }
+            }
+        
+        
+        
+        
+        cellController.setTxtProductSummaryPrice(String.valueOf(cummulativeProductPrice));
         lblSubtotal.setText("$" + oBusiness.calculateCost(order));
         lblTotal.setText(lblSubtotal.getText());
     }

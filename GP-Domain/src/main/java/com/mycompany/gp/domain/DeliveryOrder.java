@@ -39,11 +39,15 @@ public class DeliveryOrder extends Order implements Serializable{
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
-    
 
+    public DeliveryOrder(String customerName, String address, String phoneNumber, Long orderNumber, LocalDateTime creationDate, com.mycompany.gp.domain.ORDER_STATE ORDER_STATE, PAYMENT_METHOD paymentMethod, List<ProductOrder> products, Float price, String details, Employee cashier) {
+        super(orderNumber, creationDate, ORDER_STATE, paymentMethod, products, price, details, cashier);
+        this.customerName = customerName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
 
-    
-
+       
     // Getters y setters
     public String getCustomerName() {
         return customerName;
@@ -93,8 +97,6 @@ public class DeliveryOrder extends Order implements Serializable{
         this.creationDate = creationDate;
     }
 
-
-
     public Float getPrice() {
         return price;
     }
@@ -118,7 +120,13 @@ public class DeliveryOrder extends Order implements Serializable{
     public void setCashier(Employee cashier) {
         this.cashier = cashier;
     }
-    
-    
 
+    public PAYMENT_METHOD getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PAYMENT_METHOD paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+ 
 }
