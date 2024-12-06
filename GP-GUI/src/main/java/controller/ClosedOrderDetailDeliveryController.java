@@ -129,7 +129,7 @@ public class ClosedOrderDetailDeliveryController implements Initializable {
         
         txtOpenDate.setText(deliveryOrder.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         txtIdOrder.setText("#" + deliveryOrder.getOrderNumber());
-        txtTotalPrice.setText("$" + deliveryOrder.getPrice());
+        txtTotalPrice.setText("$" + deliveryOrder.getPrice() + " - " + deliveryOrder.getPaymentMethod());
         txtCustomerData.setText(deliveryOrder.getCustomerName() + " - " + deliveryOrder.getAddress());
         
         productOrderList = deliveryOrder.getProducts();

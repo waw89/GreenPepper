@@ -46,6 +46,8 @@ public class Order implements Serializable, Cloneable {
     @Column (name = "ORDER_STATE")
     protected ORDER_STATE ORDER_STATE ;
     
+    @Column (name = "PaymentMethod")
+    protected PAYMENT_METHOD paymentMethod;   
     
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     protected List<ProductOrder> products;
@@ -77,7 +79,17 @@ public class Order implements Serializable, Cloneable {
         this.cashier = cashier;
     }
 
-  
+    public Order(Long orderNumber, LocalDateTime creationDate, ORDER_STATE ORDER_STATE, PAYMENT_METHOD paymentMethod, List<ProductOrder> products, Float price, String details, Employee cashier) {
+        this.orderNumber = orderNumber;
+        this.creationDate = creationDate;
+        this.ORDER_STATE = ORDER_STATE;
+        this.paymentMethod = paymentMethod;
+        this.products = products;
+        this.price = price;
+        this.details = details;
+        this.cashier = cashier;
+    }
+
     // Getters & Setters
 
     public Long getOrderNumber() {
@@ -126,10 +138,14 @@ public class Order implements Serializable, Cloneable {
 
     public void setCashier(Employee cashier) {
         this.cashier = cashier;
+    }   
+    
+    public PAYMENT_METHOD getPaymentMethod() {
+        return paymentMethod;
     }
-    
-    // Code for the prototype
-    
-  
-        
+
+    public void setPaymentMethod(PAYMENT_METHOD paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+           
 }

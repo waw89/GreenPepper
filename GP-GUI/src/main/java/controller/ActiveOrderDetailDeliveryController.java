@@ -201,16 +201,12 @@ public class ActiveOrderDetailDeliveryController implements Initializable {
             PayOrderController payController = loader.getController();
 
             payController.setDeliveryOrder(deliveryOrder);
+            payController.setMainPageController(mainPageController);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(orderCard));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-
-            if (deliveryOrder.getState() == ORDER_STATE.CANCELLED || deliveryOrder.getState() == ORDER_STATE.PAID) {
-                Stage stageClose = (Stage) btnPayOrder.getScene().getWindow();
-                stageClose.close();
-            }
 
         } catch (IOException ex) {
             Logger.getLogger(ClosedOrderDetailController.class.getName()).log(Level.SEVERE, null, ex);

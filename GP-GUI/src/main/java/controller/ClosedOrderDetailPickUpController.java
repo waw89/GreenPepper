@@ -127,7 +127,7 @@ public class ClosedOrderDetailPickUpController implements Initializable {
         
         txtOpenDate.setText(pickUpOrder.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         txtIdOrder.setText("#" + pickUpOrder.getOrderNumber());
-        txtTotalPrice.setText("$" + pickUpOrder.getPrice());
+        txtTotalPrice.setText("$" + pickUpOrder.getPrice() + " - " + pickUpOrder.getPaymentMethod());
         txtCustomerName.setText(pickUpOrder.getCustomerName() + " - " + pickUpOrder.getCustomerPhone());
         
         productOrderList = pickUpOrder.getProducts();
